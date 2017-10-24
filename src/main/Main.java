@@ -1,5 +1,10 @@
 package main;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+
 import types.Coordinates;
 import types.MapItem;
 import javafx.animation.KeyFrame;
@@ -23,7 +28,7 @@ public class Main extends Application {
   private static Scene scene;
   
   // Array of all MapItems that might need to be rendered.
-  private static MapItem[][] mapItems;
+  private static MapItem[] mapItems;
   
   public static void main(String[] args) {
     
@@ -53,12 +58,38 @@ public class Main extends Application {
       // Shows the stage/window.
       stage.show();
       
-      MapItem[][] items = new MapItem[1][1];
-      items[0] = new MapItem[1];
-      items[0][0] = new MapItem(new Coordinates(50, 50), "file:resources/george.png");
-      Main.setMapItems(items);
-      
+      // Sets fill color to white.
       gc.setFill(Color.WHITE);
+      
+      // Create a BufferedReader to read level data.
+      String currentDir = new File("").getAbsolutePath();
+      BufferedReader levelReader = new BufferedReader(new FileReader(currentDir + "/resources/map/level1.txt"));
+      // Initialize list for level data.
+      ArrayList<String> levelLines = new ArrayList<String>();
+      
+      // Read every line from file and add it to levelLines.
+      try {
+        String line = levelReader.readLine();
+        while (line != null) {
+          levelLines.add(line);
+          line = levelReader.readLine();
+        }
+      }
+      finally {
+        levelReader.close();
+      }
+      
+      Main.setMapItems(new MapItem[levelLines.size()]);
+      MapItem[] mapItems = Main.getMapItems();
+      
+      for (int i = 0; i < levelLines.size(); i++) {
+        // Split each line by "|" into an array.
+        String[] data = levelLines.get(i).split("\\|");
+        if (Integer.parseInt(data[0]) == 1) {
+          mapItems[i] = new MapItem(new Coordinates(Integer.parseInt(data[1]), Integer.parseInt(data[2])), "file:resources/blocks/brick.png");
+        }
+        
+      }
       
       // Creating the gameloop.
       Timeline gameLoop = new Timeline();
@@ -80,9 +111,7 @@ public class Main extends Application {
             Render.render();
             
           }
-          
         }
-          
       );
       
       gameLoop.getKeyFrames().add(keyframe);
@@ -123,11 +152,11 @@ public class Main extends Application {
     Main.scene = scene;
   }
 
-  public static MapItem[][] getMapItems() {
+  public static MapItem[] getMapItems() {
     return mapItems;
   }
 
-  public static void setMapItems(MapItem[][] mapItems) {
+  public static void setMapItems(MapItem[] mapItems) {
     Main.mapItems = mapItems;
   }
 

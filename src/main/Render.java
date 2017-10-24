@@ -8,20 +8,15 @@ public class Render {
   
   private static Canvas canvas = Main.getCanvas();
   private static GraphicsContext gc = Main.getGc();
-  private static MapItem[][] items = Main.getMapItems();
+  private static MapItem[] items = Main.getMapItems();
   
   public static void render() {
     
     gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-    
-    for (MapItem[] row : Render.items) {
       
-      for (MapItem item : row) {
-        
-        gc.drawImage(item.sprite, item.x, item.y);
-        item.x++;
-        
-      }
+    for (MapItem item : items) {
+      
+      gc.drawImage(item.sprite, item.x, item.y);
       
     }
     
