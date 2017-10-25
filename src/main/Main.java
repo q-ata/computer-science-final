@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import characters.*;
+import solids.*;
 import types.Coordinates;
 import types.MapItem;
 import javafx.animation.KeyFrame;
@@ -85,8 +87,13 @@ public class Main extends Application {
       for (int i = 0; i < levelLines.size(); i++) {
         // Split each line by "|" into an array.
         String[] data = levelLines.get(i).split("\\|");
-        if (Integer.parseInt(data[0]) == 1) {
-          mapItems[i] = new MapItem(new Coordinates(Integer.parseInt(data[1]), Integer.parseInt(data[2])), "file:resources/blocks/brick.png");
+        int type = Integer.parseInt(data[0]);
+        Coordinates coords = new Coordinates(Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+        if (type == 1) {
+          mapItems[i] = new Brick(coords);
+        }
+        else if (type == 0) {
+          mapItems[i] = new Cabbage(coords);
         }
         
       }

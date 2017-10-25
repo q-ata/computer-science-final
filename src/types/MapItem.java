@@ -14,8 +14,6 @@ public class MapItem {
     this.y = coords.y;
     this.sprite = new Image(spriteLocation);
     
-    
-    
   }
 
 }
