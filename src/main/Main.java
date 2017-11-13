@@ -4,11 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.stream.*;
 
-import characters.*;
 import solids.*;
 import types.Coordinates;
 import types.MapItem;
+import types.Solid;
+import types.Vegetable;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -31,6 +33,9 @@ public class Main extends Application {
   
   // Array of all MapItems that might need to be rendered.
   private static MapItem[] mapItems;
+  private static ArrayList<Solid> solids = new ArrayList<Solid>();
+  
+  private static Vegetable protag = Constants.CHARACTERS[0];
   
   public static void main(String[] args) {
     
@@ -56,7 +61,7 @@ public class Main extends Application {
       Main.setScene(scene);
       // Sets the contents of the stage to the canvas.
       stage.setScene(Main.getScene());
-      stage.setTitle("I have autism");
+      stage.setTitle("game");
       // Shows the stage/window.
       stage.show();
       
@@ -93,7 +98,12 @@ public class Main extends Application {
           mapItems[i] = new Brick(coords);
         }
         else if (type == 0) {
-          mapItems[i] = new Cabbage(coords);
+          Main.getProtag().x = coords.x;
+          Main.getProtag().y = coords.y;
+          mapItems[i] = Main.getProtag();
+        }
+        if (IntStream.of(Constants.SOLIDS).anyMatch((x) -> x == type)) {
+          Main.getSolids().add((Solid) mapItems[i]);
         }
         
       }
@@ -165,6 +175,18 @@ public class Main extends Application {
 
   public static void setMapItems(MapItem[] mapItems) {
     Main.mapItems = mapItems;
+  }
+
+  public static Vegetable getProtag() {
+    return protag;
+  }
+
+  public static void setProtag(Vegetable protag) {
+    Main.protag = protag;
+  }
+
+  public static ArrayList<Solid> getSolids() {
+    return solids;
   }
 
 }

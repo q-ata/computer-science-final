@@ -1,16 +1,14 @@
 package characters;
 
-import types.Character;
-import types.Coordinates;
+import javafx.scene.image.Image;
 import types.SolidData;
+import types.Vegetable;
 
-public class Cabbage extends Character {
+public class Cabbage extends Vegetable {
 
-  public Cabbage(Coordinates coords) {
-    super(coords, "file:resources/character/cabbage_1.png", new SolidData(80, 80, 0, 0, true));
+  public Cabbage() {
+    super("file:resources/character/cabbage_1.png", new SolidData(80, 80, 0, 0, true), new Image[] {new Image("file:resources/character/cabbage_1.png")});
   }
-
-
 
   @Override
   public void basic() {
@@ -28,4 +26,6 @@ public class Cabbage extends Character {
   public void passive() {
     // TODO Auto-generated method stub
     
-  }}
+  }
+  
+ }
