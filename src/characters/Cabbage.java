@@ -7,7 +7,7 @@ import types.Vegetable;
 public class Cabbage extends Vegetable {
 
   public Cabbage() {
-    super("file:resources/character/cabbage_1.png", new SolidData(80, 80, 0, 0, true), new Image[] {new Image("file:resources/character/cabbage_1.png")});
+    super("file:resources/character/cabbage_1.png", new SolidData(80, 80, 0, 0), new Image[] {new Image("file:resources/character/cabbage_1.png")});
   }
 
   @Override

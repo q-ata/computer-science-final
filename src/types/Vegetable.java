@@ -8,8 +8,6 @@ public abstract class Vegetable extends Character {
   public boolean right = false;
   public boolean left = false;
   public int res = 1;
-  public int xVel = 5;
-  public int yVel = 0;
   public byte jumps = 0;
   
   public Vegetable(String spriteLocation, SolidData data, Image[] sprites) {

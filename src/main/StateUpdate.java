@@ -16,7 +16,7 @@ public class StateUpdate {
     }
     protag.y += protag.yVel;
     
-    if (!Constants.charIsTouchingGround(protag)) {
+    if (!Constants.CHARTOUCHINGGROUND(protag)) {
       protag.yVel += 1;
     }
     else {

@@ -6,15 +6,13 @@ public class SolidData {
   public int h;
   public int offx;
   public int offy;
-  public boolean hitType;
   
-  public SolidData(int w, int h, int offx, int offy, boolean hitType) {
+  public SolidData(int w, int h, int offx, int offy) {
     
     this.w = w;
     this.h = h;
     this.offx = offx;
     this.offy = offy;
-    this.hitType = hitType;
     
   }
 
