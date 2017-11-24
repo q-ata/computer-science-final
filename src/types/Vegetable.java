@@ -4,14 +4,13 @@ import javafx.scene.image.Image;
 
 public abstract class Vegetable extends Character {
   
-  public boolean up = false;
-  public boolean right = false;
-  public boolean left = false;
   public int res = 1;
   public byte jumps = 0;
+  private Image[] projectileSprites;
   
-  public Vegetable(String spriteLocation, SolidData data, Image[] sprites) {
+  public Vegetable(String spriteLocation, SolidData data, Image[] sprites, Image[] projs) {
     super(new Coordinates(0, 0), spriteLocation, data, sprites);
+    this.setProjectileSprites(projs);
   }
   
   public void jump() {
@@ -25,10 +24,23 @@ public abstract class Vegetable extends Character {
       return;
     }
     jumps++;
+    this.up = true;
+  }
+  
+  public void shootProjectile() {
+    
   }
   
   public abstract void basic();
   public abstract void ultimate();
   public abstract void passive();
+
+  public Image[] getProjectileSprites() {
+    return projectileSprites;
+  }
+
+  public void setProjectileSprites(Image[] projectileSprites) {
+    this.projectileSprites = projectileSprites;
+  }
 
 }

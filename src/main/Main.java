@@ -9,6 +9,7 @@ import java.util.stream.*;
 import solids.*;
 import types.Coordinates;
 import types.MapItem;
+import types.Projectile;
 import types.Solid;
 import types.Vegetable;
 import javafx.animation.KeyFrame;
@@ -36,6 +37,7 @@ public class Main extends Application {
   private static ArrayList<Solid> solids = new ArrayList<Solid>();
   
   private static Vegetable protag = Constants.CHARACTERS[0];
+  private static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
   
   public static void main(String[] args) {
     
@@ -187,6 +189,14 @@ public class Main extends Application {
 
   public static ArrayList<Solid> getSolids() {
     return solids;
+  }
+
+  public static ArrayList<Projectile> getProjectiles() {
+    return projectiles;
+  }
+
+  public static void appendProjectile(Projectile projectile) {
+    Main.projectiles.add(projectile);
   }
 
 }

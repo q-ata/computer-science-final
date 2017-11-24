@@ -18,9 +18,14 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
     }
     else if (key.getCode() == KeyCode.D) {
       protag.right = true;
+      protag.xVel = 5;
     }
     else if (key.getCode() == KeyCode.A) {
       protag.left = true;
+      protag.xVel = 5;
+    }
+    else if (key.getCode() == KeyCode.M) {
+      protag.shootProjectile();
     }
     
   }

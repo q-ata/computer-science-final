@@ -8,21 +8,21 @@ public class StateUpdate {
     
     Vegetable protag = Main.getProtag();
     
-    if (protag.right) {
-      protag.x += protag.xVel;
+    protag.xVel = 5;
+    Constants.CHARACTERCOLLISION(protag);
+    if (protag.right || protag.left) {
+      protag.x += protag.right ? protag.xVel : -protag.xVel;
     }
-    else if (protag.left) {
-      protag.x -= protag.xVel;
-    }
-    protag.y += protag.yVel;
     
-    if (!Constants.CHARTOUCHINGGROUND(protag)) {
+    if (!Constants.CHARACTERGRAVITY(protag)) {
       protag.yVel += 1;
     }
     else {
       protag.yVel = 0;
       protag.jumps = 0;
     }
+    
+    protag.y += protag.yVel;
     
   }
 
