@@ -6,8 +6,10 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.stream.*;
 
+import enemies.*;
 import solids.*;
 import types.Coordinates;
+import types.Enemy;
 import types.MapItem;
 import types.Projectile;
 import types.Solid;
@@ -21,6 +23,10 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -31,13 +37,20 @@ public class Main extends Application {
   private static Canvas canvas;
   private static GraphicsContext gc;
   private static Scene scene;
+  private static MediaPlayer introPlayer;
   
   // Array of all MapItems that might need to be rendered.
-  private static MapItem[] mapItems;
+  private static ArrayList<MapItem> mapItems = new ArrayList<MapItem>();
   private static ArrayList<Solid> solids = new ArrayList<Solid>();
+  public static int visibleX;
+  public static int visibleY;
   
   private static Vegetable protag = Constants.CHARACTERS[0];
   private static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+  private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+  
+  public static byte tick = 1;
+  private static byte state = 0;
   
   public static void main(String[] args) {
     
@@ -63,7 +76,35 @@ public class Main extends Application {
       Main.setScene(scene);
       // Sets the contents of the stage to the canvas.
       stage.setScene(Main.getScene());
-      stage.setTitle("game");
+      // Window title and icon.
+      stage.setTitle("VeggieTales");
+      stage.getIcons().add(new Image("file:resources/window_icon.png"));
+      // Makes window a fixed size.
+      stage.setResizable(false);
+      
+      // Gets the path of the intro video.
+      File intro = new File("resources/intro.mp4");
+      String path = intro.toURI().toString();
+      // Creates media objects to play the video.
+      Media video = new Media(path);
+      MediaPlayer videoPlayer = new MediaPlayer(video);
+      Main.setIntroPlayer(videoPlayer);
+      // Settings for the MediaPlayer.
+      videoPlayer.setAutoPlay(true);
+      videoPlayer.setVolume(0.5);
+      videoPlayer.setOnEndOfMedia(() -> {
+        videoPlayer.dispose();
+        Main.setState((byte) 1);
+      });
+      MediaView viewer = new MediaView(videoPlayer);
+      viewer.setPreserveRatio(false);
+      viewer.setSmooth(true);
+      viewer.setFitHeight(600);
+      viewer.setFitWidth(1000);
+      // Add the video to the scene.
+      // ((Group) scene.getRoot()).getChildren().add(viewer);
+      // stage.initStyle(StageStyle.UNDECORATED);
+      
       // Shows the stage/window.
       stage.show();
       
@@ -88,8 +129,7 @@ public class Main extends Application {
         levelReader.close();
       }
       
-      Main.setMapItems(new MapItem[levelLines.size()]);
-      MapItem[] mapItems = Main.getMapItems();
+      ArrayList<MapItem> mapItems = Main.getMapItems();
       
       for (int i = 0; i < levelLines.size(); i++) {
         // Split each line by "|" into an array.
@@ -97,15 +137,26 @@ public class Main extends Application {
         int type = Integer.parseInt(data[0]);
         Coordinates coords = new Coordinates(Integer.parseInt(data[1]), Integer.parseInt(data[2]));
         if (type == 1) {
-          mapItems[i] = new Brick(coords);
+          mapItems.add(new Brick(coords));
+        }
+        else if (type == 2) {
+          Tomato tomato = new Tomato(coords);
+          Main.getMapItems().add(tomato);
+          Main.getEnemies().add(tomato);
+        }
+        else if (type == 3) {
+          Knife knife = new Knife(coords);
+          Main.getMapItems().add(knife);
+          Main.getEnemies().add(knife);
         }
         else if (type == 0) {
           Main.getProtag().x = coords.x;
           Main.getProtag().y = coords.y;
-          mapItems[i] = Main.getProtag();
+          Main.visibleX = coords.x - 460;
+          Main.visibleY = coords.y - 260;
         }
         if (IntStream.of(Constants.SOLIDS).anyMatch((x) -> x == type)) {
-          Main.getSolids().add((Solid) mapItems[i]);
+          Main.getSolids().add((Solid) mapItems.get(i));
         }
         
       }
@@ -124,10 +175,18 @@ public class Main extends Application {
             
             // Everything here is run 60 times a second.
             
-            // Update state of all objects (collision, map item x/y location)
-            StateUpdate.update();
-            // Render everything to the screen.
-            Render.render();
+            if (Main.state == 0) {
+              // Update state of all objects (collision, map item x/y location)
+              StateUpdate.update();
+              // Render everything to the screen.
+              Render.render();
+            }
+            else if (Main.state == 1) {
+              Main.getGc().drawImage(new Image("file:resources/loser.png"), 0, 0);
+            }
+            
+            // Increment tick. Reset if 60.
+            tick = (byte) (tick == 60 ? 1 : tick + 1);
             
           }
         }
@@ -171,11 +230,11 @@ public class Main extends Application {
     Main.scene = scene;
   }
 
-  public static MapItem[] getMapItems() {
+  public static ArrayList<MapItem> getMapItems() {
     return mapItems;
   }
 
-  public static void setMapItems(MapItem[] mapItems) {
+  public static void setMapItems(ArrayList<MapItem> mapItems) {
     Main.mapItems = mapItems;
   }
 
@@ -197,6 +256,30 @@ public class Main extends Application {
 
   public static void appendProjectile(Projectile projectile) {
     Main.projectiles.add(projectile);
+  }
+
+  public static byte getState() {
+    return state;
+  }
+
+  public static void setState(byte state) {
+    Main.state = state;
+  }
+
+  public static MediaPlayer getIntroPlayer() {
+    return introPlayer;
+  }
+
+  public static void setIntroPlayer(MediaPlayer introPlayer) {
+    Main.introPlayer = introPlayer;
+  }
+
+  public static ArrayList<Enemy> getEnemies() {
+    return enemies;
+  }
+
+  public static void setEnemies(ArrayList<Enemy> enemies) {
+    Main.enemies = enemies;
   }
 
 }

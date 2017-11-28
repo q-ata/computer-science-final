@@ -1,6 +1,6 @@
 package types;
 
-public class Solid extends MapItem {
+public abstract class Solid extends MapItem {
   
   public int w;
   public int h;

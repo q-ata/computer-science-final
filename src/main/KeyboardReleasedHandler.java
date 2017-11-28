@@ -14,7 +14,7 @@ public class KeyboardReleasedHandler implements EventHandler<KeyEvent> {
     // Is run every time a key is released.
     
     if (key.getCode() == KeyCode.W) {
-      
+      protag.jumpReleased = true;
     }
     else if (key.getCode() == KeyCode.D) {
       protag.right = false;
