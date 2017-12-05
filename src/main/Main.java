@@ -10,6 +10,7 @@ import enemies.*;
 import solids.*;
 import types.Coordinates;
 import types.Enemy;
+import types.InformationBar;
 import types.MapItem;
 import types.Projectile;
 import types.Solid;
@@ -50,6 +51,7 @@ public class Main extends Application {
   private static Vegetable protag = Constants.CHARACTERS[0];
   private static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
   private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+  private static InformationBar infoBar = new InformationBar();
   
   public static byte tick = 1;
   private static byte state = 0;
@@ -66,8 +68,8 @@ public class Main extends Application {
     
     try {
       
-      // Create a new 1000 by 600 canvas.
-      Main.setCanvas(new Canvas(1000, 600));
+      // Create a new 1000 by 680 canvas.
+      Main.setCanvas(new Canvas(1000, 680));
       Main.setGc(Main.getCanvas().getGraphicsContext2D());
       Group group = new Group();
       group.getChildren().add(Main.getCanvas());
@@ -317,6 +319,14 @@ public class Main extends Application {
 
   public static void setSoundManager(SoundManager soundManager) {
     Main.soundManager = soundManager;
+  }
+
+  public static InformationBar getInfoBar() {
+    return infoBar;
+  }
+
+  public static void setInfoBar(InformationBar infoBar) {
+    Main.infoBar = infoBar;
   }
 
 }

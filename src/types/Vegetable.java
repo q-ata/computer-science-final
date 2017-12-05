@@ -29,6 +29,8 @@ public abstract class Vegetable extends Character {
   private int basicCooldown;
   private boolean basicAllowed = true;
   private Timer invincibilityTimer;
+  private Timer shootTimer;
+  private int projCooldownFraction = 10;
   private int speed;
   
   public Vegetable(String spriteLocation, String hurt, SolidData data, ProjectileData projData) {
@@ -72,9 +74,12 @@ public abstract class Vegetable extends Character {
     Main.appendProjectile(proj);
     Main.getMapItems().add(proj);
     this.setProjCooldown(true);
+    this.setProjCooldownFraction(0);
     
     Timer resetter = new Timer();
     resetter.schedule(new ResetProjectileCooldown(this), this.getProjData().cd);
+    Timer updateFraction = new Timer();
+    updateFraction.scheduleAtFixedRate(new AmmoCooldownUpdater(this, updateFraction), 0, this.getProjData().cd / 10);
     
   }
   
@@ -178,6 +183,22 @@ public abstract class Vegetable extends Character {
 
   public void setSpeed(int speed) {
     this.speed = speed;
+  }
+
+  public Timer getShootTimer() {
+    return shootTimer;
+  }
+
+  public void setShootTimer(Timer shootTimer) {
+    this.shootTimer = shootTimer;
+  }
+
+  public int getProjCooldownFraction() {
+    return projCooldownFraction;
+  }
+
+  public void setProjCooldownFraction(int projCooldownFraction) {
+    this.projCooldownFraction = projCooldownFraction;
   }
 
 }
