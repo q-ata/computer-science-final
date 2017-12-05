@@ -4,7 +4,7 @@ public class Projectile extends Solid {
   
   private byte direction;
   private int velocity;
-  public int dmg;
+  public double dmg;
 
   public Projectile(Coordinates coords, byte direction, ProjectileData data) {
     

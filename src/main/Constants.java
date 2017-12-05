@@ -74,6 +74,7 @@ public class Constants {
     protag.sprite = protag.getHurtSprite();
     Timer timer = new Timer();
     timer.schedule(new ReverseInvincibility(protag), time);
+    protag.setInvincibilityTimer(timer);
     
   }
   

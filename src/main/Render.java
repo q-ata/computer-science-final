@@ -13,7 +13,8 @@ public class Render {
   public static void render() {
     
     gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-      
+    gc.drawImage(Main.bg, -Main.visibleX - 800, -Main.visibleY - 1800);
+    
     for (MapItem item : Main.getMapItems()) {
       
       gc.drawImage(item.sprite, item.vx, item.vy);

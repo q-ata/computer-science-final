@@ -1,8 +1,11 @@
 package main;
 
+import java.util.Timer;
+
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import types.ResetBasicActive;
 import types.Vegetable;
 
 public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
@@ -19,6 +22,9 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
     // Is run every time a key is pressed.
     
     if (key.getCode() == KeyCode.W) {
+      if (protag.isBasicActive() && protag.isBasicPhysics()) {
+        return;
+      }
       protag.jump();
       protag.jumpReleased = false;
     }
@@ -34,6 +40,15 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
     }
     else if (key.getCode() == KeyCode.M) {
       protag.shootProjectile();
+    }
+    else if (key.getCode() == KeyCode.K) {
+      if (protag.isBasicActive() || !protag.isBasicAllowed()) {
+        return;
+      }
+      protag.setBasicActive(true);
+      protag.basic();
+      Timer timer = new Timer();
+      timer.schedule(new ResetBasicActive(protag), protag.getBasicLength());
     }
     
   }

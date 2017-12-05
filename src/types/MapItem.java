@@ -9,6 +9,7 @@ public abstract class MapItem {
   public int vx;
   public int vy;
   public Image sprite;
+  public int id;
   
   public MapItem(Coordinates coords, String spriteLocation) {
     

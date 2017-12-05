@@ -7,9 +7,9 @@ public class ProjectileData {
   public int w;
   public int h;
   public int cd;
-  public int dmg;
+  public double dmg;
   
-  public ProjectileData(int velocity, String spriteLocation, int w, int h, int cd, int dmg) {
+  public ProjectileData(int velocity, String spriteLocation, int w, int h, int cd, double dmg) {
     
     this.velocity = velocity;
     this.spriteLocation = spriteLocation;

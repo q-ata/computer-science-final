@@ -29,6 +29,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class Main extends Application {
@@ -38,6 +39,7 @@ public class Main extends Application {
   private static GraphicsContext gc;
   private static Scene scene;
   private static MediaPlayer introPlayer;
+  private static SoundManager soundManager;
   
   // Array of all MapItems that might need to be rendered.
   private static ArrayList<MapItem> mapItems = new ArrayList<MapItem>();
@@ -51,6 +53,7 @@ public class Main extends Application {
   
   public static byte tick = 1;
   private static byte state = 0;
+  public static Image bg;
   
   public static void main(String[] args) {
     
@@ -81,6 +84,8 @@ public class Main extends Application {
       stage.getIcons().add(new Image("file:resources/window_icon.png"));
       // Makes window a fixed size.
       stage.setResizable(false);
+      // Ensures all Java processes are ended correctly when the window is closed.
+      stage.setOnCloseRequest((event) -> System.exit(0));
       
       // Gets the path of the intro video.
       File intro = new File("resources/intro.mp4");
@@ -102,18 +107,21 @@ public class Main extends Application {
       viewer.setFitHeight(600);
       viewer.setFitWidth(1000);
       // Add the video to the scene.
-      // ((Group) scene.getRoot()).getChildren().add(viewer);
-      // stage.initStyle(StageStyle.UNDECORATED);
+      ((Group) scene.getRoot()).getChildren().add(viewer);
+      stage.initStyle(StageStyle.DECORATED);
+      
+      Main.bg = new Image("file:resources/map/bg-1.png");
+      Main.setSoundManager(new SoundManager());
       
       // Shows the stage/window.
       stage.show();
       
       // Sets fill color to white.
-      gc.setFill(Color.WHITE);
+      gc.setFill(Color.BLACK);
       
       // Create a BufferedReader to read level data.
       String currentDir = new File("").getAbsolutePath();
-      BufferedReader levelReader = new BufferedReader(new FileReader(currentDir + "/resources/map/level1.txt"));
+      BufferedReader levelReader = new BufferedReader(new FileReader(currentDir + "/resources/map/level1.veggietale"));
       // Initialize list for level data.
       ArrayList<String> levelLines = new ArrayList<String>();
       
@@ -149,16 +157,35 @@ public class Main extends Application {
           Main.getMapItems().add(knife);
           Main.getEnemies().add(knife);
         }
+        else if (type == 4) {
+          KnifeDown knifeDown = new KnifeDown(coords);
+          Main.getMapItems().add(knifeDown);
+          Main.getEnemies().add(knifeDown);
+        }
+        else if (type == 5) {
+          DoubleTomatoWallLevelOne doubleTomatoWallLevelOne = new DoubleTomatoWallLevelOne(coords, new int[] {Integer.parseInt(data[3]), Integer.parseInt(data[4])});
+          Main.getMapItems().add(doubleTomatoWallLevelOne);
+          Main.getEnemies().add(doubleTomatoWallLevelOne);
+        }
+        else if (type == 6) {
+          Orange orange = new Orange(coords, Integer.parseInt(data[3]) == 1 ? true : false, Integer.parseInt(data[4]));
+          Main.getMapItems().add(orange);
+          Main.getEnemies().add(orange);
+        }
         else if (type == 0) {
           Main.getProtag().x = coords.x;
           Main.getProtag().y = coords.y;
-          Main.visibleX = coords.x - 460;
-          Main.visibleY = coords.y - 260;
+          Main.visibleX = coords.x - 500 + (Main.getProtag().w / 2);
+          Main.visibleY = coords.y - 300 + (Main.getProtag().h / 2);
         }
         if (IntStream.of(Constants.SOLIDS).anyMatch((x) -> x == type)) {
           Main.getSolids().add((Solid) mapItems.get(i));
         }
         
+      }
+      
+      for (int i = 0; i < Main.getMapItems().size(); i++) {
+        Main.getMapItems().get(i).id = i;
       }
       
       // Creating the gameloop.
@@ -182,7 +209,9 @@ public class Main extends Application {
               Render.render();
             }
             else if (Main.state == 1) {
-              Main.getGc().drawImage(new Image("file:resources/loser.png"), 0, 0);
+              System.out.println("DEAD.");
+              Main.setState((byte) 0);
+              // Main.getGc().drawImage(new Image("file:resources/loser.png"), 0, 0);
             }
             
             // Increment tick. Reset if 60.
@@ -280,6 +309,14 @@ public class Main extends Application {
 
   public static void setEnemies(ArrayList<Enemy> enemies) {
     Main.enemies = enemies;
+  }
+
+  public static SoundManager getSoundManager() {
+    return soundManager;
+  }
+
+  public static void setSoundManager(SoundManager soundManager) {
+    Main.soundManager = soundManager;
   }
 
 }
