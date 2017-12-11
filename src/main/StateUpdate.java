@@ -14,7 +14,7 @@ public class StateUpdate {
     
     Vegetable protag = Main.getProtag();
     
-    if (protag.isBasicActive() && protag.isBasicPhysics()) {
+    if (protag.isBasicActive() && protag.getBasic().isPhysics()) {
       protag.doBasic();
     }
     else {
@@ -99,8 +99,13 @@ public class StateUpdate {
         }
         else if (Constants.SOLIDCOLLISION(protag, enemy)) {
           if (enemy.isSolid()) {
-            protag.x -= protag.xVel;
-            Main.visibleX -= protag.xVel;
+            if (protag.right) {
+              protag.x = enemy.x - protag.w;
+            }
+            else if (protag.left) {
+              protag.x = enemy.x + enemy.w;
+            }
+            Main.visibleX = protag.x - 460;
           }
           if (!protag.isInvincible()) {
             protag.hp -= enemy.getDmg() * protag.res;

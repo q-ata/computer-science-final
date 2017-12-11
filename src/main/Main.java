@@ -2,14 +2,17 @@ package main;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Timer;
 import java.util.stream.*;
 
 import enemies.*;
 import solids.*;
 import types.Coordinates;
 import types.Enemy;
+import types.FpsResetter;
 import types.InformationBar;
 import types.MapItem;
 import types.Projectile;
@@ -29,6 +32,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -52,9 +56,11 @@ public class Main extends Application {
   private static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
   private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
   private static InformationBar infoBar = new InformationBar();
+  private static Font font;
   
   public static byte tick = 1;
   private static byte state = 0;
+  private static byte fps = 0;
   public static Image bg;
   
   public static void main(String[] args) {
@@ -114,12 +120,15 @@ public class Main extends Application {
       
       Main.bg = new Image("file:resources/map/bg-1.png");
       Main.setSoundManager(new SoundManager());
+      Font.loadFont(new FileInputStream(new File("./resources/fonts/BradBunR.ttf")), 24);
+      Main.setFont(24);
+      Main.getGc().setFont(Main.getFont());
       
       // Shows the stage/window.
       stage.show();
       
       // Sets fill color to white.
-      gc.setFill(Color.BLACK);
+      gc.setFill(Color.WHITE);
       
       // Create a BufferedReader to read level data.
       String currentDir = new File("").getAbsolutePath();
@@ -190,6 +199,20 @@ public class Main extends Application {
         Main.getMapItems().get(i).id = i;
       }
       
+      /*
+       * 
+       * 
+       * 
+       * 
+       * 
+       */
+      
+      InformationBar.setProfile(new Image("file:resources/character/cabbage_profile.png"));
+      InformationBar.setCharStats(new Image("file:resources/rainbow.png"));
+      
+      Timer fpsResetter = new Timer();
+      fpsResetter.scheduleAtFixedRate(new FpsResetter(), 1000, 1000);
+      
       // Creating the gameloop.
       Timeline gameLoop = new Timeline();
       // Loop continues running indefinitely.
@@ -218,6 +241,7 @@ public class Main extends Application {
             
             // Increment tick. Reset if 60.
             tick = (byte) (tick == 60 ? 1 : tick + 1);
+            Main.setFps((byte) (Main.getFps() + 1));
             
           }
         }
@@ -327,6 +351,22 @@ public class Main extends Application {
 
   public static void setInfoBar(InformationBar infoBar) {
     Main.infoBar = infoBar;
+  }
+
+  public static Font getFont() {
+    return font;
+  }
+
+  public static void setFont(int size) {
+    Main.font = new Font("Brady Bunch Remastered", size);
+  }
+
+  public static byte getFps() {
+    return fps;
+  }
+
+  public static void setFps(byte fps) {
+    Main.fps = fps;
   }
 
 }

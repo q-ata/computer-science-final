@@ -5,6 +5,7 @@ import java.util.Timer;
 import javafx.scene.image.Image;
 import main.Main;
 import main.SoundManager;
+import types.BasicAbility;
 import types.ProjectileData;
 import types.ResetBasicCooldown;
 import types.Solid;
@@ -20,11 +21,8 @@ public class Cabbage extends Vegetable {
   public Cabbage() {
     
     super("file:resources/character/cabbage_sprite.png", "file:resources/character/cabbage_invincible.png", new SolidData(80, 80, 0, 0),
-        new ProjectileData(10, "file:resources/character/lettuce_projectile", 78, 50, 200, 10));
+        new ProjectileData(10, "file:resources/character/lettuce_projectile", 78, 50, 200, 10), new BasicAbility(true, 500, 6000, "file:resources/icons/cabbage_dash.png"));
     this.name = "Cabbage";
-    this.setBasicPhysics(true);
-    this.setBasicLength(500);
-    this.setBasicCooldown(6000);
     this.setSpeed(5);
     
   }
@@ -59,7 +57,7 @@ public class Cabbage extends Vegetable {
     this.sprite = this.placeholderSprite;
     this.setInvincible(false);
     Timer timer = new Timer();
-    timer.schedule(new ResetBasicCooldown(this), this.getBasicCooldown());
+    timer.schedule(new ResetBasicCooldown(this), this.getBasic().getCooldown());
     
   }
 

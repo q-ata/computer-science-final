@@ -22,7 +22,7 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
     // Is run every time a key is pressed.
     
     if (key.getCode() == KeyCode.W) {
-      if (protag.isBasicActive() && protag.isBasicPhysics()) {
+      if (protag.isBasicActive() && protag.getBasic().isPhysics()) {
         return;
       }
       protag.jump();
@@ -48,7 +48,7 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
       protag.setBasicActive(true);
       protag.basic();
       Timer timer = new Timer();
-      timer.schedule(new ResetBasicActive(protag), protag.getBasicLength());
+      timer.schedule(new ResetBasicActive(protag), protag.getBasic().getLength());
     }
     
   }

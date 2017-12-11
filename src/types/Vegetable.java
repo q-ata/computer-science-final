@@ -24,16 +24,14 @@ public abstract class Vegetable extends Character {
   private Image hurtSprite;
   private Image nonHurtSprite;
   private boolean basicActive = false;
-  private boolean basicPhysics = false;
-  private int basicLength = 0;
-  private int basicCooldown;
   private boolean basicAllowed = true;
   private Timer invincibilityTimer;
   private Timer shootTimer;
   private int projCooldownFraction = 10;
   private int speed;
+  private BasicAbility basic;
   
-  public Vegetable(String spriteLocation, String hurt, SolidData data, ProjectileData projData) {
+  public Vegetable(String spriteLocation, String hurt, SolidData data, ProjectileData projData, BasicAbility basic) {
     
     super(new Coordinates(0, 0), spriteLocation, data);
     this.vx = 460;
@@ -41,6 +39,7 @@ public abstract class Vegetable extends Character {
     this.projData = projData;
     this.setNonHurtSprite(this.sprite);
     this.setHurtSprite(new Image(hurt));
+    this.setBasic(basic);
     
   }
   
@@ -137,22 +136,6 @@ public abstract class Vegetable extends Character {
     this.basicActive = basicActive;
   }
 
-  public boolean isBasicPhysics() {
-    return basicPhysics;
-  }
-
-  public void setBasicPhysics(boolean basicPhysics) {
-    this.basicPhysics = basicPhysics;
-  }
-
-  public int getBasicLength() {
-    return basicLength;
-  }
-
-  public void setBasicLength(int basicLength) {
-    this.basicLength = basicLength;
-  }
-
   public Timer getInvincibilityTimer() {
     return invincibilityTimer;
   }
@@ -160,15 +143,7 @@ public abstract class Vegetable extends Character {
   public void setInvincibilityTimer(Timer invincibilityTimer) {
     this.invincibilityTimer = invincibilityTimer;
   }
-
-  public int getBasicCooldown() {
-    return basicCooldown;
-  }
-
-  public void setBasicCooldown(int basicCooldown) {
-    this.basicCooldown = basicCooldown;
-  }
-
+  
   public boolean isBasicAllowed() {
     return basicAllowed;
   }
@@ -199,6 +174,14 @@ public abstract class Vegetable extends Character {
 
   public void setProjCooldownFraction(int projCooldownFraction) {
     this.projCooldownFraction = projCooldownFraction;
+  }
+
+  public BasicAbility getBasic() {
+    return basic;
+  }
+
+  public void setBasic(BasicAbility basic) {
+    this.basic = basic;
   }
 
 }
