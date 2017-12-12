@@ -208,7 +208,7 @@ public class Main extends Application {
        */
       
       InformationBar.setProfile(new Image("file:resources/character/cabbage_profile.png"));
-      InformationBar.setCharStats(new Image("file:resources/rainbow.png"));
+      InformationBar.setCharStats(new Image("file:resources/character/cabbage_stats.png"));
       
       Timer fpsResetter = new Timer();
       fpsResetter.scheduleAtFixedRate(new FpsResetter(), 1000, 1000);
