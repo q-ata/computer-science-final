@@ -31,7 +31,7 @@ public class Cabbage extends Vegetable {
   public void doBasic() {
     
     this.xVel = this.basicDirection == 1 ? 10 : -10;
-    for (Solid solid : Main.getSolids()) {
+    for (Solid solid : Main.getCurrentLevel().getSolids()) {
       if (this.xVel > 0 && solid.x <= this.x + this.w + this.xVel && solid.x + solid.w > this.x && solid.y < this.y + this.h && solid.y + solid.h > this.y) {
         this.xVel = 0;
         this.x = solid.x - this.w;

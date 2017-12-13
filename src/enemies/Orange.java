@@ -32,12 +32,12 @@ public class Orange extends Enemy {
       this.moved = 0;
     }
     
-    if (Main.tick != 60) {
+    if (Main.getTick() != (byte) 60) {
       return;
     }
     OrangeSeed seed = new OrangeSeed(new Coordinates(this.x, this.y), this.left);
-    Main.getMapItems().add(seed);
-    Main.getEnemies().add(seed);
+    Main.getCurrentLevel().getMapItems().add(seed);
+    Main.getCurrentLevel().getEnemies().add(seed);
     
   }
 

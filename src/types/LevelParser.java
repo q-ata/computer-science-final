@@ -18,15 +18,16 @@ import solids.Brick;
 
 public class LevelParser {
   
-  public static Level parseLevel(String levelLocation, String levelBackground) {
+  public static Level parseLevel(int levelNumber) {
     
-    Level level = new Level(new Image(levelBackground));
+    Level level = new Level(new Image("file:resources/map/bg-" + levelNumber + ".png"));
+    level.setLevelNumber(levelNumber);
     
     try {
       
       // Create a BufferedReader to read level data.
       String currentDir = new File("").getAbsolutePath();
-      BufferedReader levelReader = new BufferedReader(new FileReader(currentDir + levelLocation));
+      BufferedReader levelReader = new BufferedReader(new FileReader(currentDir + "/resources/map/level" + levelNumber + ".veggietale"));
       // Initialize list for level data.
       ArrayList<String> levelLines = new ArrayList<String>();
       
@@ -42,7 +43,7 @@ public class LevelParser {
         levelReader.close();
       }
       
-      ArrayList<MapItem> mapItems = Main.getMapItems();
+      ArrayList<MapItem> mapItems = level.getMapItems();
       
       for (int i = 0; i < levelLines.size(); i++) {
         // Split each line by "|" into an array.
@@ -89,7 +90,7 @@ public class LevelParser {
         
       }
       
-      for (int i = 0; i < Main.getMapItems().size(); i++) {
+      for (int i = 0; i < level.getMapItems().size(); i++) {
         level.getMapItems().get(i).id = i;
       }
     

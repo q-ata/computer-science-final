@@ -11,6 +11,7 @@ public class Level {
   private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
   private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
   private ArrayList<Solid> solids = new ArrayList<Solid>();
+  private int levelNumber;
   
   public Level(Image background) {
     
@@ -56,6 +57,14 @@ public class Level {
 
   public void setSolids(ArrayList<Solid> solids) {
     this.solids = solids;
+  }
+
+  public int getLevelNumber() {
+    return levelNumber;
+  }
+
+  public void setLevelNumber(int levelNumber) {
+    this.levelNumber = levelNumber;
   }
 
 }

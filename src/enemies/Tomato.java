@@ -23,7 +23,7 @@ public class Tomato extends Enemy {
   @Override
   public void enemyMovement() {
     
-    for (Solid solid : Main.getSolids()) {
+    for (Solid solid : Main.getCurrentLevel().getSolids()) {
       if (Constants.SOLIDCOLLISION(this, solid)) {
         this.sprite = this.dazedSprite;
         this.endurance = 2;

@@ -14,7 +14,7 @@ public class Constants {
   public static final int[] SOLIDS = {1};
   
   public static final void VEGGIECOLLISION(Vegetable character) {
-    ArrayList<Solid> solids = Main.getSolids();
+    ArrayList<Solid> solids = Main.getCurrentLevel().getSolids();
     for (Solid solid : solids) {
       if (character.up && character.y <= solid.y + solid.h && character.x + character.w > solid.x && character.x < solid.x + solid.w && character.y + character.h > solid.y + solid.h) {
         character.yVel = 0;
@@ -35,7 +35,7 @@ public class Constants {
   }
   
   public static final boolean VEGGIEGRAVITY(Vegetable character) {
-    ArrayList<Solid> solids = Main.getSolids();
+    ArrayList<Solid> solids = Main.getCurrentLevel().getSolids();
     boolean touchingGround = false;
     for (Solid solid : solids) {
       if (character.y + character.h + character.yVel >= solid.y &&
@@ -67,7 +67,8 @@ public class Constants {
   public static final void TAKECHARDAMAGE(Vegetable protag, int time) {
     
     if (protag.hp <= 0) {
-      Main.setState((byte) 1);
+      // Main.setState((byte) 1);
+      System.out.println("DEAD.");
     }
     
     protag.setInvincible(true);

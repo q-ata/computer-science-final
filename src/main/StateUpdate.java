@@ -45,20 +45,20 @@ public class StateUpdate {
     Main.visibleY += protag.yVel;
     
     ArrayList<Integer> projectilesToRemove = new ArrayList<Integer>();
-    for (int i = 0; i < Main.getProjectiles().size(); i++) {
-      Projectile proj = Main.getProjectiles().get(i);
+    for (int i = 0; i < Main.getCurrentLevel().getProjectiles().size(); i++) {
+      Projectile proj = Main.getCurrentLevel().getProjectiles().get(i);
       proj.x += proj.getDirection() == 1 ? proj.getVelocity() : -proj.getVelocity();
       boolean hitSolid = false;
-      for (Solid solid : Main.getSolids()) {
+      for (Solid solid : Main.getCurrentLevel().getSolids()) {
         if (Constants.SOLIDCOLLISION(proj, solid)) {
-          Main.getProjectiles().remove(i);
-          Main.getMapItems().remove(proj);
+          Main.getCurrentLevel().getProjectiles().remove(i);
+          Main.getCurrentLevel().getMapItems().remove(proj);
           hitSolid = true;
           break;
         }
       }
       if (!hitSolid) {
-        for (Enemy enemy : Main.getEnemies()) {
+        for (Enemy enemy : Main.getCurrentLevel().getEnemies()) {
           if (Constants.SOLIDCOLLISION(proj, enemy)) {
             enemy.hp -= proj.dmg * enemy.endurance;
             projectilesToRemove.add(i);
@@ -69,14 +69,14 @@ public class StateUpdate {
     }
     int projCount = 0;
     for (int index : projectilesToRemove) {
-      Main.getMapItems().remove(Main.getProjectiles().get(index - projCount));
-      Main.getProjectiles().remove(index - projCount);
+      Main.getCurrentLevel().getMapItems().remove(Main.getCurrentLevel().getProjectiles().get(index - projCount));
+      Main.getCurrentLevel().getProjectiles().remove(index - projCount);
       projCount++;
     }
     
     ArrayList<Integer> toRemove = new ArrayList<Integer>();
-    for (int i = 0; i < Main.getEnemies().size(); i++) {
-      Enemy enemy = Main.getEnemies().get(i);
+    for (int i = 0; i < Main.getCurrentLevel().getEnemies().size(); i++) {
+      Enemy enemy = Main.getCurrentLevel().getEnemies().get(i);
       if (!enemy.isSpawned()) {
         if (enemy.x - protag.x < 500 + (protag.w / 2) && enemy.y - protag.y < 300 - (protag.h / 2)) {
           enemy.setSpawned(true);
@@ -85,17 +85,17 @@ public class StateUpdate {
       else {
         enemy.enemyMovement();
         if (enemy.isOneTime()) {
-          for (Solid solid : Main.getSolids()) {
+          for (Solid solid : Main.getCurrentLevel().getSolids()) {
             if (Constants.SOLIDCOLLISION(enemy, solid)) {
-              Main.getMapItems().remove(enemy);
-              Main.getEnemies().remove(enemy);
+              Main.getCurrentLevel().getMapItems().remove(enemy);
+              Main.getCurrentLevel().getEnemies().remove(enemy);
               break;
             }
           }
         }
         if (enemy.hp <= 0) {
           toRemove.add(i);
-          Main.getMapItems().remove(enemy);
+          Main.getCurrentLevel().getMapItems().remove(enemy);
         }
         else if (Constants.SOLIDCOLLISION(protag, enemy)) {
           if (enemy.isSolid()) {
@@ -113,18 +113,18 @@ public class StateUpdate {
           }
           if (enemy.isOneTime()) {
             toRemove.add(i);
-            Main.getMapItems().remove(enemy);
+            Main.getCurrentLevel().getMapItems().remove(enemy);
           }
         }
       }
     }
     int count = 0;
     for (int index : toRemove) {
-      Main.getEnemies().remove(index - count);
+      Main.getCurrentLevel().getEnemies().remove(index - count);
       count++;
     }
     
-    for (MapItem item : Main.getMapItems()) {
+    for (MapItem item : Main.getCurrentLevel().getMapItems()) {
       item.vx = item.x - Main.visibleX;
       item.vy = item.y - Main.visibleY;
     }

@@ -1,22 +1,12 @@
 package main;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.Timer;
-import java.util.stream.*;
 
-import enemies.*;
-import solids.*;
-import types.Coordinates;
-import types.Enemy;
 import types.FpsResetter;
 import types.InformationBar;
-import types.MapItem;
-import types.Projectile;
-import types.Solid;
+import types.Level;
 import types.Vegetable;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -47,21 +37,20 @@ public class Main extends Application {
   private static SoundManager soundManager;
   
   // Array of all MapItems that might need to be rendered.
-  private static ArrayList<MapItem> mapItems = new ArrayList<MapItem>();
-  private static ArrayList<Solid> solids = new ArrayList<Solid>();
   public static int visibleX;
   public static int visibleY;
+  private static String currentLevelLocation;
+  private static String currentLevelBackground;
+  private static Level currentLevel;
   
   private static Vegetable protag = Constants.CHARACTERS[0];
-  private static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
-  private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
   private static InformationBar infoBar = new InformationBar();
   private static Font font;
   
-  public static byte tick = 1;
+  private static byte selection = 1;
+  private static byte tick = 1;
   private static byte state = 0;
   private static byte fps = 0;
-  public static Image bg;
   
   public static void main(String[] args) {
     
@@ -118,7 +107,7 @@ public class Main extends Application {
       ((Group) scene.getRoot()).getChildren().add(viewer);
       stage.initStyle(StageStyle.DECORATED);
       
-      Main.bg = new Image("file:resources/map/bg-1.png");
+      // Main.bg = new Image("file:resources/map/bg-1.png");
       Main.setSoundManager(new SoundManager());
       Font.loadFont(new FileInputStream(new File("./resources/fonts/BradBunR.ttf")), 24);
       Main.setFont(24);
@@ -129,83 +118,6 @@ public class Main extends Application {
       
       // Sets fill color to white.
       gc.setFill(Color.WHITE);
-      
-      // Create a BufferedReader to read level data.
-      String currentDir = new File("").getAbsolutePath();
-      BufferedReader levelReader = new BufferedReader(new FileReader(currentDir + "/resources/map/level1.veggietale"));
-      // Initialize list for level data.
-      ArrayList<String> levelLines = new ArrayList<String>();
-      
-      // Read every line from file and add it to levelLines.
-      try {
-        String line = levelReader.readLine();
-        while (line != null) {
-          levelLines.add(line);
-          line = levelReader.readLine();
-        }
-      }
-      finally {
-        levelReader.close();
-      }
-      
-      ArrayList<MapItem> mapItems = Main.getMapItems();
-      
-      for (int i = 0; i < levelLines.size(); i++) {
-        // Split each line by "|" into an array.
-        String[] data = levelLines.get(i).split("\\|");
-        int type = Integer.parseInt(data[0]);
-        Coordinates coords = new Coordinates(Integer.parseInt(data[1]), Integer.parseInt(data[2]));
-        if (type == 1) {
-          mapItems.add(new Brick(coords));
-        }
-        else if (type == 2) {
-          Tomato tomato = new Tomato(coords);
-          Main.getMapItems().add(tomato);
-          Main.getEnemies().add(tomato);
-        }
-        else if (type == 3) {
-          Knife knife = new Knife(coords);
-          Main.getMapItems().add(knife);
-          Main.getEnemies().add(knife);
-        }
-        else if (type == 4) {
-          KnifeDown knifeDown = new KnifeDown(coords);
-          Main.getMapItems().add(knifeDown);
-          Main.getEnemies().add(knifeDown);
-        }
-        else if (type == 5) {
-          DoubleTomatoWallLevelOne doubleTomatoWallLevelOne = new DoubleTomatoWallLevelOne(coords, new int[] {Integer.parseInt(data[3]), Integer.parseInt(data[4])});
-          Main.getMapItems().add(doubleTomatoWallLevelOne);
-          Main.getEnemies().add(doubleTomatoWallLevelOne);
-        }
-        else if (type == 6) {
-          Orange orange = new Orange(coords, Integer.parseInt(data[3]) == 1 ? true : false, Integer.parseInt(data[4]));
-          Main.getMapItems().add(orange);
-          Main.getEnemies().add(orange);
-        }
-        else if (type == 0) {
-          Main.getProtag().x = coords.x;
-          Main.getProtag().y = coords.y;
-          Main.visibleX = coords.x - 500 + (Main.getProtag().w / 2);
-          Main.visibleY = coords.y - 300 + (Main.getProtag().h / 2);
-        }
-        if (IntStream.of(Constants.SOLIDS).anyMatch((x) -> x == type)) {
-          Main.getSolids().add((Solid) mapItems.get(i));
-        }
-        
-      }
-      
-      for (int i = 0; i < Main.getMapItems().size(); i++) {
-        Main.getMapItems().get(i).id = i;
-      }
-      
-      /*
-       * 
-       * 
-       * 
-       * 
-       * 
-       */
       
       InformationBar.setProfile(new Image("file:resources/character/cabbage_profile.png"));
       InformationBar.setCharStats(new Image("file:resources/character/cabbage_stats.png"));
@@ -225,8 +137,34 @@ public class Main extends Application {
 
           public void handle(ActionEvent event) {
             
+            if (Main.state == 1) {
+              
+              Render.renderProfile();
+              
+            }
+            else if (Main.state == 2) {
+              
+              Render.renderTitle();
+              
+            }
+            else if (Main.state == 3) {
+              
+              Render.renderCharacterSelect();
+              
+            }
+            else if (Main.state == 4) {
+              
+              Render.renderLevelSelect();
+              
+            }
+            else if (Main.state == 5) {
+              
+              Render.renderLevel();
+              StateUpdate.update();
+              
+            }
             // Everything here is run 60 times a second.
-            
+            /*
             if (Main.state == 0) {
               // Update state of all objects (collision, map item x/y location)
               StateUpdate.update();
@@ -238,9 +176,10 @@ public class Main extends Application {
               Main.setState((byte) 0);
               // Main.getGc().drawImage(new Image("file:resources/loser.png"), 0, 0);
             }
+            */
             
             // Increment tick. Reset if 60.
-            tick = (byte) (tick == 60 ? 1 : tick + 1);
+            setTick((byte) (getTick() == 60 ? 1 : getTick() + 1));
             Main.setFps((byte) (Main.getFps() + 1));
             
           }
@@ -285,32 +224,12 @@ public class Main extends Application {
     Main.scene = scene;
   }
 
-  public static ArrayList<MapItem> getMapItems() {
-    return mapItems;
-  }
-
-  public static void setMapItems(ArrayList<MapItem> mapItems) {
-    Main.mapItems = mapItems;
-  }
-
   public static Vegetable getProtag() {
     return protag;
   }
 
   public static void setProtag(Vegetable protag) {
     Main.protag = protag;
-  }
-
-  public static ArrayList<Solid> getSolids() {
-    return solids;
-  }
-
-  public static ArrayList<Projectile> getProjectiles() {
-    return projectiles;
-  }
-
-  public static void appendProjectile(Projectile projectile) {
-    Main.projectiles.add(projectile);
   }
 
   public static byte getState() {
@@ -327,14 +246,6 @@ public class Main extends Application {
 
   public static void setIntroPlayer(MediaPlayer introPlayer) {
     Main.introPlayer = introPlayer;
-  }
-
-  public static ArrayList<Enemy> getEnemies() {
-    return enemies;
-  }
-
-  public static void setEnemies(ArrayList<Enemy> enemies) {
-    Main.enemies = enemies;
   }
 
   public static SoundManager getSoundManager() {
@@ -359,6 +270,7 @@ public class Main extends Application {
 
   public static void setFont(int size) {
     Main.font = new Font("Brady Bunch Remastered", size);
+    Main.getGc().setFont(Main.font);
   }
 
   public static byte getFps() {
@@ -367,6 +279,46 @@ public class Main extends Application {
 
   public static void setFps(byte fps) {
     Main.fps = fps;
+  }
+
+  public static byte getSelection() {
+    return selection;
+  }
+
+  public static void setSelection(byte selection) {
+    Main.selection = selection;
+  }
+
+  public static String getCurrentLevelLocation() {
+    return currentLevelLocation;
+  }
+
+  public static void setCurrentLevelLocation(String currentLevelLocation) {
+    Main.currentLevelLocation = currentLevelLocation;
+  }
+
+  public static String getCurrentLevelBackground() {
+    return currentLevelBackground;
+  }
+
+  public static void setCurrentLevelBackground(String currentLevelBackground) {
+    Main.currentLevelBackground = currentLevelBackground;
+  }
+
+  public static Level getCurrentLevel() {
+    return currentLevel;
+  }
+
+  public static void setCurrentLevel(Level currentLevel) {
+    Main.currentLevel = currentLevel;
+  }
+
+  public static byte getTick() {
+    return tick;
+  }
+
+  public static void setTick(byte tick) {
+    Main.tick = tick;
   }
 
 }

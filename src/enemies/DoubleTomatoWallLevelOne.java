@@ -22,9 +22,9 @@ public class DoubleTomatoWallLevelOne extends Enemy {
   @Override
   public void enemyMovement() {
     
-    if (Main.getMapItems().get(this.getRequiredKills()[0]).id != this.getRequiredKills()[0] && Main.getMapItems().get(this.getRequiredKills()[1] - 1).id != this.getRequiredKills()[1]) {
-      Main.getMapItems().remove(this);
-      Main.getEnemies().remove(this);
+    if (Main.getCurrentLevel().getMapItems().get(this.getRequiredKills()[0]).id != this.getRequiredKills()[0] && Main.getCurrentLevel().getMapItems().get(this.getRequiredKills()[1] - 1).id != this.getRequiredKills()[1]) {
+      Main.getCurrentLevel().getMapItems().remove(this);
+      Main.getCurrentLevel().getEnemies().remove(this);
       return;
     }
     
