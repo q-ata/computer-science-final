@@ -19,13 +19,13 @@ public class Render {
     
     Render.gc.drawImage(Render.profileSelect, 0, 0);
     switch (Main.getSelection()) {
-    case (byte) 1:
+    case 1:
       System.out.println("SELECTED PROFILE 1");
       break;
-    case (byte) 2:
+    case 2:
       System.out.println("SELECTED PROFILE 2");
       break;
-    case (byte) 3:
+    case 3:
       System.out.println("SELECTED PROFILE 3");
       break;
     default:
@@ -38,13 +38,13 @@ public class Render {
     
     Render.gc.drawImage(Render.titleScreen, 0, 0);
     switch (Main.getSelection()) {
-    case (byte) 1:
+    case 1:
       System.out.println("ON CHARACTER SELECT");
       break;
-    case (byte) 2:
+    case 2:
       System.out.println("ON LEVEL SELECT");
       break;
-    case (byte) 3:
+    case 3:
       System.out.println("ON EXIT KEY");
       break;
     default:
@@ -69,8 +69,33 @@ public class Render {
   
   public static void renderLevel() {
     
+    /*
+     * public void drawImage(Image img,
+                      double sx,
+                      double sy,
+                      double sw,
+                      double sh,
+                      double dx,
+                      double dy,
+                      double dw,
+                      double dh)
+Draws the specified source rectangle of the given image to the given destination rectangle of the Canvas. A null image value or an image still in progress will be ignored.
+This method will be affected by any of the global common attributes as specified in the Rendering Attributes Table.
+
+Parameters:
+img - the image to be drawn or null.
+sx - the source rectangle's X coordinate position.
+sy - the source rectangle's Y coordinate position.
+sw - the source rectangle's width.
+sh - the source rectangle's height.
+dx - the destination rectangle's X coordinate position.
+dy - the destination rectangle's Y coordinate position.
+dw - the destination rectangle's width.
+dh - the destination rectangle's height.
+     */
+    
     Render.gc.fillRect(0, 0, Render.canvas.getWidth(), Render.canvas.getHeight());
-    Render.gc.drawImage(Main.getCurrentLevel().getBackground(), -Main.visibleX - 800, -Main.visibleY - 1800);
+    Render.gc.drawImage(Main.getCurrentLevel().getBackground(), (Main.visibleX / 4) + 500, (Main.visibleY / 4) + 500, 1000, 600, 0, 0, 1000, 600);
     
     for (MapItem item : Main.getCurrentLevel().getMapItems()) {
       

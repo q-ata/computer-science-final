@@ -18,23 +18,23 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
         Main.setState((byte) (Main.getState() + 1));
         return;
     }
-    else if (Main.getState() == (byte) 1 || Main.getState() == (byte) 2) {
+    else if (Main.getState() == 1 || Main.getState() == 2) {
       
       if (key.getCode() == KeyCode.UP) {
-        Main.setSelection(Main.getSelection() == (byte) 1 ? (byte) 3 : (byte) (Main.getSelection() - 1));
+        Main.setSelection(Main.getSelection() == 1 ? (byte) 3 : (byte) (Main.getSelection() - 1));
       }
       else if (key.getCode() == KeyCode.DOWN) {
-        Main.setSelection(Main.getSelection() == (byte) 3 ? (byte) 1 : (byte) (Main.getSelection() + 1));
+        Main.setSelection(Main.getSelection() == 3 ? (byte) 1 : (byte) (Main.getSelection() + 1));
       }
       else if (key.getCode() == KeyCode.ENTER) {
-        if (Main.getState() == (byte) 1) {
+        if (Main.getState() == 1) {
           Main.setState((byte) 2);
           return;
         }
-        if (Main.getSelection() == (byte) 1) {
+        if (Main.getSelection() == 1) {
           Main.setState((byte) 3);
         }
-        else if (Main.getSelection() == (byte) 2) {
+        else if (Main.getSelection() == 2) {
           Main.setState((byte) 4);
         }
         else {
@@ -44,12 +44,12 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
       }
       
     }
-    else if (Main.getState() == (byte) 3) {
+    else if (Main.getState() == 3) {
       
       return;
       
     }
-    else if (Main.getState() == (byte) 4) {
+    else if (Main.getState() == 4) {
       
       if (key.getCode() == KeyCode.RIGHT) {
         Main.setSelection((byte) (Main.getSelection() + 1));
@@ -63,7 +63,7 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
       }
       
     }
-    else if (Main.getState() == (byte) 5) {
+    else if (Main.getState() == 5) {
       Vegetable protag = Main.getProtag();
       
       if (key.getCode() == KeyCode.W) {

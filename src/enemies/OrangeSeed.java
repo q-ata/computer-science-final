@@ -1,5 +1,6 @@
 package enemies;
 
+import main.Main;
 import types.Coordinates;
 import types.Enemy;
 import types.SolidData;
@@ -7,21 +8,25 @@ import types.SolidData;
 public class OrangeSeed extends Enemy {
   
   private boolean left;
+  private int speedX;
+  private int speedY;
 
-  public OrangeSeed(Coordinates coords, boolean dir) {
+  public OrangeSeed(Coordinates coords, boolean dir, int speedX, int speedY) {
     
     super(coords, "file:resources/character/orange_seed" + (dir ? "_left.png" : ".png"), new SolidData(35, 35, 0, 0), true);
     this.left = dir;
     this.setDmg(30);
-    this.endurance = 0;
+    this.endurance = Math.ceil(100 / Main.getProtag().getProjData().dmg);
+    this.speedX = speedX;
+    this.speedY = speedY;
     
   }
 
   @Override
   public void enemyMovement() {
     
-    this.y += 5;
-    this.x += left ? -5 : 5;
+    this.y += this.speedY;
+    this.x += left ? -this.speedX : this.speedX;
     
   }
 

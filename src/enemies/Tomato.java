@@ -11,6 +11,8 @@ import types.SolidData;
 public class Tomato extends Enemy {
   
   private Image dazedSprite = new Image("file:resources/character/tomato_dazed.png");
+  private int time = 0;
+  private boolean dazed = false;
 
   public Tomato(Coordinates coords) {
     
@@ -23,15 +25,42 @@ public class Tomato extends Enemy {
   @Override
   public void enemyMovement() {
     
+    if (this.dazed) {
+      return;
+    }
+    
+    if (time > 0) {
+      
+      this.setTime(this.getTime() - 1);
+      if (this.getTime() == 0) {
+        this.sprite = this.dazedSprite;
+        this.endurance = 2;
+        this.dazed = true;
+        return;
+      }
+      this.x -= 9;
+      return;
+      
+    }
+    
     for (Solid solid : Main.getCurrentLevel().getSolids()) {
       if (Constants.SOLIDCOLLISION(this, solid)) {
         this.sprite = this.dazedSprite;
         this.endurance = 2;
+        this.dazed = true;
         return;
       }
     }
     this.x -= 9;
     
+  }
+
+  public int getTime() {
+    return time;
+  }
+
+  public void setTime(int time) {
+    this.time = time;
   }
 
 }

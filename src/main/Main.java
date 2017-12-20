@@ -163,20 +163,6 @@ public class Main extends Application {
               StateUpdate.update();
               
             }
-            // Everything here is run 60 times a second.
-            /*
-            if (Main.state == 0) {
-              // Update state of all objects (collision, map item x/y location)
-              StateUpdate.update();
-              // Render everything to the screen.
-              Render.render();
-            }
-            else if (Main.state == 1) {
-              System.out.println("DEAD.");
-              Main.setState((byte) 0);
-              // Main.getGc().drawImage(new Image("file:resources/loser.png"), 0, 0);
-            }
-            */
             
             // Increment tick. Reset if 60.
             setTick((byte) (getTick() == 60 ? 1 : getTick() + 1));

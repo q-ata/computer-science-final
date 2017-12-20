@@ -8,6 +8,7 @@ public abstract class Enemy extends Solid {
   private boolean spawned = false;
   private boolean oneTime = false;
   private boolean solid = false;
+  private boolean needsSpawn = true;
 
   public Enemy(Coordinates coords, String spriteLocation, SolidData data) {
     
@@ -54,6 +55,14 @@ public abstract class Enemy extends Solid {
 
   public void setSolid(boolean solid) {
     this.solid = solid;
+  }
+
+  public boolean isNeedsSpawn() {
+    return needsSpawn;
+  }
+
+  public void setNeedsSpawn(boolean needsSpawn) {
+    this.needsSpawn = needsSpawn;
   }
 
 }

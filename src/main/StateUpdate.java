@@ -78,7 +78,7 @@ public class StateUpdate {
     for (int i = 0; i < Main.getCurrentLevel().getEnemies().size(); i++) {
       Enemy enemy = Main.getCurrentLevel().getEnemies().get(i);
       if (!enemy.isSpawned()) {
-        if (enemy.x - protag.x < 500 + (protag.w / 2) && enemy.y - protag.y < 300 - (protag.h / 2)) {
+        if ((enemy.x - protag.x < 500 + (protag.w / 2) && enemy.y - protag.y < 300 - (protag.h / 2)) || !enemy.isNeedsSpawn()) {
           enemy.setSpawned(true);
         }
       }
@@ -99,10 +99,10 @@ public class StateUpdate {
         }
         else if (Constants.SOLIDCOLLISION(protag, enemy)) {
           if (enemy.isSolid()) {
-            if (protag.right) {
+            if (protag.xVel > 0) {
               protag.x = enemy.x - protag.w;
             }
-            else if (protag.left) {
+            else if (protag.xVel < 0) {
               protag.x = enemy.x + enemy.w;
             }
             Main.visibleX = protag.x - 460;

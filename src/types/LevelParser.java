@@ -6,21 +6,17 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
-import enemies.DoubleTomatoWallLevelOne;
-import enemies.Knife;
-import enemies.KnifeDown;
-import enemies.Orange;
-import enemies.Tomato;
+import enemies.*;
 import javafx.scene.image.Image;
 import main.Constants;
 import main.Main;
-import solids.Brick;
+import solids.*;
 
 public class LevelParser {
   
   public static Level parseLevel(int levelNumber) {
     
-    Level level = new Level(new Image("file:resources/map/bg-" + levelNumber + ".png"));
+    Level level = new Level(new Image("file:resources/map/bg-" + levelNumber + ".jpg"));
     level.setLevelNumber(levelNumber);
     
     try {
@@ -55,6 +51,9 @@ public class LevelParser {
         }
         else if (type == 2) {
           Tomato tomato = new Tomato(coords);
+          if (data.length > 3) {
+            tomato.setTime(Integer.parseInt(data[3]));
+          }
           level.getMapItems().add(tomato);
           level.getEnemies().add(tomato);
         }
@@ -75,6 +74,10 @@ public class LevelParser {
         }
         else if (type == 6) {
           Orange orange = new Orange(coords, Integer.parseInt(data[3]) == 1 ? true : false, Integer.parseInt(data[4]));
+          if (data.length > 5) {
+            orange.setSeedX(Integer.parseInt(data[5]));
+            orange.setSeedY(Integer.parseInt(data[6]));
+          }
           level.getMapItems().add(orange);
           level.getEnemies().add(orange);
         }

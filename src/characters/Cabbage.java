@@ -24,6 +24,7 @@ public class Cabbage extends Vegetable {
         new ProjectileData(10, "file:resources/character/lettuce_projectile", 78, 50, 200, 10), new BasicAbility(true, 500, 6000, "file:resources/icons/cabbage_dash.png"));
     this.name = "Cabbage";
     this.setSpeed(5);
+    this.res = 0.8;
     
   }
   

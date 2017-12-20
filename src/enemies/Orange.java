@@ -11,6 +11,8 @@ public class Orange extends Enemy {
   private int moveAmount;
   private boolean currentDir = true;
   private int moved = 0;
+  private int seedX = 5;
+  private int seedY = 5;
 
   public Orange(Coordinates coords, boolean dir, int moveAmount) {
     
@@ -35,10 +37,27 @@ public class Orange extends Enemy {
     if (Main.getTick() != (byte) 60) {
       return;
     }
-    OrangeSeed seed = new OrangeSeed(new Coordinates(this.x, this.y), this.left);
+    OrangeSeed seed = new OrangeSeed(new Coordinates(this.x, this.y), this.left, this.getSeedX(), this.getSeedY());
+    seed.setNeedsSpawn(false);
     Main.getCurrentLevel().getMapItems().add(seed);
     Main.getCurrentLevel().getEnemies().add(seed);
     
+  }
+
+  public int getSeedX() {
+    return seedX;
+  }
+
+  public void setSeedX(int seedX) {
+    this.seedX = seedX;
+  }
+
+  public int getSeedY() {
+    return seedY;
+  }
+
+  public void setSeedY(int seedY) {
+    this.seedY = seedY;
   }
 
 }
