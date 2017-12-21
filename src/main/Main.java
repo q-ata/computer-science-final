@@ -137,26 +137,31 @@ public class Main extends Application {
 
           public void handle(ActionEvent event) {
             
-            if (Main.state == 1) {
+        	 // If the state is 1, this means you are on the profile screen thus we render that.
+            if (Main.state == 1) {  
               
               Render.renderProfile();
               
             }
+            // If the state is 2, this means you are on the title screen thus we render that.
             else if (Main.state == 2) {
               
               Render.renderTitle();
               
             }
+            // If the state is 3, this means you are on the character select screen thus we render that.
             else if (Main.state == 3) {
               
               Render.renderCharacterSelect();
               
             }
+            // If the state is 4, this means you are on the level select screen thus we render that.
             else if (Main.state == 4) {
               
               Render.renderLevelSelect();
               
             }
+            //If the state is set to 5, this means that you are in the level, so we render that.
             else if (Main.state == 5) {
               
               Render.renderLevel();

@@ -10,9 +10,11 @@ import types.Vegetable;
 
 public class Constants {
   
-  public static final Vegetable[] CHARACTERS = {new Cabbage()};
-  public static final int[] SOLIDS = {1, 7};
+  // We create a list of available characters, and a list of the solid blocks. 
+  public static final Vegetable[] CHARACTERS = {new Cabbage()}; 
+  public static final int[] SOLIDS = {1};
   
+  //We create a VEGGIECOLLISION method that will check for character collision with any blocks.
   public static final void VEGGIECOLLISION(Vegetable character) {
     ArrayList<Solid> solids = Main.getCurrentLevel().getSolids();
     for (Solid solid : solids) {
@@ -34,6 +36,7 @@ public class Constants {
     }
   }
   
+  // We create a VEGGIEGRAVITY method that will handle the gravity of the character.
   public static final boolean VEGGIEGRAVITY(Vegetable character) {
     ArrayList<Solid> solids = Main.getCurrentLevel().getSolids();
     boolean touchingGround = false;
@@ -53,6 +56,7 @@ public class Constants {
     return touchingGround;
   }
   
+  // We create a SOLIDCOLLSION method that will check for collision between any two solids.
   public static final boolean SOLIDCOLLISION(Solid solid, Solid toCollide) {
     boolean collision = false;
       if (solid.x + solid.w > toCollide.x &&
@@ -64,12 +68,14 @@ public class Constants {
     return collision;
   }
   
+  //We create a TAKECHARDAMAGE method that handles whenever the character takes has damage dealt towards it.
   public static final void TAKECHARDAMAGE(Vegetable protag, int time) {
     
     if (protag.hp <= 0) {
       System.out.println("DEAD.");
     }
     
+    //When the character takes damage, enable a brief invincible time frame (Sprite changes to shade of red, can't take damage).
     protag.setInvincible(true);
     protag.sprite = protag.getHurtSprite();
     Timer timer = new Timer();
@@ -79,3 +85,5 @@ public class Constants {
   }
   
 }
+
+

@@ -30,6 +30,9 @@ public abstract class Vegetable extends Character {
   private int projCooldownFraction = 10;
   private int speed;
   private BasicAbility basic;
+  private Image selectSprite;
+  private int nameWidth;
+  private int nameHeight;
   
   public Vegetable(String spriteLocation, String hurt, SolidData data, ProjectileData projData, BasicAbility basic) {
     
@@ -40,6 +43,7 @@ public abstract class Vegetable extends Character {
     this.setNonHurtSprite(this.sprite);
     this.setHurtSprite(new Image(hurt));
     this.setBasic(basic);
+    this.setSelectSprite(new Image("file:resources/character/cabbage_select.png"));
     
   }
   
@@ -182,6 +186,30 @@ public abstract class Vegetable extends Character {
 
   public void setBasic(BasicAbility basic) {
     this.basic = basic;
+  }
+
+  public Image getSelectSprite() {
+    return selectSprite;
+  }
+
+  public void setSelectSprite(Image selectSprite) {
+    this.selectSprite = selectSprite;
+  }
+
+  public int getNameWidth() {
+    return nameWidth;
+  }
+
+  public void setNameWidth(int nameWidth) {
+    this.nameWidth = nameWidth;
+  }
+
+  public int getNameHeight() {
+    return nameHeight;
+  }
+
+  public void setNameHeight(int nameHeight) {
+    this.nameHeight = nameHeight;
   }
 
 }

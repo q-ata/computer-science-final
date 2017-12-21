@@ -22,9 +22,11 @@ public class Cabbage extends Vegetable {
     
     super("file:resources/character/cabbage_sprite.png", "file:resources/character/cabbage_invincible.png", new SolidData(80, 80, 0, 0),
         new ProjectileData(10, "file:resources/character/lettuce_projectile", 78, 50, 200, 10), new BasicAbility(true, 500, 6000, "file:resources/icons/cabbage_dash.png"));
-    this.name = "Cabbage";
+    this.name = "Cody Cabbage";
     this.setSpeed(5);
     this.res = 0.8;
+    this.setNameWidth(248);
+    this.setNameHeight(59);
     
   }
   
