@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Timer;
 
+import types.BasicAbility;
 import types.FpsResetter;
 import types.InformationBar;
 import types.Level;
@@ -112,6 +113,15 @@ public class Main extends Application {
       Font.loadFont(new FileInputStream(new File("./resources/fonts/BradBunR.ttf")), 24);
       Main.setFont(24);
       Main.getGc().setFont(Main.getFont());
+      
+      // Initializes the KeyCodeMap.
+      Constants.initKeyCodeMap();
+      
+      for (Vegetable veggie : Constants.CHARACTERS) {
+        for (BasicAbility ability : veggie.getAbilities()) {
+          ability.setUser(veggie);
+        }
+      }
       
       // Shows the stage/window.
       stage.show();

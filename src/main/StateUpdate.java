@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 
+import types.BasicAbility;
 import types.Enemy;
 import types.MapItem;
 import types.Projectile;
@@ -14,10 +15,15 @@ public class StateUpdate {
     
     Vegetable protag = Main.getProtag();
     
-    if (protag.isBasicActive() && protag.getBasic().isPhysics()) {
-      protag.doBasic();
+    boolean physicsOff = false;
+    for (BasicAbility ability: protag.getAbilities()) {
+      if (ability.isActive() && ability.isPhysics()) {
+        ability.doBasic();
+        physicsOff = true;
+      }
     }
-    else {
+    
+    if (!physicsOff) {
       protag.xVel = protag.getSpeed() + (protag.up ? 1 : 0);
       Constants.VEGGIECOLLISION(protag);
       if (protag.right || protag.left) {

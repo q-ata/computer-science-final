@@ -5,6 +5,7 @@ import java.util.Timer;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import types.BasicAbility;
 import types.LevelParser;
 import types.ResetBasicActive;
 import types.Vegetable;
@@ -97,7 +98,14 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
       
       //If the W button is clicked on the keyboard and the character is not in ability mode, the jump method will be executed 
       if (key.getCode() == KeyCode.W) {
-        if (protag.isBasicActive() && protag.getBasic().isPhysics()) {
+        boolean physicsOff = false;
+        for (BasicAbility ability : protag.getAbilities()) {
+          if (ability.isActive()) {
+            physicsOff = true;
+            break;
+          }
+        }
+        if (physicsOff) {
           return;
         }
         protag.jump();
@@ -119,18 +127,19 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
       else if (key.getCode() == KeyCode.M) {
         protag.shootProjectile();
       }
-      //If the K button is pressed, 
-      else if (key.getCode() == KeyCode.K) {
-        //If you are using using the ability, or it's on cooldown, 
-        if (protag.isBasicActive() || !protag.isBasicAllowed()) {
-          //stops it from running any further
-          return;
+      else {
+        for (int i = 0; i < protag.getAbilities().length; i++) {
+          BasicAbility ability = protag.getAbilities()[i];
+          if (key.getCode() != ability.getActivator() || ability.isActive() || !ability.isAllowed()) {
+            continue;
+          }
+          
+          ability.setActive(true);
+          ability.basic();
+          Timer timer = new Timer();
+          timer.schedule(new ResetBasicActive(protag, i), ability.getLength());
+          
         }
-        //This will infrom the code that you have used he ability and create a timer for cooldown
-        protag.setBasicActive(true);
-        protag.basic();
-        Timer timer = new Timer();
-        timer.schedule(new ResetBasicActive(protag), protag.getBasic().getLength());
       }
     }
     

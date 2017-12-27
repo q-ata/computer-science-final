@@ -5,18 +5,20 @@ import java.util.TimerTask;
 public class ResetBasicActive extends TimerTask {
   
   private Vegetable veggie;
+  private int ability;
   
-  public ResetBasicActive(Vegetable veggie) {
+  public ResetBasicActive(Vegetable veggie, int ability) {
     
     this.veggie = veggie;
+    this.ability = ability;
     
   }
 
   @Override
   public void run() {
     
-    this.veggie.basicEnd();
-    this.veggie.setBasicActive(false);
+    this.veggie.getAbilities()[this.ability].basicEnd();
+    this.veggie.getAbilities()[this.ability].setActive(false);
     
   }
 

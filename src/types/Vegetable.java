@@ -23,26 +23,24 @@ public abstract class Vegetable extends Character {
   private boolean invincible = false;
   private Image hurtSprite;
   private Image nonHurtSprite;
-  private boolean basicActive = false;
-  private boolean basicAllowed = true;
   private Timer invincibilityTimer;
+  private BasicAbility[] abilities;
   private Timer shootTimer;
   private int projCooldownFraction = 10;
   private int speed;
-  private BasicAbility basic;
   private Image selectSprite;
   private int nameWidth;
   private int nameHeight;
   
-  public Vegetable(String spriteLocation, String hurt, SolidData data, ProjectileData projData, BasicAbility basic) {
+  public Vegetable(String spriteLocation, String hurt, SolidData data, ProjectileData projData, BasicAbility[] abilities) {
     
     super(new Coordinates(0, 0), spriteLocation, data);
     this.vx = 460;
     this.vy = 260;
     this.projData = projData;
+    this.setAbilities(abilities);
     this.setNonHurtSprite(this.sprite);
     this.setHurtSprite(new Image(hurt));
-    this.setBasic(basic);
     this.setSelectSprite(new Image("file:resources/character/cabbage_select.png"));
     
   }
@@ -86,12 +84,6 @@ public abstract class Vegetable extends Character {
     
   }
   
-  public abstract void doBasic();
-  public abstract void basicEnd();
-  public abstract void basic();
-  public abstract void ultimate();
-  public abstract void passive();
-  
   public ProjectileData getProjData() {
     return projData;
   }
@@ -132,28 +124,12 @@ public abstract class Vegetable extends Character {
     this.nonHurtSprite = nonHurtSprite;
   }
 
-  public boolean isBasicActive() {
-    return basicActive;
-  }
-
-  public void setBasicActive(boolean basicActive) {
-    this.basicActive = basicActive;
-  }
-
   public Timer getInvincibilityTimer() {
     return invincibilityTimer;
   }
 
   public void setInvincibilityTimer(Timer invincibilityTimer) {
     this.invincibilityTimer = invincibilityTimer;
-  }
-  
-  public boolean isBasicAllowed() {
-    return basicAllowed;
-  }
-
-  public void setBasicAllowed(boolean basicAllowed) {
-    this.basicAllowed = basicAllowed;
   }
 
   public int getSpeed() {
@@ -180,14 +156,6 @@ public abstract class Vegetable extends Character {
     this.projCooldownFraction = projCooldownFraction;
   }
 
-  public BasicAbility getBasic() {
-    return basic;
-  }
-
-  public void setBasic(BasicAbility basic) {
-    this.basic = basic;
-  }
-
   public Image getSelectSprite() {
     return selectSprite;
   }
@@ -210,6 +178,14 @@ public abstract class Vegetable extends Character {
 
   public void setNameHeight(int nameHeight) {
     this.nameHeight = nameHeight;
+  }
+
+  public BasicAbility[] getAbilities() {
+    return abilities;
+  }
+
+  public void setAbilities(BasicAbility[] abilities) {
+    this.abilities = abilities;
   }
 
 }

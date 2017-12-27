@@ -1,20 +1,36 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 
 import characters.*;
+import javafx.scene.input.KeyCode;
 import types.ReverseInvincibility;
 import types.Solid;
 import types.Vegetable;
 
 public class Constants {
   
-  // We create a list of available characters, and a list of the solid blocks. 
+  // Array of all playable characters.
   public static final Vegetable[] CHARACTERS = {new Cabbage()}; 
+  
+  // Array of all solid objects we want to check collision with.
   public static final int[] SOLIDS = {1};
   
-  //We create a VEGGIECOLLISION method that will check for character collision with any blocks.
+  // A map of KeyCodes and their string counterparts.
+  public static HashMap<KeyCode, String> keyCodeMap;
+  
+  // Initialize the KeyCode map.
+  public static final void initKeyCodeMap() {
+    
+    HashMap<KeyCode, String> map = new HashMap<KeyCode, String>();
+    map.put(KeyCode.K, "K");
+    Constants.keyCodeMap = map;
+    
+  }
+  
+  // Checks for character collision with all solids.
   public static final void VEGGIECOLLISION(Vegetable character) {
     ArrayList<Solid> solids = Main.getCurrentLevel().getSolids();
     for (Solid solid : solids) {
@@ -36,7 +52,7 @@ public class Constants {
     }
   }
   
-  // We create a VEGGIEGRAVITY method that will handle the gravity of the character.
+  // Handles character gravity.
   public static final boolean VEGGIEGRAVITY(Vegetable character) {
     ArrayList<Solid> solids = Main.getCurrentLevel().getSolids();
     boolean touchingGround = false;
@@ -56,7 +72,7 @@ public class Constants {
     return touchingGround;
   }
   
-  // We create a SOLIDCOLLSION method that will check for collision between any two solids.
+  // Checks for collision between any two solids.
   public static final boolean SOLIDCOLLISION(Solid solid, Solid toCollide) {
     boolean collision = false;
       if (solid.x + solid.w > toCollide.x &&
@@ -68,14 +84,14 @@ public class Constants {
     return collision;
   }
   
-  //We create a TAKECHARDAMAGE method that handles whenever the character takes has damage dealt towards it.
+  // Called when the character takes damage.
   public static final void TAKECHARDAMAGE(Vegetable protag, int time) {
     
     if (protag.hp <= 0) {
       System.out.println("DEAD.");
     }
     
-    //When the character takes damage, enable a brief invincible time frame (Sprite changes to shade of red, can't take damage).
+    // Makes the character invincible for a brief period of time.
     protag.setInvincible(true);
     protag.sprite = protag.getHurtSprite();
     Timer timer = new Timer();
