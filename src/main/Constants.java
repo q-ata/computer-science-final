@@ -13,7 +13,7 @@ import types.Vegetable;
 public class Constants {
   
   // Array of all playable characters.
-  public static final Vegetable[] CHARACTERS = {new Cabbage()}; 
+  public static final Vegetable[] CHARACTERS = {new Cabbage(), new Carrot()}; 
   
   // Array of all solid objects we want to check collision with.
   public static final int[] SOLIDS = {1};

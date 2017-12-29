@@ -63,7 +63,7 @@ public class Render {
     Render.gc.drawImage(Render.charSelect, 0, 0);
     Main.setFont(100);
     Render.gc.fillText("Character Select", 182, 80);
-    Render.gc.drawImage(Main.getProtag().getSelectSprite(), 500 - (Constants.CHARACTERS[Main.getSelection() - 1].getSelectSprite().getWidth() / 2), 230 - (Constants.CHARACTERS[Main.getSelection() - 1].getSelectSprite().getHeight() / 2));
+    Render.gc.drawImage(Constants.CHARACTERS[Main.getSelection() - 1].getSelectSprite(), 500 - (Constants.CHARACTERS[Main.getSelection() - 1].getSelectSprite().getWidth() / 2), 230 - (Constants.CHARACTERS[Main.getSelection() - 1].getSelectSprite().getHeight() / 2));
     Render.gc.fillText(Constants.CHARACTERS[Main.getSelection() - 1].name, 500 - (Constants.CHARACTERS[Main.getSelection() - 1].getNameWidth()), 500 - (Constants.CHARACTERS[Main.getSelection() - 1].getNameHeight() / 2));
     
   }
@@ -91,7 +91,12 @@ public class Render {
     }
     
     // Renders the character.
-    Render.gc.drawImage(Main.getProtag().sprite, Main.getProtag().vx, Main.getProtag().vy);
+    if (!Main.getProtag().isSpriteDirectional()) {
+      Render.gc.drawImage(Main.getProtag().sprite, Main.getProtag().vx, Main.getProtag().vy);
+    }
+    else {
+      Render.gc.drawImage(Main.getProtag().lastDirection == 1 ? Main.getProtag().sprite : Main.getProtag().getSpriteLeft(), Main.getProtag().vx, Main.getProtag().vy);
+    }
     
     // Renders a black bar to be used to display information.
     Render.gc.fillRect(0, 600, 1000, 80);

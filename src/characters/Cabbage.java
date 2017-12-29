@@ -1,6 +1,7 @@
 package characters;
 
 import abilities.CabbageDash;
+import javafx.scene.image.Image;
 import types.BasicAbility;
 import types.ProjectileData;
 import types.SolidData;
@@ -17,6 +18,7 @@ public class Cabbage extends Vegetable {
     this.res = 0.8;
     this.setNameWidth(248);
     this.setNameHeight(59);
+    this.setSelectSprite(new Image("file:resources/character/cabbage_select.png"));
     
   }
   

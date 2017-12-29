@@ -1,5 +1,7 @@
 package types;
 
+import main.Main;
+
 public class Projectile extends Solid {
   
   private byte direction;
@@ -12,6 +14,8 @@ public class Projectile extends Solid {
     this.setDirection(direction);
     this.setVelocity(data.velocity);
     this.dmg = data.dmg;
+    this.vx = Main.getProtag().vx;
+    this.vy = Main.getProtag().vy;
     
   }
 

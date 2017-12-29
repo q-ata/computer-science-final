@@ -31,18 +31,32 @@ public abstract class Vegetable extends Character {
   private Image selectSprite;
   private int nameWidth;
   private int nameHeight;
+  private boolean spriteDirectional = false;
+  private Image spriteLeft;
   
   public Vegetable(String spriteLocation, String hurt, SolidData data, ProjectileData projData, BasicAbility[] abilities) {
     
     super(new Coordinates(0, 0), spriteLocation, data);
+    this.init(hurt, projData, abilities);
+    
+  }
+  
+  public Vegetable(String spriteLocation, String spriteLocationLeft, String hurt, SolidData data, ProjectileData projData, BasicAbility[] abilities) {
+    
+    super(new Coordinates(0, 0), spriteLocation, data);
+    this.init(hurt, projData, abilities);
+    this.setSpriteDirectional(true);
+    this.setSpriteLeft(new Image(spriteLocationLeft));
+    
+  }
+  
+  private void init(String hurt, ProjectileData projData, BasicAbility[] abilities) {
     this.vx = 460;
     this.vy = 260;
     this.projData = projData;
     this.setAbilities(abilities);
     this.setNonHurtSprite(this.sprite);
     this.setHurtSprite(new Image(hurt));
-    this.setSelectSprite(new Image("file:resources/character/cabbage_select.png"));
-    
   }
   
   public void jump() {
@@ -186,6 +200,22 @@ public abstract class Vegetable extends Character {
 
   public void setAbilities(BasicAbility[] abilities) {
     this.abilities = abilities;
+  }
+
+  public boolean isSpriteDirectional() {
+    return spriteDirectional;
+  }
+
+  public void setSpriteDirectional(boolean spriteDirectional) {
+    this.spriteDirectional = spriteDirectional;
+  }
+
+  public Image getSpriteLeft() {
+    return spriteLeft;
+  }
+
+  public void setSpriteLeft(Image spriteLeft) {
+    this.spriteLeft = spriteLeft;
   }
 
 }
