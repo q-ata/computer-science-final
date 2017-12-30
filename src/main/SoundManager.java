@@ -8,7 +8,8 @@ import javafx.scene.media.MediaPlayer.Status;
 
 public class SoundManager {
   
-  private static final String[] audioPaths = {"resources/audio/pew.mp3", "resources/audio/jump.mp3", "resources/audio/dash_sound.mp3"};
+  private static final String[] audioPaths = {"resources/audio/shooting.mp3", "resources/audio/jump.mp3", "resources/audio/dash_sound.mp3", "resources/audio/carrot_machine_gun.mp3",
+      "resources/audio/ability_cooldown.mp3", "resources/audio/carrot_life_leech.mp3"};
   private static MediaPlayer[] audioPlayers;
   
   

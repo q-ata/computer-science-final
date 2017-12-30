@@ -19,6 +19,7 @@ public class OrangeSeed extends Enemy {
     this.endurance = Math.ceil(100 / Main.getProtag().getProjData().dmg);
     this.speedX = speedX;
     this.speedY = speedY;
+    this.hp = 1;
     
   }
 

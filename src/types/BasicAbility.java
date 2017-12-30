@@ -13,14 +13,16 @@ public abstract class BasicAbility {
   private Vegetable user;
   private boolean active = false;
   private boolean allowed = true;
+  private int index;
   
-  public BasicAbility(boolean physics, int length, int cooldown, String iconLocation, KeyCode activator) {
+  public BasicAbility(boolean physics, int length, int cooldown, String iconLocation, KeyCode activator, int index) {
     
     this.setPhysics(physics);
     this.setLength(length);
     this.setCooldown(cooldown);
     this.setIcon(new Image(iconLocation));
     this.setActivator(activator);
+    this.setIndex(index);
     
   }
   
@@ -90,6 +92,14 @@ public abstract class BasicAbility {
 
   public void setActivator(KeyCode activator) {
     this.activator = activator;
+  }
+
+  public int getIndex() {
+    return index;
+  }
+
+  public void setIndex(int index) {
+    this.index = index;
   }
 
 }

@@ -53,6 +53,9 @@ public class Main extends Application {
   private static byte state = 0;
   private static byte fps = 0;
   
+  // How many levels available to the player.
+  private static byte levelsUnlocked;
+  
   public static void main(String[] args) {
     
     // Launch javafx application, runs the start method.
@@ -126,8 +129,8 @@ public class Main extends Application {
       // Shows the stage/window.
       stage.show();
       
-      // Sets fill color to white.
-      gc.setFill(Color.WHITE);
+      // Sets fill color to black.
+      gc.setFill(Color.BLACK);
       
       InformationBar.setProfile(new Image("file:resources/character/cabbage_profile.png"));
       InformationBar.setCharStats(new Image("file:resources/character/cabbage_stats.png"));
@@ -174,8 +177,8 @@ public class Main extends Application {
             //If the state is set to 5, this means that you are in the level, so we render that.
             else if (Main.state == 5) {
               
-              Render.renderLevel();
               StateUpdate.update();
+              Render.renderLevel();
               
             }
             
@@ -320,6 +323,14 @@ public class Main extends Application {
 
   public static void setTick(byte tick) {
     Main.tick = tick;
+  }
+
+  public static byte getLevelsUnlocked() {
+    return levelsUnlocked;
+  }
+
+  public static void setLevelsUnlocked(byte levelsUnlocked) {
+    Main.levelsUnlocked = levelsUnlocked;
   }
 
 }

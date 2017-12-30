@@ -1,4 +1,0 @@
-cabbage
-basic ability: cabbage twirl
-ultimate: explode - grow insanely large
-passive: shed - -resistance when taking damage, smaller hitbox

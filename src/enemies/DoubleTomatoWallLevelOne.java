@@ -5,6 +5,7 @@ import types.Coordinates;
 import types.Enemy;
 import types.SolidData;
 
+// Hardcoded enemy specifically for an obstacle on level one.
 public class DoubleTomatoWallLevelOne extends Enemy {
   
   private int[] requiredKills = new int[2];

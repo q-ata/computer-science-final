@@ -17,12 +17,13 @@ public abstract class Vegetable extends Character {
   public boolean right = false;
   public boolean left = false;
   public boolean up = false;
+  public int hp = 100;
+  public double lifesteal = 0;
+  public boolean hurt = false;
   private ProjectileData projData;
   private boolean projCooldown = false;
-  public int hp = 100;
   private boolean invincible = false;
   private Image hurtSprite;
-  private Image nonHurtSprite;
   private Timer invincibilityTimer;
   private BasicAbility[] abilities;
   private Timer shootTimer;
@@ -33,6 +34,10 @@ public abstract class Vegetable extends Character {
   private int nameHeight;
   private boolean spriteDirectional = false;
   private Image spriteLeft;
+  private Image hurtLeft;
+  private Image icon;
+  private Image stats;
+  private Image profile;
   
   public Vegetable(String spriteLocation, String hurt, SolidData data, ProjectileData projData, BasicAbility[] abilities) {
     
@@ -41,12 +46,13 @@ public abstract class Vegetable extends Character {
     
   }
   
-  public Vegetable(String spriteLocation, String spriteLocationLeft, String hurt, SolidData data, ProjectileData projData, BasicAbility[] abilities) {
+  public Vegetable(String spriteLocation, String spriteLocationLeft, String hurt, String hurtLeft, SolidData data, ProjectileData projData, BasicAbility[] abilities) {
     
     super(new Coordinates(0, 0), spriteLocation, data);
     this.init(hurt, projData, abilities);
     this.setSpriteDirectional(true);
     this.setSpriteLeft(new Image(spriteLocationLeft));
+    this.setHurtLeft(new Image(hurtLeft));
     
   }
   
@@ -55,7 +61,6 @@ public abstract class Vegetable extends Character {
     this.vy = 260;
     this.projData = projData;
     this.setAbilities(abilities);
-    this.setNonHurtSprite(this.sprite);
     this.setHurtSprite(new Image(hurt));
   }
   
@@ -83,7 +88,7 @@ public abstract class Vegetable extends Character {
       return;
     }
     
-    SoundManager.playPlayer(0, 0.5);
+    SoundManager.playPlayer(0);
     
     Projectile proj = new Projectile(new Coordinates(this.x, this.y + Math.round((this.h / 2) - (this.getProjData().h / 2))), this.lastDirection, this.getProjData());
     Main.getCurrentLevel().getProjectiles().add(proj);
@@ -128,14 +133,6 @@ public abstract class Vegetable extends Character {
 
   public void setHurtSprite(Image hurtSprite) {
     this.hurtSprite = hurtSprite;
-  }
-
-  public Image getNonHurtSprite() {
-    return nonHurtSprite;
-  }
-
-  public void setNonHurtSprite(Image nonHurtSprite) {
-    this.nonHurtSprite = nonHurtSprite;
   }
 
   public Timer getInvincibilityTimer() {
@@ -216,6 +213,38 @@ public abstract class Vegetable extends Character {
 
   public void setSpriteLeft(Image spriteLeft) {
     this.spriteLeft = spriteLeft;
+  }
+
+  public Image getIcon() {
+    return icon;
+  }
+
+  public void setIcon(Image icon) {
+    this.icon = icon;
+  }
+
+  public Image getHurtLeft() {
+    return hurtLeft;
+  }
+
+  public void setHurtLeft(Image hurtLeft) {
+    this.hurtLeft = hurtLeft;
+  }
+
+  public Image getStats() {
+    return stats;
+  }
+
+  public void setStats(Image stats) {
+    this.stats = stats;
+  }
+
+  public Image getProfile() {
+    return profile;
+  }
+
+  public void setProfile(Image profile) {
+    this.profile = profile;
   }
 
 }

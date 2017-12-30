@@ -1,13 +1,10 @@
 package abilities;
 
-import java.util.Timer;
-
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import main.Main;
 import main.SoundManager;
 import types.BasicAbility;
-import types.ResetBasicCooldown;
 import types.Solid;
 
 public class CabbageDash extends BasicAbility {
@@ -16,8 +13,8 @@ public class CabbageDash extends BasicAbility {
   private final Image[] basicAbilitySprites = {new Image("file:resources/character/cabbage_basic_active_right.png"), new Image("file:resources/character/cabbage_basic_active_left.png")};
   private final Image placeholderSprite = new Image("file:resources/character/cabbage_sprite.png");
 
-  public CabbageDash() {
-    super(true, 500, 6000, "file:resources/icons/cabbage_dash.png", KeyCode.K);
+  public CabbageDash(KeyCode activator, int index) {
+    super(true, 500, 6000, "file:resources/icons/cabbage_dash.png", activator, index);
   }
 
   @Override
@@ -49,8 +46,6 @@ public class CabbageDash extends BasicAbility {
     
     this.getUser().sprite = this.placeholderSprite;
     this.getUser().setInvincible(false);
-    Timer timer = new Timer();
-    timer.schedule(new ResetBasicCooldown(this.getUser(), 0), this.getCooldown());
     
   }
 
@@ -65,7 +60,6 @@ public class CabbageDash extends BasicAbility {
       this.getUser().getInvincibilityTimer().cancel();
       this.getUser().getInvincibilityTimer().purge();
     }
-    this.setAllowed(false);
     
   }
 

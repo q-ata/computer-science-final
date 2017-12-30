@@ -15,7 +15,7 @@ public class Projectile extends Solid {
     this.setVelocity(data.velocity);
     this.dmg = data.dmg;
     this.vx = Main.getProtag().vx;
-    this.vy = Main.getProtag().vy;
+    this.vy = Main.getProtag().vy + Math.round((Main.getProtag().h / 2) - (this.h / 2));
     
   }
 

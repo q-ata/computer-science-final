@@ -16,7 +16,7 @@ public class ReverseInvincibility extends TimerTask {
   public void run() {
     
     this.protag.setInvincible(false);
-    this.protag.sprite = this.protag.getNonHurtSprite();
+    this.protag.hurt = false;
     
   }
 

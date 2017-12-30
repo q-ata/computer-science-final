@@ -5,9 +5,13 @@ import java.util.Timer;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import types.BasicAbility;
+import types.InformationBar;
 import types.LevelParser;
+import types.ProfileLoader;
 import types.ResetBasicActive;
+import types.ResetBasicCooldown;
 import types.Vegetable;
 
 public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
@@ -22,8 +26,7 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
         return;
     }
     //This will check if any of the arrow keys are clicked during what state to change the selected profile/level/character/exit
-    else if (Main.getState() == 1 || Main.getState() == 2) {
-      
+    else if (Main.getState() == 1) {
       if (key.getCode() == KeyCode.UP) {
         Main.setSelection(Main.getSelection() == 1 ? (byte) 3 : (byte) (Main.getSelection() - 1));
       }
@@ -31,16 +34,28 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
         Main.setSelection(Main.getSelection() == 3 ? (byte) 1 : (byte) (Main.getSelection() + 1));
       }
       else if (key.getCode() == KeyCode.ENTER) {
-        if (Main.getState() == 1) {
-          Main.setState((byte) 2);
-          Main.setSelection((byte) 1);
-          return;
-        }
+        Main.setState((byte) 2);
+        ProfileLoader.loadProfile(Main.getSelection());
+        Main.setSelection((byte) 1);
+        Main.getGc().setFill(Color.WHITE);
+      }
+    }
+    else if (Main.getState() == 2) {
+      if (key.getCode() == KeyCode.UP) {
+        Main.setSelection(Main.getSelection() == 1 ? (byte) 4 : (byte) (Main.getSelection() - 1));
+      }
+      else if (key.getCode() == KeyCode.DOWN) {
+        Main.setSelection(Main.getSelection() == 4 ? (byte) 1 : (byte) (Main.getSelection() + 1));
+      }
+      else if (key.getCode() == KeyCode.ENTER) {
         if (Main.getSelection() == 1) {
           Main.setState((byte) 3);
         }
         else if (Main.getSelection() == 2) {
           Main.setState((byte) 4);
+        }
+        else if (Main.getSelection() == 3) {
+          Main.setState((byte) -1);
         }
         else {
           System.exit(0);
@@ -72,6 +87,8 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
       }
       else if (key.getCode() == KeyCode.ENTER) {
         Main.setProtag(Constants.CHARACTERS[Main.getSelection() - 1]);
+        InformationBar.setCharStats(Constants.CHARACTERS[Main.getSelection() - 1].getStats());
+        InformationBar.setProfile(Constants.CHARACTERS[Main.getSelection() - 1].getProfile());
         Main.setSelection((byte) 1);
         Main.setState((byte) 2);
       }
@@ -81,9 +98,15 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
     else if (Main.getState() == 4) {
       
       if (key.getCode() == KeyCode.RIGHT) {
+        if (Main.getLevelsUnlocked() < Main.getSelection() + 1) {
+          return;
+        }
         Main.setSelection((byte) (Main.getSelection() + 1));
       }
       else if (key.getCode() == KeyCode.LEFT) {
+        if (Main.getSelection() == 1) {
+          return;
+        }
         Main.setSelection((byte) (Main.getSelection() - 1));
       }
       else if (key.getCode() == KeyCode.ENTER) {
@@ -100,7 +123,7 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
       if (key.getCode() == KeyCode.W) {
         boolean physicsOff = false;
         for (BasicAbility ability : protag.getAbilities()) {
-          if (ability.isActive()) {
+          if (ability.isActive() && ability.isPhysics()) {
             physicsOff = true;
             break;
           }
@@ -130,7 +153,11 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
       else {
         for (int i = 0; i < protag.getAbilities().length; i++) {
           BasicAbility ability = protag.getAbilities()[i];
-          if (key.getCode() != ability.getActivator() || ability.isActive() || !ability.isAllowed()) {
+          if (key.getCode() != ability.getActivator()) {
+            continue;
+          }
+          if (ability.isActive() || !ability.isAllowed()) {
+            SoundManager.playPlayer(4);
             continue;
           }
           
@@ -138,6 +165,9 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
           ability.basic();
           Timer timer = new Timer();
           timer.schedule(new ResetBasicActive(protag, i), ability.getLength());
+          Timer cooldownResetter = new Timer();
+          cooldownResetter.schedule(new ResetBasicCooldown(ability.getUser(), ability.getIndex()), ability.getLength() + ability.getCooldown());
+          ability.setAllowed(false);
           
         }
       }
