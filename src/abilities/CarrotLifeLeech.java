@@ -3,6 +3,7 @@ package abilities;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import main.SoundManager;
+import main.Sounds;
 import types.BasicAbility;
 
 public class CarrotLifeLeech extends BasicAbility {
@@ -41,7 +42,7 @@ public class CarrotLifeLeech extends BasicAbility {
     this.getUser().setSpriteLeft(this.newSprites[1]);
     this.getUser().setHurtSprite(this.newSprites[2]);
     this.getUser().setHurtLeft(this.newSprites[3]);
-    SoundManager.playPlayer(5);
+    SoundManager.playPlayer(Sounds.CARROTLIFELEECH);
     
   }
 

@@ -140,10 +140,10 @@ public class StateUpdate {
         else if (!delete && Constants.SOLIDCOLLISION(protag, enemy)) {
           // If the enemy is solid, do horizontal collision detection (vertical collision will not be needed).
           if (enemy.isSolid()) {
-            if (protag.xVel > 0) {
+            if (protag.right) {
               protag.x = enemy.x - protag.w;
             }
-            else if (protag.xVel < 0) {
+            else if (protag.left) {
               protag.x = enemy.x + enemy.w;
             }
             Main.visibleX = protag.x - 460;
@@ -167,6 +167,11 @@ public class StateUpdate {
     for (int index : toRemove) {
       Main.getCurrentLevel().getEnemies().remove(index - count);
       count++;
+    }
+    
+    // Check if the level has been completed.
+    if (Constants.SOLIDCOLLISION(protag, Main.getCurrentLevel().getFinish())) {
+      // TODO: Finish end of level
     }
     
     // Loop over all map items and change the coordinates at which they should appear on screen. This is relative to the player position.

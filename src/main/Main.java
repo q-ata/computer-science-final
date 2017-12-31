@@ -132,6 +132,7 @@ public class Main extends Application {
       // Sets fill color to black.
       gc.setFill(Color.BLACK);
       
+      // Default information bar data to Cabbage.
       InformationBar.setProfile(new Image("file:resources/character/cabbage_profile.png"));
       InformationBar.setCharStats(new Image("file:resources/character/cabbage_stats.png"));
       

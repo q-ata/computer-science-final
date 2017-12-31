@@ -13,7 +13,7 @@ public class OrangeSeed extends Enemy {
 
   public OrangeSeed(Coordinates coords, boolean dir, int speedX, int speedY) {
     
-    super(coords, "file:resources/character/orange_seed" + (dir ? "_left.png" : ".png"), new SolidData(35, 35, 0, 0), true);
+    super(coords, "file:resources/character/orange_seed" + (dir ? "_left.png" : ".png"), new SolidData(35, 35, 0, 0), 0, true);
     this.left = dir;
     this.setDmg(30);
     this.endurance = Math.ceil(100 / Main.getProtag().getProjData().dmg);

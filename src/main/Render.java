@@ -116,12 +116,12 @@ public class Render {
     // Renders current health and bar representing time before the character can shoot again.
     Render.gc.drawImage(InformationBar.getBackground(), 0, 600);
     double healthWidth = ((double) 380 / 100 * Main.getProtag().hp);
-    Render.gc.drawImage(InformationBar.getHealthbar(), 0, 0, healthWidth < 0 ? 0 : healthWidth, 35, 400, 610, healthWidth < 0 ? 0 : healthWidth, 35);
+    Render.gc.drawImage(InformationBar.getHealthbar(), 0, 0, healthWidth < 0 ? 0 : healthWidth, 35, 480, 610, healthWidth < 0 ? 0 : healthWidth, 35);
     double ammobarWidth = ((double) 380 / 10 * Main.getProtag().getProjCooldownFraction());
-    Render.gc.drawImage(InformationBar.getAmmobar(), 0, 0, ammobarWidth, 25, 400, 645, ammobarWidth, 25);
+    Render.gc.drawImage(InformationBar.getAmmobar(), 0, 0, ammobarWidth, 25, 480, 645, ammobarWidth, 25);
     
     // Loop over and render all abilities.
-    int startingX = 240;
+    int startingX = 250;
     for (BasicAbility ability : Main.getProtag().getAbilities()) {
       
       if (ability.isAllowed()) {
@@ -139,7 +139,7 @@ public class Render {
         
       }
       // Increment the x position at which the ability appears on the information bar.
-      startingX += 50;
+      startingX += 70;
       
     }
     
@@ -148,6 +148,8 @@ public class Render {
     Render.gc.drawImage(InformationBar.getProfile(), 5, 605);
     Render.gc.fillText(Main.getProtag().name, 80, 622);
     Render.gc.drawImage(InformationBar.getCharStats(), 80, 630);
+    
+    Render.gc.fillText("Time: " + String.valueOf(Main.getCurrentLevel().getTime()), 880, 630);
     
   }
 

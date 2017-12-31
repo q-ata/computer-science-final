@@ -5,6 +5,7 @@ import java.util.Timer;
 import javafx.scene.image.Image;
 import main.Main;
 import main.SoundManager;
+import main.Sounds;
 
 public abstract class Vegetable extends Character {
   
@@ -77,7 +78,7 @@ public abstract class Vegetable extends Character {
     else {
       return;
     }
-    SoundManager.playPlayer(1, 0.8);
+    SoundManager.playPlayer(Sounds.JUMP, 0.8);
     jumps++;
     this.up = true;
   }
@@ -88,7 +89,7 @@ public abstract class Vegetable extends Character {
       return;
     }
     
-    SoundManager.playPlayer(0);
+    SoundManager.playPlayer(Sounds.SHOOT);
     
     Projectile proj = new Projectile(new Coordinates(this.x, this.y + Math.round((this.h / 2) - (this.getProjData().h / 2))), this.lastDirection, this.getProjData());
     Main.getCurrentLevel().getProjectiles().add(proj);

@@ -157,7 +157,7 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
             continue;
           }
           if (ability.isActive() || !ability.isAllowed()) {
-            SoundManager.playPlayer(4);
+            SoundManager.playPlayer(Sounds.ABILITYUNAVAILABLE);
             continue;
           }
           

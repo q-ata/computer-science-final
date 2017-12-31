@@ -16,7 +16,7 @@ public class Tomato extends Enemy {
 
   public Tomato(Coordinates coords) {
     
-    super(coords, "file:resources/character/tomato.png", new SolidData(96, 88, 0, 0));
+    super(coords, "file:resources/character/tomato.png", new SolidData(96, 88, 0, 0), 50);
     this.endurance = 0;
     this.setDmg(35);
     

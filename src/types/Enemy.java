@@ -9,17 +9,20 @@ public abstract class Enemy extends Solid {
   private boolean oneTime = false;
   private boolean solid = false;
   private boolean needsSpawn = true;
+  private int points;
 
-  public Enemy(Coordinates coords, String spriteLocation, SolidData data) {
+  public Enemy(Coordinates coords, String spriteLocation, SolidData data, int points) {
     
     super(coords, spriteLocation, data);
+    this.setPoints(points);
     
   }
   
-  public Enemy(Coordinates coords, String spriteLocation, SolidData data, boolean oneTime) {
+  public Enemy(Coordinates coords, String spriteLocation, SolidData data, int points, boolean oneTime) {
     
     super(coords, spriteLocation, data);
     this.setOneTime(oneTime);
+    this.setPoints(points);
     
   }
   
@@ -63,6 +66,14 @@ public abstract class Enemy extends Solid {
 
   public void setNeedsSpawn(boolean needsSpawn) {
     this.needsSpawn = needsSpawn;
+  }
+
+  public int getPoints() {
+    return points;
+  }
+
+  public void setPoints(int points) {
+    this.points = points;
   }
 
 }

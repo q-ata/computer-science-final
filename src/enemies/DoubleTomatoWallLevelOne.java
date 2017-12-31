@@ -12,7 +12,7 @@ public class DoubleTomatoWallLevelOne extends Enemy {
 
   public DoubleTomatoWallLevelOne(Coordinates coords, int[] requiredKills) {
     
-    super(coords, "file:resources/process/double tomato wall.png", new SolidData(98, 588, 0, 0));
+    super(coords, "file:resources/process/double tomato wall.png", new SolidData(98, 588, 0, 0), 0);
     this.setRequiredKills(requiredKills);
     this.setDmg(0);
     this.endurance = 0.01;

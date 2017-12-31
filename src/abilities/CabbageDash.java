@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import main.Main;
 import main.SoundManager;
+import main.Sounds;
 import types.BasicAbility;
 import types.Solid;
 
@@ -52,10 +53,11 @@ public class CabbageDash extends BasicAbility {
   @Override
   public void basic() {
     
+    this.getUser().hurt = false;
     this.basicDirection = this.getUser().lastDirection;
     this.getUser().sprite = this.basicAbilitySprites[this.basicDirection == 1 ? 0 : 1];
     this.getUser().setInvincible(true);
-    SoundManager.playPlayer(2, 0.5);
+    SoundManager.playPlayer(Sounds.CABBAGEDASH, 0.5);
     if (this.getUser().getInvincibilityTimer() != null) {
       this.getUser().getInvincibilityTimer().cancel();
       this.getUser().getInvincibilityTimer().purge();

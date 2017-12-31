@@ -81,6 +81,11 @@ public class LevelParser {
           level.getMapItems().add(orange);
           level.getEnemies().add(orange);
         }
+        else if (type == 1337) {
+          Finish finish = new Finish(coords);
+          mapItems.add(finish);
+          level.setFinish(finish);
+        }
         else if (type == 0) {
           Main.getProtag().x = coords.x;
           Main.getProtag().y = coords.y;

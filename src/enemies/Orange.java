@@ -16,7 +16,7 @@ public class Orange extends Enemy {
 
   public Orange(Coordinates coords, boolean dir, int moveAmount) {
     
-    super(coords, "file:resources/character/orange" + (dir ? ".png" : "_right.png"), new SolidData(60, 56, 0, 0));
+    super(coords, "file:resources/character/orange" + (dir ? ".png" : "_right.png"), new SolidData(60, 56, 0, 0), 100);
     this.left = dir;
     this.moveAmount = moveAmount;
     this.setDmg(50);

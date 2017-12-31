@@ -6,6 +6,7 @@ import java.util.TimerTask;
 import javafx.scene.input.KeyCode;
 import main.Main;
 import main.SoundManager;
+import main.Sounds;
 import types.BasicAbility;
 import types.Coordinates;
 import types.Projectile;
@@ -43,7 +44,7 @@ public class CarrotMachineGun extends BasicAbility {
     
     this.getUser().setSpeed(3);
     this.getUser().setProjCooldown(true);
-    SoundManager.playPlayer(3);
+    SoundManager.playPlayer(Sounds.CARROTMACHINEGUN);
     
     gun = new Timer();
     gun.scheduleAtFixedRate(new TimerTask() {
