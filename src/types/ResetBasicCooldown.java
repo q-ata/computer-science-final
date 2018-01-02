@@ -1,16 +1,19 @@
 package types;
 
+import java.util.Timer;
 import java.util.TimerTask;
 
 public class ResetBasicCooldown extends TimerTask {
   
   private Vegetable veggie;
   private int ability;
+  private Timer timer;
   
-  public ResetBasicCooldown(Vegetable veggie, int ability) {
+  public ResetBasicCooldown(Vegetable veggie, int ability, Timer timer) {
     
     this.veggie = veggie;
     this.ability = ability;
+    this.timer = timer;
     
   }
 
@@ -18,7 +21,7 @@ public class ResetBasicCooldown extends TimerTask {
   public void run() {
     
     this.veggie.getAbilities()[this.ability].setAllowed(true);
-    System.out.println("Ability cooldown ended.");
+    this.veggie.getControls().remove(this.timer);
     
   }
 

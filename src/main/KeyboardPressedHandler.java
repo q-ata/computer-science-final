@@ -2,7 +2,6 @@ package main;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.Timer;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
@@ -12,8 +11,6 @@ import types.BasicAbility;
 import types.InformationBar;
 import types.LevelParser;
 import types.ProfileLoader;
-import types.ResetBasicActive;
-import types.ResetBasicCooldown;
 import types.Vegetable;
 
 public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
@@ -163,15 +160,7 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
             SoundManager.playPlayer(Sounds.ABILITYUNAVAILABLE);
             continue;
           }
-          
-          ability.setActive(true);
-          ability.basic();
-          Timer timer = new Timer();
-          timer.schedule(new ResetBasicActive(protag, i), ability.getLength());
-          Timer cooldownResetter = new Timer();
-          cooldownResetter.schedule(new ResetBasicCooldown(ability.getUser(), ability.getIndex()), ability.getLength() + ability.getCooldown());
-          ability.setAllowed(false);
-          
+          protag.useAbility(i);
         }
       }
     }
@@ -189,6 +178,7 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
           profileWriter.close();
           this.GAME.setLevelsUnlocked((byte) (this.GAME.getCurrentLevel().getLevelNumber() + 1));
         }
+        this.GAME.getProtag().reinstance();
         this.GAME.setCurrentLevel(null);
       }
       catch(Exception e) {
@@ -200,9 +190,9 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
       if (key.getCode() != KeyCode.ENTER && key.getCode() != KeyCode.ESCAPE) {
         return;
       }
+      this.GAME.getProtag().reinstance();
       if (key.getCode() == KeyCode.ENTER) {
-        this.GAME.getProtag().refresh();
-        LevelParser.parseLevel(this.GAME.getCurrentLevel().getLevelNumber());
+        this.GAME.setCurrentLevel(LevelParser.parseLevel(this.GAME.getCurrentLevel().getLevelNumber()));
         this.GAME.setState((byte) 5);
       }
       else {

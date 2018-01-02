@@ -155,7 +155,10 @@ public class StateUpdate {
           if (!protag.isInvincible()) {
             // Take damage equal to the enemy's damage multiplied by the character's resistance.
             protag.hp -= enemy.getDmg() * protag.res;
-            Constants.TAKECHARDAMAGE(protag, 1000);
+            if (Constants.TAKECHARDAMAGE(protag, 800)) {
+              StateUpdate.GAME.getCurrentLevel().end(false);
+              return;
+            }
           }
           // If the enemy should be deleted after making contact once, queue it for deletion.
           if (enemy.isOneTime()) {

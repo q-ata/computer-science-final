@@ -102,10 +102,10 @@ public class Constants {
   }
   
   // Called when the character takes damage.
-  public static final void TAKECHARDAMAGE(Vegetable protag, int time) {
+  public static final boolean TAKECHARDAMAGE(Vegetable protag, int time) {
     
     if (protag.hp <= 0) {
-      Constants.GAME.getCurrentLevel().end(false);
+      return true;
     }
     
     // Makes the character invincible for a brief period of time.
@@ -114,7 +114,7 @@ public class Constants {
     Timer timer = new Timer();
     timer.schedule(new ReverseInvincibility(protag), time);
     protag.setInvincibilityTimer(timer);
-    
+    return false;
   }
   
 }

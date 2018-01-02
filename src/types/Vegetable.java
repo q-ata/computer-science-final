@@ -1,5 +1,6 @@
 package types;
 
+import java.util.ArrayList;
 import java.util.Timer;
 
 import javafx.scene.image.Image;
@@ -39,6 +40,7 @@ public abstract class Vegetable extends Character {
   private Image icon;
   private Image stats;
   private Image profile;
+  private ArrayList<Timer> controls = new ArrayList<Timer>();
   
   public Vegetable(String spriteLocation, String hurt, SolidData data, ProjectileData projData, BasicAbility[] abilities) {
     
@@ -104,10 +106,46 @@ public abstract class Vegetable extends Character {
     
   }
   
-  public void refresh() {
+  // Called whenever an ability is used.
+  public void useAbility(int index) {
+    BasicAbility ability = this.abilities[index];
+    ability.setActive(true);
+    ability.basic();
+    // Creates timers to reset the ability.
+    Timer timer = new Timer();
+    // Add the active and cooldown timer to an ArrayList of timers in case the character is reinstanced.
+    this.getControls().add(timer);
+    timer.schedule(new ResetBasicActive(this, index, timer), ability.getLength());
+    Timer cooldownResetter = new Timer();
+    this.getControls().add(cooldownResetter);
+    cooldownResetter.schedule(new ResetBasicCooldown(ability.getUser(), ability.getIndex(), cooldownResetter), ability.getLength() + ability.getCooldown());
+    ability.setAllowed(false);
+  }
+  
+  // Reinstances the character, refreshing its health and abilities.
+  public void reinstance() {
     
+    // Set health.
     this.hp = 100;
-    // TODO: Package entire game into Game class to easily refresh.
+    // Loop over all active ability timers and cancel them.
+    for (Timer timer : this.getControls()) {
+      timer.cancel();
+      timer.purge();
+    }
+    // Reset the ArrayList of timers.
+    this.setControls(new ArrayList<Timer>());
+    // Refresh and enable all abilities.
+    for (BasicAbility ability : this.abilities) {
+      if (ability.isActive()) {
+        ability.basicEnd();
+        ability.setActive(false);
+      }
+      ability.setAllowed(true);
+    }
+    // Cancel  movement.
+    this.left = this.up = this.right = false;
+    // Makes the character vulnerable.
+    this.hurt = false;
     
   }
   
@@ -253,6 +291,14 @@ public abstract class Vegetable extends Character {
 
   public void setProfile(Image profile) {
     this.profile = profile;
+  }
+
+  public ArrayList<Timer> getControls() {
+    return controls;
+  }
+
+  public void setControls(ArrayList<Timer> controls) {
+    this.controls = controls;
   }
 
 }

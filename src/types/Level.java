@@ -19,7 +19,7 @@ public class Level {
   private ArrayList<Block> blocks = new ArrayList<Block>();
   private int levelNumber;
   private Finish finish;
-  private Timer timeTimer = new Timer();
+  private Timer timeTimer;
   private int timeBonus;
   
   public Level(Image background) {
