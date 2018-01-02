@@ -7,7 +7,6 @@ import main.SoundManager;
 import main.Sounds;
 import types.BasicAbility;
 import types.Block;
-import types.Solid;
 
 public class CabbageDash extends BasicAbility {
   

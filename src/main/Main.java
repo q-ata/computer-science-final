@@ -59,7 +59,7 @@ public class Main extends Application {
   public static void main(String[] args) {
     
     // Launch javafx application, runs the start method.
-    launch(args);
+    Main.launch(args);
     
   }
 
