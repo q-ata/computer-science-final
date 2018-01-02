@@ -11,9 +11,11 @@ import types.Vegetable;
 
 public class StateUpdate {
   
+  private static final Game GAME = Main.getGame();
+  
   public static synchronized void update() {
     
-    Vegetable protag = Main.getProtag();
+    Vegetable protag = StateUpdate.GAME.getProtag();
     
     // Check if the character has an in progress ability that affects physics. Do not enact character physics if so.
     boolean physicsOff = false;
@@ -36,7 +38,7 @@ public class StateUpdate {
         // If the character is moving sideways, increase x position.
         int increment = protag.right ? protag.xVel : -protag.xVel;
         protag.x += increment;
-        Main.visibleX += increment;
+        StateUpdate.GAME.visibleX += increment;
       }
       
       // Check if the character is touching the ground.
@@ -60,17 +62,17 @@ public class StateUpdate {
     
     // Set characters y position.
     protag.y += protag.yVel;
-    Main.visibleY += protag.yVel;
+    StateUpdate.GAME.visibleY += protag.yVel;
     
     // Loop over and do physics for all projectiles.
     ArrayList<Integer> projectilesToRemove = new ArrayList<Integer>();
-    for (int i = 0; i < Main.getCurrentLevel().getProjectiles().size(); i++) {
-      Projectile proj = Main.getCurrentLevel().getProjectiles().get(i);
+    for (int i = 0; i < StateUpdate.GAME.getCurrentLevel().getProjectiles().size(); i++) {
+      Projectile proj = StateUpdate.GAME.getCurrentLevel().getProjectiles().get(i);
       // Increase projectile x position.
       proj.x += proj.getDirection() == 1 ? proj.getVelocity() : -proj.getVelocity();
       // Loop over all solids, and queue the projectile for deletion if it collides with any.
       boolean hitSolid = false;
-      for (Solid block : Main.getCurrentLevel().getBlocks()) {
+      for (Solid block : StateUpdate.GAME.getCurrentLevel().getBlocks()) {
         if (Constants.SOLIDCOLLISION(proj, block)) {
           projectilesToRemove.add(i);
           hitSolid = true;
@@ -79,7 +81,7 @@ public class StateUpdate {
       }
       // If the projectile did not hit a solid, check for collision with all enemies.
       if (!hitSolid) {
-        for (Enemy enemy : Main.getCurrentLevel().getEnemies()) {
+        for (Enemy enemy : StateUpdate.GAME.getCurrentLevel().getEnemies()) {
           if (Constants.SOLIDCOLLISION(proj, enemy)) {
             // Damage the enemy if it hit, then prepare to remove the projectile.
             int amount = (int) (proj.dmg * enemy.endurance);
@@ -100,18 +102,18 @@ public class StateUpdate {
     // Remove all projectiles that made contact with something. Run after the projectiles have all been processed to avoid ConcurrentModificationException.
     int projCount = 0;
     for (int index : projectilesToRemove) {
-      Main.getCurrentLevel().getMapItems().remove(Main.getCurrentLevel().getProjectiles().get(index - projCount));
-      Main.getCurrentLevel().getProjectiles().remove(index - projCount);
+      StateUpdate.GAME.getCurrentLevel().getMapItems().remove(StateUpdate.GAME.getCurrentLevel().getProjectiles().get(index - projCount));
+      StateUpdate.GAME.getCurrentLevel().getProjectiles().remove(index - projCount);
       projCount++;
     }
     
     // Loop over and do physics for all spawned enemies.
     ArrayList<Integer> toRemove = new ArrayList<Integer>();
-    for (int i = 0; i < Main.getCurrentLevel().getEnemies().size(); i++) {
-      Enemy enemy = Main.getCurrentLevel().getEnemies().get(i);
+    for (int i = 0; i < StateUpdate.GAME.getCurrentLevel().getEnemies().size(); i++) {
+      Enemy enemy = StateUpdate.GAME.getCurrentLevel().getEnemies().get(i);
       // If a new enemy appears on screen, spawn it and enable physics for it.
       if (!enemy.isSpawned()) {
-        if (enemy.x + enemy.w > Main.visibleX && enemy.x < Main.visibleX + 1000 && enemy.y + enemy.h > Main.visibleY && enemy.y < Main.visibleY + 600 || !enemy.isNeedsSpawn()) {
+        if (enemy.x + enemy.w > StateUpdate.GAME.visibleX && enemy.x < StateUpdate.GAME.visibleX + 1000 && enemy.y + enemy.h > StateUpdate.GAME.visibleY && enemy.y < StateUpdate.GAME.visibleY + 600 || !enemy.isNeedsSpawn()) {
           enemy.setSpawned(true);
         }
       }
@@ -122,9 +124,9 @@ public class StateUpdate {
         boolean delete = false;
         if (enemy.isOneTime() && enemy.hp > 0) {
           // Loop over all solids, if the enemy collides with any then queue it for deletion.
-          for (Solid block : Main.getCurrentLevel().getBlocks()) {
+          for (Solid block : StateUpdate.GAME.getCurrentLevel().getBlocks()) {
             if (Constants.SOLIDCOLLISION(enemy, block)) {
-              Main.getCurrentLevel().getMapItems().remove(enemy);
+              StateUpdate.GAME.getCurrentLevel().getMapItems().remove(enemy);
               toRemove.add(i);
               delete = true;
               break;
@@ -133,9 +135,9 @@ public class StateUpdate {
         }
         // If the enemy's health drops to 0 or below, queue it for deletion.
         if (enemy.hp <= 0) {
-          Main.getCurrentLevel().score += enemy.getPoints();
+          StateUpdate.GAME.getCurrentLevel().score += enemy.getPoints();
           toRemove.add(i);
-          Main.getCurrentLevel().getMapItems().remove(enemy);
+          StateUpdate.GAME.getCurrentLevel().getMapItems().remove(enemy);
         }
         // If the enemy should not already be deleted, check if it makes contact with the player.
         else if (!delete && Constants.SOLIDCOLLISION(protag, enemy)) {
@@ -147,7 +149,7 @@ public class StateUpdate {
             else if (protag.left) {
               protag.x = enemy.x + enemy.w;
             }
-            Main.visibleX = protag.x - (protag.w / 2);
+            StateUpdate.GAME.visibleX = protag.x - (protag.w / 2);
           }
           // If the player is not invincible, take damage.
           if (!protag.isInvincible()) {
@@ -158,7 +160,7 @@ public class StateUpdate {
           // If the enemy should be deleted after making contact once, queue it for deletion.
           if (enemy.isOneTime()) {
             toRemove.add(i);
-            Main.getCurrentLevel().getMapItems().remove(enemy);
+            StateUpdate.GAME.getCurrentLevel().getMapItems().remove(enemy);
           }
         }
       }
@@ -166,23 +168,23 @@ public class StateUpdate {
     // Delete all enemies queued for deletion.
     int count = 0;
     for (int index : toRemove) {
-      Main.getCurrentLevel().getEnemies().remove(index - count);
+      StateUpdate.GAME.getCurrentLevel().getEnemies().remove(index - count);
       count++;
     }
     
     // Check if the level has been completed.
-    if (Constants.SOLIDCOLLISION(protag, Main.getCurrentLevel().getFinish())) {
+    if (Constants.SOLIDCOLLISION(protag, StateUpdate.GAME.getCurrentLevel().getFinish())) {
       // If it has been, apply a score bonus.
-      int timeBonus = Main.getCurrentLevel().getTimeBonus() - Main.getCurrentLevel().time;
-      Main.getCurrentLevel().score += timeBonus < 0 ? 0 : timeBonus;
-      Main.getCurrentLevel().score += protag.hp;
-      Main.getCurrentLevel().end(true);
+      int timeBonus = StateUpdate.GAME.getCurrentLevel().getTimeBonus() - StateUpdate.GAME.getCurrentLevel().time;
+      StateUpdate.GAME.getCurrentLevel().score += timeBonus < 0 ? 0 : timeBonus;
+      StateUpdate.GAME.getCurrentLevel().score += protag.hp;
+      StateUpdate.GAME.getCurrentLevel().end(true);
     }
     
     // Loop over all map items and change the coordinates at which they should appear on screen. This is relative to the player position.
-    for (MapItem item : Main.getCurrentLevel().getMapItems()) {
-      item.vx = item.x - Main.visibleX;
-      item.vy = item.y - Main.visibleY;
+    for (MapItem item : StateUpdate.GAME.getCurrentLevel().getMapItems()) {
+      item.vx = item.x - StateUpdate.GAME.visibleX;
+      item.vy = item.y - StateUpdate.GAME.visibleY;
     }
     
   }

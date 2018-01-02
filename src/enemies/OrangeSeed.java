@@ -16,7 +16,7 @@ public class OrangeSeed extends Enemy {
     super(coords, "file:resources/character/orange_seed" + (dir ? "_left.png" : ".png"), new SolidData(35, 35, 0, 0), 0, true);
     this.left = dir;
     this.setDmg(30);
-    this.endurance = Math.ceil(100 / Main.getProtag().getProjData().dmg);
+    this.endurance = Math.ceil(100 / Main.getGame().getProtag().getProjData().dmg);
     this.speedX = speedX;
     this.speedY = speedY;
     this.hp = 1;

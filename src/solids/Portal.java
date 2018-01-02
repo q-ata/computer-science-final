@@ -16,10 +16,10 @@ public class Portal extends Block {
 
   @Override
   public void collisionProperties() {
-    Main.getProtag().x = destination.x;
-    Main.getProtag().y = destination.y;
-    Main.visibleX = destination.x - 500 + (Main.getProtag().w / 2);
-    Main.visibleY = destination.y - 300 + (Main.getProtag().h / 2);
+    Main.getGame().getProtag().x = destination.x;
+    Main.getGame().getProtag().y = destination.y;
+    Main.getGame().visibleX = destination.x - 500 + (Main.getGame().getProtag().w / 2);
+    Main.getGame().visibleY = destination.y - 300 + (Main.getGame().getProtag().h / 2);
   }
 
 }

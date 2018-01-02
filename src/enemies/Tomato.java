@@ -43,7 +43,7 @@ public class Tomato extends Enemy {
       
     }
     
-    for (Block solid : Main.getCurrentLevel().getBlocks()) {
+    for (Block solid : Main.getGame().getCurrentLevel().getBlocks()) {
       if (Constants.SOLIDCOLLISION(this, solid)) {
         this.sprite = this.dazedSprite;
         this.endurance = 2;

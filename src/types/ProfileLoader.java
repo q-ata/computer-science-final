@@ -14,9 +14,9 @@ public class ProfileLoader {
       
       String currentDir = new File("").getAbsolutePath();
       BufferedReader profileReader = new BufferedReader(new FileReader(currentDir + "/resources/save/profile" + profileNum + ".veggiedata"));
-      Main.setLevelsUnlocked((byte) Integer.parseInt(profileReader.readLine()));
+      Main.getGame().setLevelsUnlocked((byte) Integer.parseInt(profileReader.readLine()));
       profileReader.close();
-      Main.setCurrentProfile(profileNum);
+      Main.getGame().setCurrentProfile(profileNum);
       
     } catch (Exception e) {
       e.printStackTrace();

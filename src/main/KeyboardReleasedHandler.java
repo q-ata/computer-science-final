@@ -9,7 +9,11 @@ public class KeyboardReleasedHandler implements EventHandler<KeyEvent> {
 
   public void handle(KeyEvent key) {
     
-    Vegetable protag = Main.getProtag();
+    if (Main.getGame().getState() != 5) {
+      return;
+    }
+    
+    Vegetable protag = Main.getGame().getProtag();
     
     // Is run every time a key is released.
     

@@ -25,11 +25,12 @@ public class Level {
   public Level(Image background) {
     
     this.setBackground(background);
+    this.timeTimer = new Timer();
     timeTimer.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run() {
         
-        Main.getCurrentLevel().time++;
+        Main.getGame().getCurrentLevel().time++;
         
       }
     }, 1000, 1000);
@@ -40,7 +41,8 @@ public class Level {
     
     this.timeTimer.cancel();
     this.timeTimer.purge();
-    Main.setState(success ? (byte) 6 : (byte) 7);
+    this.timeTimer = null;
+    Main.getGame().setState(success ? (byte) 6 : (byte) 7);
     
   }
 

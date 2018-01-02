@@ -22,22 +22,22 @@ public class CabbageDash extends BasicAbility {
   public void doBasic() {
     
     this.getUser().xVel = this.basicDirection == 1 ? 10 : -10;
-    for (Block block : Main.getCurrentLevel().getBlocks()) {
+    for (Block block : Main.getGame().getCurrentLevel().getBlocks()) {
       if (this.getUser().xVel > 0 && block.x <= this.getUser().x + this.getUser().w + this.getUser().xVel && block.x + block.w > this.getUser().x && block.y < this.getUser().y + this.getUser().h && block.y + block.h > this.getUser().y) {
         this.getUser().xVel = 0;
         this.getUser().x = block.x - this.getUser().w;
-        Main.visibleX = this.getUser().x - 460;
+        Main.getGame().visibleX = this.getUser().x - 460;
         break;
       }
       else if (block.x + block.w >= this.getUser().x + this.getUser().xVel && block.x < this.getUser().x + this.getUser().w && block.y < this.getUser().y + this.getUser().h && block.y + block.h > this.getUser().y) {
         this.getUser().xVel = 0;
         this.getUser().x = block.x + block.h;
-        Main.visibleX = this.getUser().x - 460;
+        Main.getGame().visibleX = this.getUser().x - 460;
         break;
       }
     }
     this.getUser().x += this.getUser().xVel;
-    Main.visibleX += this.getUser().xVel;
+    Main.getGame().visibleX += this.getUser().xVel;
     this.getUser().yVel = 0;
     
   }

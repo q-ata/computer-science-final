@@ -53,9 +53,9 @@ public class CarrotMachineGun extends BasicAbility {
       public void run() {
         
         ProjectileData data = new ProjectileData(7, "file:resources/character/carrot_machine_gun", 83, 25, 0, 4);
-        Projectile proj = new Projectile(new Coordinates(Main.getProtag().x, Main.getProtag().y + Math.round((Main.getProtag().h / 2) - 13)), Main.getProtag().lastDirection, data);
-        Main.getCurrentLevel().getMapItems().add(proj);
-        Main.getCurrentLevel().getProjectiles().add(proj);
+        Projectile proj = new Projectile(new Coordinates(Main.getGame().getProtag().x, Main.getGame().getProtag().y + Math.round((Main.getGame().getProtag().h / 2) - 13)), Main.getGame().getProtag().lastDirection, data);
+        Main.getGame().getCurrentLevel().getMapItems().add(proj);
+        Main.getGame().getCurrentLevel().getProjectiles().add(proj);
         
       }
     }, 0, 120);

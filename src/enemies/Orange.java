@@ -34,13 +34,13 @@ public class Orange extends Enemy {
       this.moved = 0;
     }
     
-    if (Main.getTick() != (byte) 60) {
+    if (Main.getGame().getTick() != (byte) 60) {
       return;
     }
     OrangeSeed seed = new OrangeSeed(new Coordinates(this.x, this.y), this.left, this.getSeedX(), this.getSeedY());
     seed.setNeedsSpawn(false);
-    Main.getCurrentLevel().getMapItems().add(seed);
-    Main.getCurrentLevel().getEnemies().add(seed);
+    Main.getGame().getCurrentLevel().getMapItems().add(seed);
+    Main.getGame().getCurrentLevel().getEnemies().add(seed);
     
   }
 

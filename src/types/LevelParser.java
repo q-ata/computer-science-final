@@ -106,10 +106,10 @@ public class LevelParser {
           level.setFinish(finish);
         }
         else if (type == 0) {
-          Main.getProtag().x = coords.x;
-          Main.getProtag().y = coords.y;
-          Main.visibleX = coords.x - 500 + (Main.getProtag().w / 2);
-          Main.visibleY = coords.y - 300 + (Main.getProtag().h / 2);
+          Main.getGame().getProtag().x = coords.x;
+          Main.getGame().getProtag().y = coords.y;
+          Main.getGame().visibleX = coords.x - 500 + (Main.getGame().getProtag().w / 2);
+          Main.getGame().visibleY = coords.y - 300 + (Main.getGame().getProtag().h / 2);
         }
         if (IntStream.of(Constants.BLOCKS).anyMatch((x) -> x == type)) {
           level.getBlocks().add((Block) mapItems.get(i));

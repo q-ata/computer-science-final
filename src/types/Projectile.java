@@ -14,8 +14,8 @@ public class Projectile extends Solid {
     this.setDirection(direction);
     this.setVelocity(data.velocity);
     this.dmg = data.dmg;
-    this.vx = Main.getProtag().vx;
-    this.vy = Main.getProtag().vy + Math.round((Main.getProtag().h / 2) - (this.h / 2));
+    this.vx = Main.getGame().getProtag().vx;
+    this.vy = Main.getGame().getProtag().vy + Math.round((Main.getGame().getProtag().h / 2) - (this.h / 2));
     
   }
 

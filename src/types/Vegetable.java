@@ -92,8 +92,8 @@ public abstract class Vegetable extends Character {
     SoundManager.playPlayer(Sounds.SHOOT);
     
     Projectile proj = new Projectile(new Coordinates(this.x, this.y + Math.round((this.h / 2) - (this.getProjData().h / 2))), this.lastDirection, this.getProjData());
-    Main.getCurrentLevel().getProjectiles().add(proj);
-    Main.getCurrentLevel().getMapItems().add(proj);
+    Main.getGame().getCurrentLevel().getProjectiles().add(proj);
+    Main.getGame().getCurrentLevel().getMapItems().add(proj);
     this.setProjCooldown(true);
     this.setProjCooldownFraction(0);
     

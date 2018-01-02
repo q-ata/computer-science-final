@@ -9,8 +9,8 @@ public class FpsResetter extends TimerTask {
   @Override
   public void run() {
     
-    System.out.println("FPS: " + Main.getFps());
-    Main.setFps((byte) 0);
+    System.out.println("FPS: " + Main.getGame().getFps());
+    Main.getGame().setFps((byte) 0);
     
   }
 

@@ -13,6 +13,8 @@ import types.Vegetable;
 
 public class Constants {
   
+  private static final Game GAME = Main.getGame();
+  
   // Array of all playable characters.
   public static final Vegetable[] CHARACTERS = {new Cabbage(), new Carrot()}; 
   
@@ -34,27 +36,27 @@ public class Constants {
   
   // Checks for character collision with all solids.
   public static final void VEGGIECOLLISION(Vegetable character) {
-    ArrayList<Block> blocks = Main.getCurrentLevel().getBlocks();
+    ArrayList<Block> blocks = Constants.GAME.getCurrentLevel().getBlocks();
     for (Block block : blocks) {
       boolean collision = true;
       // If the character collides vertically, set the character's velocity and y position.
       if (character.up && character.y <= block.y + block.h && character.x + character.w > block.x && character.x < block.x + block.w && character.y + character.h > block.y + block.h) {
         character.yVel = 0;
         character.y = block.y + block.h;
-        Main.visibleY = character.y - 300 + (character.h / 2);
+        Constants.GAME.visibleY = character.y - 300 + (character.h / 2);
       }
       // If the character collides with a solid to the right.
       if (character.right && block.x <= character.x + character.w + character.xVel && block.x + block.w > character.x && block.y < character.y + character.h && block.y + block.h > character.y) {
         // Set the character's x velocity and x position.
         character.xVel = 0;
         character.x = block.x - character.w;
-        Main.visibleX = character.x - 500 + (character.w / 2);
+        Constants.GAME.visibleX = character.x - 500 + (character.w / 2);
       }
       // If the character collides with a solid to the left.
       else if (character.left && block.x + block.w >= character.x - character.xVel && block.x < character.x + character.w && block.y < character.y + character.h && block.y + block.h > character.y) {
         character.xVel = 0;
         character.x = block.x + block.h;
-        Main.visibleX = character.x - 500 + (character.w / 2);
+        Constants.GAME.visibleX = character.x - 500 + (character.w / 2);
       }
       else {
         collision = false;
@@ -68,7 +70,7 @@ public class Constants {
   
   // Handles character gravity.
   public static final boolean VEGGIEGRAVITY(Vegetable character) {
-    ArrayList<Block> blocks = Main.getCurrentLevel().getBlocks();
+    ArrayList<Block> blocks = Constants.GAME.getCurrentLevel().getBlocks();
     boolean touchingGround = false;
     // If the character is still colliding with a solid, the character is touching the ground.
     for (Block block : blocks) {
@@ -81,7 +83,7 @@ public class Constants {
           character.x < block.x + block.w) {
         character.y = block.y - character.h;
         touchingGround = true;
-        Main.visibleY = character.y - 300 + (character.h / 2);
+        Constants.GAME.visibleY = character.y - 300 + (character.h / 2);
       }
     }
     return touchingGround;
@@ -103,7 +105,7 @@ public class Constants {
   public static final void TAKECHARDAMAGE(Vegetable protag, int time) {
     
     if (protag.hp <= 0) {
-      Main.getCurrentLevel().end(false);
+      Constants.GAME.getCurrentLevel().end(false);
     }
     
     // Makes the character invincible for a brief period of time.
