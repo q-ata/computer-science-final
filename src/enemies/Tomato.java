@@ -3,9 +3,9 @@ package enemies;
 import javafx.scene.image.Image;
 import main.Constants;
 import main.Main;
+import types.Block;
 import types.Coordinates;
 import types.Enemy;
-import types.Solid;
 import types.SolidData;
 
 public class Tomato extends Enemy {
@@ -43,7 +43,7 @@ public class Tomato extends Enemy {
       
     }
     
-    for (Solid solid : Main.getCurrentLevel().getSolids()) {
+    for (Block solid : Main.getCurrentLevel().getBlocks()) {
       if (Constants.SOLIDCOLLISION(this, solid)) {
         this.sprite = this.dazedSprite;
         this.endurance = 2;

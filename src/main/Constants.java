@@ -6,6 +6,7 @@ import java.util.Timer;
 
 import characters.*;
 import javafx.scene.input.KeyCode;
+import types.Block;
 import types.ReverseInvincibility;
 import types.Solid;
 import types.Vegetable;
@@ -16,7 +17,7 @@ public class Constants {
   public static final Vegetable[] CHARACTERS = {new Cabbage(), new Carrot()}; 
   
   // Array of all solid objects we want to check collision with.
-  public static final int[] SOLIDS = {1};
+  public static final int[] BLOCKS = {1, 7};
   
   // A map of KeyCodes and their string counterparts.
   public static HashMap<KeyCode, String> keyCodeMap;
@@ -33,46 +34,54 @@ public class Constants {
   
   // Checks for character collision with all solids.
   public static final void VEGGIECOLLISION(Vegetable character) {
-    ArrayList<Solid> solids = Main.getCurrentLevel().getSolids();
-    for (Solid solid : solids) {
+    ArrayList<Block> blocks = Main.getCurrentLevel().getBlocks();
+    for (Block block : blocks) {
+      boolean collision = true;
       // If the character collides vertically, set the character's velocity and y position.
-      if (character.up && character.y <= solid.y + solid.h && character.x + character.w > solid.x && character.x < solid.x + solid.w && character.y + character.h > solid.y + solid.h) {
+      if (character.up && character.y <= block.y + block.h && character.x + character.w > block.x && character.x < block.x + block.w && character.y + character.h > block.y + block.h) {
         character.yVel = 0;
-        character.y = solid.y + solid.h;
-        Main.visibleY = character.y - 260;
+        character.y = block.y + block.h;
+        Main.visibleY = character.y - 300 + (character.h / 2);
       }
       // If the character collides with a solid to the right.
-      if (character.right && solid.x <= character.x + character.w + character.xVel && solid.x + solid.w > character.x && solid.y < character.y + character.h && solid.y + solid.h > character.y) {
+      if (character.right && block.x <= character.x + character.w + character.xVel && block.x + block.w > character.x && block.y < character.y + character.h && block.y + block.h > character.y) {
         // Set the character's x velocity and x position.
         character.xVel = 0;
-        character.x = solid.x - character.w;
-        Main.visibleX = character.x - 460;
+        character.x = block.x - character.w;
+        Main.visibleX = character.x - 500 + (character.w / 2);
       }
       // If the character collides with a solid to the left.
-      else if (character.left && solid.x + solid.w >= character.x - character.xVel && solid.x < character.x + character.w && solid.y < character.y + character.h && solid.y + solid.h > character.y) {
+      else if (character.left && block.x + block.w >= character.x - character.xVel && block.x < character.x + character.w && block.y < character.y + character.h && block.y + block.h > character.y) {
         character.xVel = 0;
-        character.x = solid.x + solid.h;
-        Main.visibleX = character.x - 460;
+        character.x = block.x + block.h;
+        Main.visibleX = character.x - 500 + (character.w / 2);
+      }
+      else {
+        collision = false;
+      }
+      // If a collision occurred, run the block's collision properties.
+      if (collision) {
+        block.collisionProperties();
       }
     }
   }
   
   // Handles character gravity.
   public static final boolean VEGGIEGRAVITY(Vegetable character) {
-    ArrayList<Solid> solids = Main.getCurrentLevel().getSolids();
+    ArrayList<Block> blocks = Main.getCurrentLevel().getBlocks();
     boolean touchingGround = false;
     // If the character is still colliding with a solid, the character is touching the ground.
-    for (Solid solid : solids) {
-      if (character.y + character.h + character.yVel >= solid.y &&
+    for (Block block : blocks) {
+      if (character.y + character.h + character.yVel >= block.y &&
           // Checks top side collision.
-          character.y + character.h <= solid.y &&
+          character.y + character.h <= block.y &&
           // Checks right side collision.
-          character.x + character.w > solid.x &&
+          character.x + character.w > block.x &&
           // Checks left side collision.
-          character.x < solid.x + solid.w) {
-        character.y = solid.y - character.h;
+          character.x < block.x + block.w) {
+        character.y = block.y - character.h;
         touchingGround = true;
-        Main.visibleY = character.y - 260;
+        Main.visibleY = character.y - 300 + (character.h / 2);
       }
     }
     return touchingGround;
@@ -94,7 +103,7 @@ public class Constants {
   public static final void TAKECHARDAMAGE(Vegetable protag, int time) {
     
     if (protag.hp <= 0) {
-      System.out.println("DEAD.");
+      Main.getCurrentLevel().end(false);
     }
     
     // Makes the character invincible for a brief period of time.

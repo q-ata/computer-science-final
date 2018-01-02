@@ -16,6 +16,7 @@ public class ProfileLoader {
       BufferedReader profileReader = new BufferedReader(new FileReader(currentDir + "/resources/save/profile" + profileNum + ".veggiedata"));
       Main.setLevelsUnlocked((byte) Integer.parseInt(profileReader.readLine()));
       profileReader.close();
+      Main.setCurrentProfile(profileNum);
       
     } catch (Exception e) {
       e.printStackTrace();

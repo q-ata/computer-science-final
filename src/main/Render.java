@@ -7,6 +7,8 @@ import types.MapItem;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 public class Render {
   
@@ -18,6 +20,7 @@ public class Render {
   private static Image titleScreen = new Image("file:resources/title screen.png");
   private static Image levelSelect = new Image("file:resources/level select.png");
   private static Image charSelect = new Image("file:resources/character_select.png");
+  private static Image defeatPineapple = new Image("file:resources/defeat_pineapple.png");
   
   // Select game profile to play on.
   public static void renderProfile() {
@@ -116,12 +119,12 @@ public class Render {
     // Renders current health and bar representing time before the character can shoot again.
     Render.gc.drawImage(InformationBar.getBackground(), 0, 600);
     double healthWidth = ((double) 380 / 100 * Main.getProtag().hp);
-    Render.gc.drawImage(InformationBar.getHealthbar(), 0, 0, healthWidth < 0 ? 0 : healthWidth, 35, 480, 610, healthWidth < 0 ? 0 : healthWidth, 35);
+    Render.gc.drawImage(InformationBar.getHealthbar(), 0, 0, healthWidth < 0 ? 0 : healthWidth, 35, 450, 610, healthWidth < 0 ? 0 : healthWidth, 35);
     double ammobarWidth = ((double) 380 / 10 * Main.getProtag().getProjCooldownFraction());
-    Render.gc.drawImage(InformationBar.getAmmobar(), 0, 0, ammobarWidth, 25, 480, 645, ammobarWidth, 25);
+    Render.gc.drawImage(InformationBar.getAmmobar(), 0, 0, ammobarWidth, 25, 450, 645, ammobarWidth, 25);
     
     // Loop over and render all abilities.
-    int startingX = 250;
+    int startingX = 240;
     for (BasicAbility ability : Main.getProtag().getAbilities()) {
       
       if (ability.isAllowed()) {
@@ -149,7 +152,40 @@ public class Render {
     Render.gc.fillText(Main.getProtag().name, 80, 622);
     Render.gc.drawImage(InformationBar.getCharStats(), 80, 630);
     
-    Render.gc.fillText("Time: " + String.valueOf(Main.getCurrentLevel().getTime()), 880, 630);
+    Render.gc.fillText("Time: " + String.valueOf(Main.getCurrentLevel().time), 850, 630);
+    Render.gc.fillText("Score: " + String.valueOf(Main.getCurrentLevel().score), 850, 660);
+    
+  }
+  
+  public static void renderVictory() {
+    
+    Render.gc.setFill(Color.BLACK);
+    Render.gc.fillRect(0, 0, 1000, 680);
+    Render.gc.setFill(Color.WHITE);
+    Main.setFont(120);
+    Render.gc.fillText("VICTORY!", 314, 180);
+    Main.setFont(60);
+    String display = "Score: " + String.valueOf(Main.getCurrentLevel().score) + "\n" + "Time: " + String.valueOf(Main.getCurrentLevel().time);
+    Text t = new Text(display);
+    t.setFont(Main.getFont());
+    Render.gc.fillText(display, 500 - (t.getLayoutBounds().getWidth() / 2), 330 - (t.getLayoutBounds().getHeight() / 2));
+    Render.gc.drawImage(Main.getProtag().sprite, 500 - (Main.getProtag().sprite.getWidth() / 2), 400 - (Main.getProtag().sprite.getHeight() / 2));
+    if (Main.getTick() >= 30) {
+      Render.gc.fillText("Press ENTER to return.", 253, 600);
+    }
+    
+  }
+  
+  public static void renderDefeat() {
+    
+    Render.gc.setFill(Color.BLACK);
+    Render.gc.fillRect(0, 0, 1000, 680);
+    Render.gc.setFill(Color.WHITE);
+    Main.setFont(120);
+    Render.gc.fillText("DEFEAT!", 345, 180);
+    Main.setFont(60);
+    Render.gc.fillText("Press ENTER to retry.\nPress ESC to return to main menu.", 121, 270);
+    Render.gc.drawImage(Render.defeatPineapple, 445, 380);
     
   }
 

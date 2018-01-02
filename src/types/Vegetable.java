@@ -58,8 +58,8 @@ public abstract class Vegetable extends Character {
   }
   
   private void init(String hurt, ProjectileData projData, BasicAbility[] abilities) {
-    this.vx = 460;
-    this.vy = 260;
+    this.vx = 500 - (this.w / 2);
+    this.vy = 300 - (this.h / 2);
     this.projData = projData;
     this.setAbilities(abilities);
     this.setHurtSprite(new Image(hurt));
@@ -101,6 +101,13 @@ public abstract class Vegetable extends Character {
     resetter.schedule(new ResetProjectileCooldown(this), this.getProjData().cd);
     Timer updateFraction = new Timer();
     updateFraction.scheduleAtFixedRate(new AmmoCooldownUpdater(this, updateFraction), 0, this.getProjData().cd / 10);
+    
+  }
+  
+  public void refresh() {
+    
+    this.hp = 100;
+    // TODO: Package entire game into Game class to easily refresh.
     
   }
   

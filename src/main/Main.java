@@ -37,12 +37,12 @@ public class Main extends Application {
   private static MediaPlayer introPlayer;
   private static SoundManager soundManager;
   
-  // Array of all MapItems that might need to be rendered.
   public static int visibleX;
   public static int visibleY;
   private static String currentLevelLocation;
   private static String currentLevelBackground;
   private static Level currentLevel;
+  private static byte currentProfile;
   
   private static Vegetable protag = Constants.CHARACTERS[0];
   private static InformationBar infoBar = new InformationBar();
@@ -151,35 +151,52 @@ public class Main extends Application {
 
           public void handle(ActionEvent event) {
             
-        	 // If the state is 1, this means you are on the profile screen thus we render that.
+            /*
+             * States:
+             * -1 : Options menu
+             * 1 : Profile select
+             * 2 : Title screen
+             * 3 : Character select
+             * 4 : Level select
+             * 5 : In game
+             * 6 : Victory screen
+             * 7 : Defeat screen
+             */
+            
             if (Main.state == 1) {  
               
               Render.renderProfile();
               
             }
-            // If the state is 2, this means you are on the title screen thus we render that.
             else if (Main.state == 2) {
               
               Render.renderTitle();
               
             }
-            // If the state is 3, this means you are on the character select screen thus we render that.
             else if (Main.state == 3) {
               
               Render.renderCharacterSelect();
               
             }
-            // If the state is 4, this means you are on the level select screen thus we render that.
             else if (Main.state == 4) {
               
               Render.renderLevelSelect();
               
             }
-            //If the state is set to 5, this means that you are in the level, so we render that.
             else if (Main.state == 5) {
               
               StateUpdate.update();
               Render.renderLevel();
+              
+            }
+            else if (Main.state == 6) {
+              
+              Render.renderVictory();
+              
+            }
+            else if (Main.state == 7) {
+              
+              Render.renderDefeat();
               
             }
             
@@ -332,6 +349,14 @@ public class Main extends Application {
 
   public static void setLevelsUnlocked(byte levelsUnlocked) {
     Main.levelsUnlocked = levelsUnlocked;
+  }
+
+  public static byte getCurrentProfile() {
+    return currentProfile;
+  }
+
+  public static void setCurrentProfile(byte currentProfile) {
+    Main.currentProfile = currentProfile;
   }
 
 }

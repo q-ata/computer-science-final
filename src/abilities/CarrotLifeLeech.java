@@ -35,7 +35,7 @@ public class CarrotLifeLeech extends BasicAbility {
   @Override
   public void basic() {
     
-    this.getUser().lifesteal = 0.15;
+    this.getUser().lifesteal = 0.12;
     
     this.placeholders = new Image[] {this.getUser().sprite, this.getUser().getSpriteLeft(), this.getUser().getHurtSprite(), this.getUser().getHurtLeft()};
     this.getUser().sprite = this.newSprites[0];

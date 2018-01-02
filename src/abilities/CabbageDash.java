@@ -6,6 +6,7 @@ import main.Main;
 import main.SoundManager;
 import main.Sounds;
 import types.BasicAbility;
+import types.Block;
 import types.Solid;
 
 public class CabbageDash extends BasicAbility {
@@ -22,16 +23,16 @@ public class CabbageDash extends BasicAbility {
   public void doBasic() {
     
     this.getUser().xVel = this.basicDirection == 1 ? 10 : -10;
-    for (Solid solid : Main.getCurrentLevel().getSolids()) {
-      if (this.getUser().xVel > 0 && solid.x <= this.getUser().x + this.getUser().w + this.getUser().xVel && solid.x + solid.w > this.getUser().x && solid.y < this.getUser().y + this.getUser().h && solid.y + solid.h > this.getUser().y) {
+    for (Block block : Main.getCurrentLevel().getBlocks()) {
+      if (this.getUser().xVel > 0 && block.x <= this.getUser().x + this.getUser().w + this.getUser().xVel && block.x + block.w > this.getUser().x && block.y < this.getUser().y + this.getUser().h && block.y + block.h > this.getUser().y) {
         this.getUser().xVel = 0;
-        this.getUser().x = solid.x - this.getUser().w;
+        this.getUser().x = block.x - this.getUser().w;
         Main.visibleX = this.getUser().x - 460;
         break;
       }
-      else if (solid.x + solid.w >= this.getUser().x + this.getUser().xVel && solid.x < this.getUser().x + this.getUser().w && solid.y < this.getUser().y + this.getUser().h && solid.y + solid.h > this.getUser().y) {
+      else if (block.x + block.w >= this.getUser().x + this.getUser().xVel && block.x < this.getUser().x + this.getUser().w && block.y < this.getUser().y + this.getUser().h && block.y + block.h > this.getUser().y) {
         this.getUser().xVel = 0;
-        this.getUser().x = solid.x + solid.h;
+        this.getUser().x = block.x + block.h;
         Main.visibleX = this.getUser().x - 460;
         break;
       }

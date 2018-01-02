@@ -39,6 +39,10 @@ public class LevelParser {
         levelReader.close();
       }
       
+      String[] levelData = levelLines.get(0).split("\\|");
+      levelLines.remove(0);
+      level.setTimeBonus(Integer.parseInt(levelData[0]));
+      
       ArrayList<MapItem> mapItems = level.getMapItems();
       
       for (int i = 0; i < levelLines.size(); i++) {
@@ -54,22 +58,22 @@ public class LevelParser {
           if (data.length > 3) {
             tomato.setTime(Integer.parseInt(data[3]));
           }
-          level.getMapItems().add(tomato);
+          mapItems.add(tomato);
           level.getEnemies().add(tomato);
         }
         else if (type == 3) {
           Knife knife = new Knife(coords);
-          level.getMapItems().add(knife);
+          mapItems.add(knife);
           level.getEnemies().add(knife);
         }
         else if (type == 4) {
           KnifeDown knifeDown = new KnifeDown(coords);
-          level.getMapItems().add(knifeDown);
+          mapItems.add(knifeDown);
           level.getEnemies().add(knifeDown);
         }
         else if (type == 5) {
           DoubleTomatoWallLevelOne doubleTomatoWallLevelOne = new DoubleTomatoWallLevelOne(coords, new int[] {Integer.parseInt(data[3]), Integer.parseInt(data[4])});
-          level.getMapItems().add(doubleTomatoWallLevelOne);
+          mapItems.add(doubleTomatoWallLevelOne);
           level.getEnemies().add(doubleTomatoWallLevelOne);
         }
         else if (type == 6) {
@@ -78,8 +82,23 @@ public class LevelParser {
             orange.setSeedX(Integer.parseInt(data[5]));
             orange.setSeedY(Integer.parseInt(data[6]));
           }
-          level.getMapItems().add(orange);
+          mapItems.add(orange);
           level.getEnemies().add(orange);
+        }
+        else if (type == 7) {
+          Portal portal = new Portal(coords, new Coordinates(Integer.parseInt(data[3]), Integer.parseInt(data[4])));
+          mapItems.add(portal);
+        }
+        else if (type == 8) {
+          Eggplant eggplant;
+          if (data.length > 3) {
+            eggplant = new Eggplant(coords, Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]));
+          }
+          else {
+            eggplant = new Eggplant(coords);
+          }
+          mapItems.add(eggplant);
+          level.getEnemies().add(eggplant);
         }
         else if (type == 1337) {
           Finish finish = new Finish(coords);
@@ -92,14 +111,14 @@ public class LevelParser {
           Main.visibleX = coords.x - 500 + (Main.getProtag().w / 2);
           Main.visibleY = coords.y - 300 + (Main.getProtag().h / 2);
         }
-        if (IntStream.of(Constants.SOLIDS).anyMatch((x) -> x == type)) {
-          level.getSolids().add((Solid) mapItems.get(i));
+        if (IntStream.of(Constants.BLOCKS).anyMatch((x) -> x == type)) {
+          level.getBlocks().add((Block) mapItems.get(i));
         }
         
       }
       
-      for (int i = 0; i < level.getMapItems().size(); i++) {
-        level.getMapItems().get(i).id = i;
+      for (int i = 0; i < mapItems.size(); i++) {
+        mapItems.get(i).id = i;
       }
     
     }

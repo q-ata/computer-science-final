@@ -1,5 +1,7 @@
 package main;
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.Timer;
 
 import javafx.event.EventHandler;
@@ -170,6 +172,41 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
           ability.setAllowed(false);
           
         }
+      }
+    }
+    // Listener to handle the victory screen.
+    else if (Main.getState() == 6) {
+      if (key.getCode() != KeyCode.ENTER) {
+        return;
+      }
+      try {
+        Main.setState((byte) 2);
+        if (Main.getLevelsUnlocked() == Main.getCurrentLevel().getLevelNumber()) {
+          PrintWriter profileWriter;
+          profileWriter = new PrintWriter(new File("").getAbsolutePath() + "/resources/save/profile" + String.valueOf(Main.getCurrentProfile()) + ".veggiedata", "UTF-8");
+          profileWriter.println(String.valueOf(Main.getCurrentLevel().getLevelNumber() + 1));
+          profileWriter.close();
+          Main.setLevelsUnlocked((byte) (Main.getCurrentLevel().getLevelNumber() + 1));
+        }
+        Main.setCurrentLevel(null);
+      }
+      catch(Exception e) {
+        e.printStackTrace();
+      }
+    }
+    // Listener to handle the defeat screen.
+    else if (Main.getState() == 7) {
+      if (key.getCode() != KeyCode.ENTER && key.getCode() != KeyCode.ESCAPE) {
+        return;
+      }
+      if (key.getCode() == KeyCode.ENTER) {
+        Main.getProtag().refresh();
+        LevelParser.parseLevel(Main.getCurrentLevel().getLevelNumber());
+        Main.setState((byte) 5);
+      }
+      else {
+        Main.setCurrentLevel(null);
+        Main.setState((byte) 2);
       }
     }
     

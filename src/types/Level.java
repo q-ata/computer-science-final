@@ -10,16 +10,17 @@ import solids.Finish;
 
 public class Level {
   
+  public int time = 0;
+  public int score = 0;
   private Image background;
   private ArrayList<MapItem> mapItems = new ArrayList<MapItem>();
   private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
   private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-  private ArrayList<Solid> solids = new ArrayList<Solid>();
+  private ArrayList<Block> blocks = new ArrayList<Block>();
   private int levelNumber;
   private Finish finish;
   private Timer timeTimer = new Timer();
-  private int time = 0;
-  private int score = 0;
+  private int timeBonus;
   
   public Level(Image background) {
     
@@ -28,10 +29,18 @@ public class Level {
       @Override
       public void run() {
         
-        Main.getCurrentLevel().setTime(Main.getCurrentLevel().getTime() + 1);
+        Main.getCurrentLevel().time++;
         
       }
     }, 1000, 1000);
+    
+  }
+  
+  public void end(boolean success) {
+    
+    this.timeTimer.cancel();
+    this.timeTimer.purge();
+    Main.setState(success ? (byte) 6 : (byte) 7);
     
   }
 
@@ -67,12 +76,12 @@ public class Level {
     this.enemies = enemies;
   }
 
-  public ArrayList<Solid> getSolids() {
-    return solids;
+  public ArrayList<Block> getBlocks() {
+    return blocks;
   }
 
-  public void setSolids(ArrayList<Solid> solids) {
-    this.solids = solids;
+  public void setBlocks(ArrayList<Block> blocks) {
+    this.blocks = blocks;
   }
 
   public int getLevelNumber() {
@@ -91,20 +100,12 @@ public class Level {
     this.finish = finish;
   }
 
-  public int getTime() {
-    return time;
+  public int getTimeBonus() {
+    return timeBonus;
   }
 
-  public void setTime(int time) {
-    this.time = time;
-  }
-
-  public int getScore() {
-    return score;
-  }
-
-  public void setScore(int score) {
-    this.score = score;
+  public void setTimeBonus(int timeBonus) {
+    this.timeBonus = timeBonus;
   }
 
 }
