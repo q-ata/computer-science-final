@@ -34,9 +34,12 @@ public class Game extends Application {
   private Canvas canvas;
   private GraphicsContext gc;
   private Scene scene;
+  
+  // Video and audio managers.
   private MediaPlayer introPlayer;
   private SoundManager soundManager;
   
+  // Current level information.
   public int visibleX;
   public int visibleY;
   private String currentLevelLocation;
