@@ -22,6 +22,7 @@ public class Render {
   private static Image levelSelect = new Image("file:resources/level select.png");
   private static Image charSelect = new Image("file:resources/character_select.png");
   private static Image defeatPineapple = new Image("file:resources/defeat_pineapple.png");
+  private static Image options = new Image("file:resources/options.png");
   
   // Select game profile to play on.
   public static void renderProfile() {
@@ -101,16 +102,18 @@ public class Render {
       
     }
     
-    // Renders the character.
-    if (!Render.GAME.getProtag().isSpriteDirectional()) {
-      Render.gc.drawImage(Render.GAME.getProtag().hurt ? Render.GAME.getProtag().getHurtSprite() : Render.GAME.getProtag().sprite, Render.GAME.getProtag().vx, Render.GAME.getProtag().vy);
-    }
-    else {
-      if (Render.GAME.getProtag().hurt) {
-        Render.gc.drawImage(Render.GAME.getProtag().lastDirection == 1 ? Render.GAME.getProtag().getHurtSprite() : Render.GAME.getProtag().getHurtLeft(), Render.GAME.getProtag().vx, Render.GAME.getProtag().vy);
+    // Renders the character if a sprite is available.
+    if (!(Render.GAME.getProtag().sprite == null)) {
+      if (!Render.GAME.getProtag().isSpriteDirectional()) {
+        Render.gc.drawImage(Render.GAME.getProtag().hurt ? Render.GAME.getProtag().getHurtSprite() : Render.GAME.getProtag().sprite, Render.GAME.getProtag().vx, Render.GAME.getProtag().vy);
       }
       else {
-        Render.gc.drawImage(Render.GAME.getProtag().lastDirection == 1 ? Render.GAME.getProtag().sprite : Render.GAME.getProtag().getSpriteLeft(), Render.GAME.getProtag().vx, Render.GAME.getProtag().vy);
+        if (Render.GAME.getProtag().hurt) {
+          Render.gc.drawImage(Render.GAME.getProtag().lastDirection == 1 ? Render.GAME.getProtag().getHurtSprite() : Render.GAME.getProtag().getHurtLeft(), Render.GAME.getProtag().vx, Render.GAME.getProtag().vy);
+        }
+        else {
+          Render.gc.drawImage(Render.GAME.getProtag().lastDirection == 1 ? Render.GAME.getProtag().sprite : Render.GAME.getProtag().getSpriteLeft(), Render.GAME.getProtag().vx, Render.GAME.getProtag().vy);
+        }
       }
     }
     
@@ -125,7 +128,7 @@ public class Render {
     Render.gc.drawImage(InformationBar.getAmmobar(), 0, 0, ammobarWidth, 25, 450, 645, ammobarWidth, 25);
     
     // Loop over and render all abilities.
-    int startingX = 240;
+    int startingX = 250;
     for (BasicAbility ability : Render.GAME.getProtag().getAbilities()) {
       
       if (ability.isAllowed()) {
@@ -133,7 +136,11 @@ public class Render {
         Render.GAME.setFont(24);
         Image basicIcon = ability.getIcon();
         Render.gc.drawImage(basicIcon, startingX, 610);
-        Render.gc.fillText(Constants.keyCodeMap.get(ability.getActivator()), startingX + 15, 670);
+        Render.gc.fillText(Constants.keyCodeMap.get(ability.getActivator()), ability.isStacked() ? startingX + 5 : startingX + 15, 670);
+        // If the ability can have multiple stacks, display current amount of stacks.
+        if (ability.isStacked() && ability.getCurStacks() > 1) {
+          Render.gc.fillText(String.valueOf(ability.getCurStacks()), startingX + 20, 670);
+        }
         
       }
       else {
@@ -187,6 +194,12 @@ public class Render {
     Render.GAME.setFont(60);
     Render.gc.fillText("Press ENTER to retry.\nPress ESC to return to main menu.", 121, 270);
     Render.gc.drawImage(Render.defeatPineapple, 445, 380);
+    
+  }
+  
+  public static void renderOptions() {
+    
+    Render.gc.drawImage(Render.options, 0, 0);
     
   }
 

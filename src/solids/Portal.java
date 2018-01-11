@@ -4,7 +4,7 @@ import main.Main;
 import types.Block;
 import types.Coordinates;
 import types.SolidData;
-
+// Block that teleports the player on contact.
 public class Portal extends Block {
   
   private Coordinates destination;

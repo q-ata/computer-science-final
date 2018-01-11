@@ -1,0 +1,52 @@
+package abilities;
+
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import main.Main;
+import types.BasicAbility;
+
+public class BroccoliBlink extends BasicAbility {
+  
+  private final Image sprite = new Image("file:resources/character/broccoli_sprite.png");
+
+  public BroccoliBlink(KeyCode activator, int index) {
+    super(true, 50, 4000, "file:resources/icons/broccoli_blink.png", activator, index);
+    this.setStacked(true);
+    this.setMaxStacks(2);
+    this.setCurStacks(2);
+  }
+
+  @Override
+  public void doBasic() {
+    
+    if (this.getUser().right || (!this.getUser().left && !this.getUser().up)) {
+      this.getUser().x += 75;
+    }
+    else if (this.getUser().left) {
+      this.getUser().x -= 75;
+    }
+    if (this.getUser().up) {
+      this.getUser().y -= 30;
+    }
+    Main.getGame().visibleX = this.getUser().x + (this.getUser().w / 2) - 500;
+    Main.getGame().visibleY = this.getUser().y + (this.getUser().h / 2) - 300;
+    
+  }
+
+  @Override
+  public void basicEnd() {
+    
+    this.getUser().setInvincible(false);
+    this.getUser().sprite = this.sprite;
+    
+  }
+
+  @Override
+  public void basic() {
+    
+    this.getUser().setInvincible(true);
+    this.getUser().sprite = null;
+    
+  }
+
+}

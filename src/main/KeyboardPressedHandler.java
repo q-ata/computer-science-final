@@ -55,7 +55,7 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
           this.GAME.setState((byte) 4);
         }
         else if (this.GAME.getSelection() == 3) {
-          this.GAME.setState((byte) -1);
+          this.GAME.setState((byte) 8);
         }
         else {
           System.exit(0);
@@ -199,6 +199,11 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
         this.GAME.setCurrentLevel(null);
         this.GAME.setState((byte) 2);
       }
+    }
+    // Listener for options screen.
+    else if (this.GAME.getState() == 8 && key.getCode() == KeyCode.ENTER) {
+      this.GAME.setSelection((byte) 1);
+      this.GAME.setState((byte) 2);
     }
     
   }

@@ -20,8 +20,13 @@ public class ResetBasicCooldown extends TimerTask {
   @Override
   public void run() {
     
-    this.veggie.getAbilities()[this.ability].setAllowed(true);
+    BasicAbility ability = this.veggie.getAbilities()[this.ability];
+    
+    ability.setAllowed(true);
     this.veggie.getControls().remove(this.timer);
+    if (ability.isStacked()) {
+      ability.setCurStacks(ability.getCurStacks() + 1);
+    }
     
   }
 

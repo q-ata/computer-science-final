@@ -14,6 +14,10 @@ public abstract class BasicAbility {
   private boolean active = false;
   private boolean allowed = true;
   private int index;
+  private boolean reinstance = false;
+  private boolean stacked = false;
+  private int maxStacks;
+  private int curStacks;
   
   public BasicAbility(boolean physics, int length, int cooldown, String iconLocation, KeyCode activator, int index) {
     
@@ -100,6 +104,38 @@ public abstract class BasicAbility {
 
   public void setIndex(int index) {
     this.index = index;
+  }
+
+  public boolean isReinstance() {
+    return reinstance;
+  }
+
+  public void setReinstance(boolean reinstance) {
+    this.reinstance = reinstance;
+  }
+
+  public boolean isStacked() {
+    return stacked;
+  }
+
+  public void setStacked(boolean stacked) {
+    this.stacked = stacked;
+  }
+
+  public int getMaxStacks() {
+    return maxStacks;
+  }
+
+  public void setMaxStacks(int maxStacks) {
+    this.maxStacks = maxStacks;
+  }
+
+  public int getCurStacks() {
+    return curStacks;
+  }
+
+  public void setCurStacks(int curStacks) {
+    this.curStacks = curStacks;
   }
 
 }

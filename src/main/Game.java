@@ -163,7 +163,6 @@ public class Game extends Application {
             
             /*
              * States:
-             * -1 : Options menu
              * 0 : Playing opening
              * 1 : Profile select
              * 2 : Title screen
@@ -172,6 +171,7 @@ public class Game extends Application {
              * 5 : In game
              * 6 : Victory screen
              * 7 : Defeat screen
+             * 8 : Options
              */
             
             if (Main.getGame().getState() == 1) {  
@@ -208,6 +208,11 @@ public class Game extends Application {
             else if (Main.getGame().getState() == 7) {
               
               Render.renderDefeat();
+              
+            }
+            else if (Main.getGame().getState() == 8) {
+              
+              Render.renderOptions();
               
             }
             

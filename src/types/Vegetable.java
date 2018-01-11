@@ -24,6 +24,7 @@ public abstract class Vegetable extends Character {
   public boolean hurt = false;
   private ProjectileData projData;
   private boolean projCooldown = false;
+  private Timer shotController = new Timer();
   private boolean invincible = false;
   private Image hurtSprite;
   private Timer invincibilityTimer;
@@ -92,10 +93,15 @@ public abstract class Vegetable extends Character {
     }
     
     SoundManager.playPlayer(Sounds.SHOOT);
-    
-    Projectile proj = new Projectile(new Coordinates(this.x, this.y + Math.round((this.h / 2) - (this.getProjData().h / 2))), this.lastDirection, this.getProjData());
-    Main.getGame().getCurrentLevel().getProjectiles().add(proj);
-    Main.getGame().getCurrentLevel().getMapItems().add(proj);
+    if (this.getProjData().burst) {
+      this.shotController = new Timer();
+      this.shotController.scheduleAtFixedRate(new ShootProjectile(this, this.getProjData().count, this.shotController), 0, this.getProjData().interval);
+    }
+    else {
+      Projectile proj = new Projectile(new Coordinates(this.x, this.y + Math.round((this.h / 2) - (this.getProjData().h / 2))), this.lastDirection, this.getProjData());
+      Main.getGame().getCurrentLevel().getProjectiles().add(proj);
+      Main.getGame().getCurrentLevel().getMapItems().add(proj);
+    }
     this.setProjCooldown(true);
     this.setProjCooldownFraction(0);
     
@@ -113,18 +119,33 @@ public abstract class Vegetable extends Character {
     ability.basic();
     // Creates timers to reset the ability.
     Timer timer = new Timer();
+    Timer cooldownResetter = new Timer();
     // Add the active and cooldown timer to an ArrayList of timers in case the character is reinstanced.
     this.getControls().add(timer);
     timer.schedule(new ResetBasicActive(this, index, timer), ability.getLength());
-    Timer cooldownResetter = new Timer();
-    this.getControls().add(cooldownResetter);
     cooldownResetter.schedule(new ResetBasicCooldown(ability.getUser(), ability.getIndex(), cooldownResetter), ability.getLength() + ability.getCooldown());
+    this.getControls().add(cooldownResetter);
     ability.setAllowed(false);
+    // If the ability can have stacks, reduce stacks and re-enable ability if any remain.
+    if (ability.isStacked()) {
+      ability.setCurStacks(ability.getCurStacks() - 1);
+      if (ability.getCurStacks() > 0) {
+        ability.setAllowed(true);
+      }
+    }
   }
   
   // Reinstances the character, refreshing its health and abilities.
   public void reinstance() {
     
+    // Refresh and enable all abilities.
+    for (BasicAbility ability : this.abilities) {
+      if (ability.isActive() || ability.isReinstance()) {
+        ability.basicEnd();
+        ability.setActive(false);
+      }
+      ability.setAllowed(true);
+    }
     // Set health.
     this.hp = 100;
     // Loop over all active ability timers and cancel them.
@@ -134,14 +155,6 @@ public abstract class Vegetable extends Character {
     }
     // Reset the ArrayList of timers.
     this.setControls(new ArrayList<Timer>());
-    // Refresh and enable all abilities.
-    for (BasicAbility ability : this.abilities) {
-      if (ability.isActive()) {
-        ability.basicEnd();
-        ability.setActive(false);
-      }
-      ability.setAllowed(true);
-    }
     // Cancel  movement.
     this.left = this.up = this.right = false;
     // Makes the character vulnerable.

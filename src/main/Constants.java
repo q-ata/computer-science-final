@@ -16,7 +16,7 @@ public class Constants {
   private static final Game GAME = Main.getGame();
   
   // Array of all playable characters.
-  public static final Vegetable[] CHARACTERS = {new Cabbage(), new Carrot()}; 
+  public static final Vegetable[] CHARACTERS = {new Cabbage(), new Carrot(), new Broccoli()};
   
   // Array of all solid objects we want to check collision with.
   public static final int[] BLOCKS = {1, 7};
@@ -30,6 +30,7 @@ public class Constants {
     HashMap<KeyCode, String> map = new HashMap<KeyCode, String>();
     map.put(KeyCode.K, "K");
     map.put(KeyCode.L, "L");
+    map.put(KeyCode.J, "J");
     Constants.keyCodeMap = map;
     
   }

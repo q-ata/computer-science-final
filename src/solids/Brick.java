@@ -3,7 +3,7 @@ package solids;
 import types.Block;
 import types.Coordinates;
 import types.SolidData;
-
+// Basic brick object.
 public class Brick extends Block {
 
   public Brick(Coordinates coords) {
