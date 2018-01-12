@@ -12,7 +12,7 @@ public class BroccoliBlink extends BasicAbility {
   private final Image sprite = new Image("file:resources/character/broccoli_sprite.png");
 
   public BroccoliBlink(KeyCode activator, int index) {
-    super(true, 50, 4000, "file:resources/icons/broccoli_blink.png", activator, index);
+    super(true, 3, 240, "file:resources/icons/broccoli_blink.png", activator, index);
     this.setStacked(true);
     this.setMaxStacks(2);
     this.setCurStacks(2);
@@ -28,7 +28,8 @@ public class BroccoliBlink extends BasicAbility {
       this.getUser().x -= 75;
     }
     if (this.getUser().up) {
-      this.getUser().y -= 30;
+      this.getUser().y -= 35;
+      this.getUser().yVel -= 2;
     }
     Main.getGame().visibleX = this.getUser().x + (this.getUser().w / 2) - 500;
     Main.getGame().visibleY = this.getUser().y + (this.getUser().h / 2) - 300;

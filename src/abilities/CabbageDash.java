@@ -15,7 +15,7 @@ public class CabbageDash extends BasicAbility {
   private final Image placeholderSprite = new Image("file:resources/character/cabbage_sprite.png");
 
   public CabbageDash(KeyCode activator, int index) {
-    super(true, 500, 6000, "file:resources/icons/cabbage_dash.png", activator, index);
+    super(true, 30, 360, "file:resources/icons/cabbage_dash.png", activator, index);
   }
 
   @Override

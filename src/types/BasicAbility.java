@@ -8,7 +8,9 @@ public abstract class BasicAbility {
   private KeyCode activator;
   private boolean physics;
   private int length;
+  private int curLength = 0;
   private int cooldown;
+  private int curCooldown = 0;
   private Image icon;
   private Vegetable user;
   private boolean active = false;
@@ -136,6 +138,22 @@ public abstract class BasicAbility {
 
   public void setCurStacks(int curStacks) {
     this.curStacks = curStacks;
+  }
+
+  public int getCurCooldown() {
+    return curCooldown;
+  }
+
+  public void setCurCooldown(int curCooldown) {
+    this.curCooldown = curCooldown;
+  }
+
+  public int getCurLength() {
+    return curLength;
+  }
+
+  public void setCurLength(int curLength) {
+    this.curLength = curLength;
   }
 
 }

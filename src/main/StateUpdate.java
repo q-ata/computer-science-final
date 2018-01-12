@@ -20,9 +20,11 @@ public class StateUpdate {
     // Check if the character has an in progress ability that affects physics. Do not enact character physics if so.
     boolean physicsOff = false;
     for (BasicAbility ability: protag.getAbilities()) {
-      if (ability.isActive() && ability.isPhysics()) {
+      if (ability.isActive()) {
         ability.doBasic();
-        physicsOff = true;
+        if (ability.isPhysics()) {
+          physicsOff = true;
+        }
       }
     }
     
@@ -149,7 +151,7 @@ public class StateUpdate {
             else if (protag.left) {
               protag.x = enemy.x + enemy.w;
             }
-            StateUpdate.GAME.visibleX = protag.x - (protag.w / 2);
+            StateUpdate.GAME.visibleX = protag.x + (protag.w / 2) - 500;
           }
           // If the player is not invincible, take damage.
           if (!protag.isInvincible()) {
@@ -173,6 +175,36 @@ public class StateUpdate {
     for (int index : toRemove) {
       StateUpdate.GAME.getCurrentLevel().getEnemies().remove(index - count);
       count++;
+    }
+    
+    // Process all abilities.
+    BasicAbility[] abilities = protag.getAbilities();
+    
+    for (BasicAbility ability : abilities) {
+      // If there is an active ability, increment the counter that specifies how long it has been active for.
+      if (ability.isActive()) {
+        ability.setCurLength(ability.getCurLength() + 1);
+        // End the ability if the specified length has been reached.
+        if (ability.getCurLength() == ability.getLength()) {
+          ability.setActive(false);
+          ability.setCurLength(0);
+          ability.basicEnd();
+        }
+        continue;
+      }
+      // If the ability is on cooldown, decrease the cooldown until it becomes available again.
+      if ((ability.isAllowed() && !ability.isStacked()) || (ability.isStacked() && ability.getCurStacks() == ability.getMaxStacks())) {
+        continue;
+      }
+      ability.setCurCooldown(ability.getCurCooldown() + 1);
+      // Enable the ability if it has been on cooldown long enough.
+      if (ability.getCurCooldown() == ability.getCooldown()) {
+        ability.setAllowed(true);
+        ability.setCurCooldown(0);
+        if (ability.isStacked()) {
+          ability.setCurStacks(ability.getCurStacks() + 1);
+        }
+      }
     }
     
     // Check if the level has been completed.

@@ -13,7 +13,7 @@ public class CarrotLifeLeech extends BasicAbility {
   private Image[] placeholders;
 
   public CarrotLifeLeech(KeyCode activator, int index) {
-    super(false, 4000, 15000, "file:resources/icons/carrot_life_leech.png", activator, index);
+    super(false, 240, 900, "file:resources/icons/carrot_life_leech.png", activator, index);
   }
 
   @Override

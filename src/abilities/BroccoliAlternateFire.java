@@ -13,7 +13,7 @@ public class BroccoliAlternateFire extends BasicAbility {
   private boolean alternate = false;
 
   public BroccoliAlternateFire(KeyCode activator, int index) {
-    super(false, 0, 0, "file:resources/icons/broccoli_alternate_fire.png", activator, index);
+    super(false, 1, 1, "file:resources/icons/broccoli_alternate_fire.png", activator, index);
     this.setReinstance(true);
   }
 

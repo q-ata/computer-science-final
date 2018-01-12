@@ -17,7 +17,7 @@ public class CarrotMachineGun extends BasicAbility {
   private Timer gun;
 
   public CarrotMachineGun(KeyCode activator, int index) {
-    super(false, 1200, 12000, "file:resources/icons/carrot_machine_gun.png", activator, index);
+    super(false, 72, 720, "file:resources/icons/carrot_machine_gun.png", activator, index);
   }
 
   @Override

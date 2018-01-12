@@ -146,7 +146,7 @@ public class Render {
       else {
         // If the ability is on cooldown, draw an X over it.
         Render.GAME.setFont(68);
-        Render.gc.fillText("X", startingX + 2, 655);
+        Render.gc.fillText(String.valueOf((int) ((ability.getCooldown() / 60) - Math.ceil(ability.getCurCooldown() / 60))), startingX + 2, 655);
         
       }
       // Increment the x position at which the ability appears on the information bar.
