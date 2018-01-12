@@ -3,6 +3,8 @@ package abilities;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import main.Main;
+import main.SoundManager;
+import main.Sounds;
 import types.BasicAbility;
 
 public class BroccoliBlink extends BasicAbility {
@@ -46,6 +48,8 @@ public class BroccoliBlink extends BasicAbility {
     
     this.getUser().setInvincible(true);
     this.getUser().sprite = null;
+    int[] sounds = {Sounds.BROCCOLIBLINK1, Sounds.BROCCOLIBLINK2, Sounds.BROCCOLIBLINK3, Sounds.BROCCOLIBLINK4, Sounds.BROCCOLIBLINK5};
+    SoundManager.playPlayer(sounds[(int) Math.floor(Math.random() * sounds.length)]);
     
   }
 

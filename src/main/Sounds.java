@@ -10,5 +10,10 @@ public class Sounds {
   public static final int CARROTMACHINEGUN = 3;
   public static final int ABILITYUNAVAILABLE = 4;
   public static final int CARROTLIFELEECH = 5;
+  public static final int BROCCOLIBLINK1 = 6;
+  public static final int BROCCOLIBLINK2 = 7;
+  public static final int BROCCOLIBLINK3 = 8;
+  public static final int BROCCOLIBLINK4 = 9;
+  public static final int BROCCOLIBLINK5 = 10;
 
 }
