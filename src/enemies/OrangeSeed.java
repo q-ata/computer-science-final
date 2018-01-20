@@ -4,7 +4,7 @@ import main.Main;
 import types.Coordinates;
 import types.Enemy;
 import types.SolidData;
-
+// Orange projectile enemy.
 public class OrangeSeed extends Enemy {
   
   private boolean left;
@@ -13,7 +13,7 @@ public class OrangeSeed extends Enemy {
 
   public OrangeSeed(Coordinates coords, boolean dir, int speedX, int speedY) {
     
-    super(coords, "file:resources/character/orange_seed" + (dir ? "_left.png" : ".png"), new SolidData(35, 35, 0, 0), 0, true);
+    super(coords, "file:resources/character/orange_seed/orange_seed" + (dir ? "_left.png" : ".png"), new SolidData(35, 35, 0, 0), 0, true);
     this.left = dir;
     this.setDmg(30);
     this.endurance = Math.ceil(100 / Main.getGame().getProtag().getProjData().dmg);
@@ -25,7 +25,7 @@ public class OrangeSeed extends Enemy {
 
   @Override
   public void enemyMovement() {
-    
+    // Move according to the projectile's speed.
     this.y += this.speedY;
     this.x += left ? -this.speedX : this.speedX;
     

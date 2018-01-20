@@ -84,8 +84,8 @@ public class Render {
   public static void renderLevelSelect() {
     
     Render.gc.drawImage(Render.levelSelect, 0, 0);
-    Render.GAME.setFont(800);
-    Render.gc.fillText(Integer.toString(Render.GAME.getSelection()), 100, 600);
+    Render.GAME.setFont(500);
+    Render.gc.fillText(Integer.toString(Render.GAME.getSelection()), 400, 480);
     
   }
   

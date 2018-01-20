@@ -11,7 +11,7 @@ import types.BasicAbility;
 import types.Coordinates;
 import types.Projectile;
 import types.ProjectileData;
-
+// Carrot machine gun ability.
 public class CarrotMachineGun extends BasicAbility {
   
   private Timer gun;
@@ -29,7 +29,7 @@ public class CarrotMachineGun extends BasicAbility {
 
   @Override
   public void basicEnd() {
-    
+    // Reset character.
     this.getUser().setSpeed(5);
     this.getUser().setProjCooldown(false);
     
@@ -41,18 +41,17 @@ public class CarrotMachineGun extends BasicAbility {
 
   @Override
   public void basic() {
-    
+    // Change character state.
     this.getUser().setSpeed(3);
     this.getUser().setProjCooldown(true);
     SoundManager.playPlayer(Sounds.CARROTMACHINEGUN);
-    
+    // Create a projectile every 120 milliseconds.
     gun = new Timer();
     gun.scheduleAtFixedRate(new TimerTask() {
       
       @Override
       public void run() {
-        
-        ProjectileData data = new ProjectileData(7, "file:resources/character/carrot_machine_gun", 83, 25, 0, 4);
+        ProjectileData data = new ProjectileData(7, "file:resources/character/carrot/carrot_machine_gun", 83, 25, 0, 4);
         Projectile proj = new Projectile(new Coordinates(Main.getGame().getProtag().x, Main.getGame().getProtag().y + Math.round((Main.getGame().getProtag().h / 2) - 13)), Main.getGame().getProtag().lastDirection, data);
         Main.getGame().getCurrentLevel().getMapItems().add(proj);
         Main.getGame().getCurrentLevel().getProjectiles().add(proj);

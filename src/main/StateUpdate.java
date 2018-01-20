@@ -53,12 +53,17 @@ public class StateUpdate {
         if (protag.yVel < 18) {
           protag.yVel += 1;
         }
+        if (++protag.fallTime == 200) {
+          StateUpdate.GAME.setState((byte) 7);
+          protag.fallTime = 0;
+        }
       }
       else {
         // Reset jumps and velocity if the character is touching the ground.
         protag.yVel = 0;
         protag.jumps = 0;
         protag.up = false;
+        protag.fallTime = 0;
       }
     }
     

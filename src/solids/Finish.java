@@ -7,7 +7,7 @@ import types.SolidData;
 public class Finish extends Block {
 
   public Finish(Coordinates coords) {
-    super(coords, "file:resources/finish.png", new SolidData(100, 100, 0, 0));
+    super(coords, "file:resources/blocks/finish.png", new SolidData(100, 100, 0, 0));
   }
 
   @Override

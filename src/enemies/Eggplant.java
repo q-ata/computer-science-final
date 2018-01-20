@@ -3,7 +3,7 @@ package enemies;
 import types.Coordinates;
 import types.Enemy;
 import types.SolidData;
-
+// Eggplant enemy.
 public class Eggplant extends Enemy {
   
   private int upSpeed = 5;
@@ -16,14 +16,14 @@ public class Eggplant extends Enemy {
   private byte state = 0;
 
   public Eggplant(Coordinates coords) {
-    super(coords, "file:resources/character/eggplant.png", new SolidData(132, 68, 0, 0), 80);
+    super(coords, "file:resources/character/eggplant/eggplant.png", new SolidData(132, 68, 0, 0), 80);
     this.yNeeded = this.y - this.threshold;
     this.minY = this.y;
     this.init();
   }
   
   public Eggplant(Coordinates coords, int upSpeed, int downSpeed, int threshold, int wait) {
-    super(coords, "file:resources/character/eggplant.png", new SolidData(132, 68, 0, 0), 80);
+    super(coords, "file:resources/character/eggplant/eggplant.png", new SolidData(132, 68, 0, 0), 80);
     
     this.upSpeed = upSpeed;
     this.downSpeed = downSpeed;
@@ -42,6 +42,7 @@ public class Eggplant extends Enemy {
 
   @Override
   public void enemyMovement() {
+    // Move in a certain direction corresponding to current state.
     switch (this.state) {
     case 0:
       this.y -= this.upSpeed;

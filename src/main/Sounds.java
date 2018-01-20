@@ -15,5 +15,6 @@ public class Sounds {
   public static final int BROCCOLIBLINK3 = 8;
   public static final int BROCCOLIBLINK4 = 9;
   public static final int BROCCOLIBLINK5 = 10;
+  public static final int BROCCOLIUPPERCUT = 11;
 
 }

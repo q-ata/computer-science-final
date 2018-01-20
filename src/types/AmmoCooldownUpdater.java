@@ -17,7 +17,7 @@ public class AmmoCooldownUpdater extends TimerTask {
 
   @Override
   public void run() {
-    
+    // Increase the visual amount of time remaining before being able to shoot again.
     veggie.setProjCooldownFraction(veggie.getProjCooldownFraction() + 1);
     if (veggie.getProjCooldownFraction() == 10) {
       this.timer.cancel();

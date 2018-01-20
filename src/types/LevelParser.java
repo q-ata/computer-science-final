@@ -102,7 +102,6 @@ public class LevelParser {
         }
         else if (type == 9) {
           Dragonfruit dragonfruit;
-          // 1 = start moving to right.
           if (data.length > 4) {
             dragonfruit = new Dragonfruit(coords, Integer.parseInt(data[3]) == 1, Integer.parseInt(data[4]));
           }
@@ -111,6 +110,11 @@ public class LevelParser {
           }
           mapItems.add(dragonfruit);
           level.getEnemies().add(dragonfruit);
+        }
+        else if (type == 10) {
+          Lemon lemon = new Lemon(coords);
+          mapItems.add(lemon);
+          level.getEnemies().add(lemon);
         }
         else if (type == 1337) {
           Finish finish = new Finish(coords);

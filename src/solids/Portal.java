@@ -16,6 +16,7 @@ public class Portal extends Block {
 
   @Override
   public void collisionProperties() {
+    // Move player to desired destination.
     Main.getGame().getProtag().x = destination.x;
     Main.getGame().getProtag().y = destination.y;
     Main.getGame().visibleX = destination.x - 500 + (Main.getGame().getProtag().w / 2);

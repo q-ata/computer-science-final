@@ -31,9 +31,12 @@ public class Constants {
     map.put(KeyCode.K, "K");
     map.put(KeyCode.L, "L");
     map.put(KeyCode.J, "J");
+    map.put(KeyCode.SLASH, "/");
     Constants.keyCodeMap = map;
     
   }
+  
+  public static final int[] LEVELTRACKS = {1, 2, 3, 4};
   
   // Checks for character collision with all solids.
   public static final void VEGGIECOLLISION(Vegetable character) {
@@ -85,6 +88,7 @@ public class Constants {
         character.y = block.y - character.h;
         touchingGround = true;
         Constants.GAME.visibleY = character.y - 300 + (character.h / 2);
+        block.collisionProperties();
       }
     }
     return touchingGround;

@@ -21,6 +21,7 @@ public abstract class Vegetable extends Character {
   public int hp = 100;
   public double lifesteal = 0;
   public boolean hurt = false;
+  public int fallTime = 0;
   private ProjectileData projData;
   private boolean projCooldown = false;
   private Timer shotController = new Timer();

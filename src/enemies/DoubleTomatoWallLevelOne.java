@@ -22,7 +22,7 @@ public class DoubleTomatoWallLevelOne extends Enemy {
 
   @Override
   public void enemyMovement() {
-    
+    // If both tomatoes have been killed, destroy all references to this enemy.
     if (Main.getGame().getCurrentLevel().getMapItems().get(this.getRequiredKills()[0]).id != this.getRequiredKills()[0] &&
         Main.getGame().getCurrentLevel().getMapItems().get(this.getRequiredKills()[1] - 1).id != this.getRequiredKills()[1]) {
       Main.getGame().getCurrentLevel().getMapItems().remove(this);

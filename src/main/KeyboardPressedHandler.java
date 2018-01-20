@@ -19,13 +19,13 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
   
   public void handle(KeyEvent key) {
 	  
-    //If the player has clicked the enter button the state will change by one to skip over the intro or select a profile/level/character
+    // Override intro video with ENTER key.
     if (this.GAME.getState() == 0 && key.getCode() == KeyCode.ENTER) {
       this.GAME.getIntroPlayer().dispose();
       this.GAME.setState((byte) (this.GAME.getState() + 1));
       return;
     }
-    //This will check if any of the arrow keys are clicked during what state to change the selected profile/level/character/exit
+    // Select profile screen.
     else if (this.GAME.getState() == 1) {
       if (key.getCode() == KeyCode.UP) {
         this.GAME.setSelection(this.GAME.getSelection() == 1 ? (byte) 3 : (byte) (this.GAME.getSelection() - 1));
@@ -34,12 +34,14 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
         this.GAME.setSelection(this.GAME.getSelection() == 3 ? (byte) 1 : (byte) (this.GAME.getSelection() + 1));
       }
       else if (key.getCode() == KeyCode.ENTER) {
+        BackgroundMusicManager.setMusic(0);
         this.GAME.setState((byte) 2);
         ProfileLoader.loadProfile(this.GAME.getSelection());
         this.GAME.setSelection((byte) 1);
         this.GAME.getGc().setFill(Color.WHITE);
       }
     }
+    // Main menu. Character select, Level select, Options and Exit.
     else if (this.GAME.getState() == 2) {
       if (key.getCode() == KeyCode.UP) {
         this.GAME.setSelection(this.GAME.getSelection() == 1 ? (byte) 4 : (byte) (this.GAME.getSelection() - 1));
@@ -63,6 +65,7 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
         this.GAME.setSelection((byte) 1);
       }
     }
+    // Character select screen.
     else if (this.GAME.getState() == 3) {
       
       if (key.getCode() == KeyCode.RIGHT) {
@@ -73,6 +76,9 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
         else if (selection == Constants.CHARACTERS.length + 1) {
           selection = 1;
         }
+        if (selection > this.GAME.getLevelsUnlocked()) {
+          return;
+        }
         this.GAME.setSelection(selection);
       }
       else if (key.getCode() == KeyCode.LEFT) {
@@ -82,6 +88,9 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
         }
         else if (selection == Constants.CHARACTERS.length + 1) {
           selection = 1;
+        }
+        if (selection > this.GAME.getLevelsUnlocked()) {
+          return;
         }
         this.GAME.setSelection(selection);
       }
@@ -94,7 +103,7 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
       }
       
     }
-    //This is used to choose and set the level
+    // Level select screen.
     else if (this.GAME.getState() == 4) {
       
       if (key.getCode() == KeyCode.RIGHT) {
@@ -111,15 +120,20 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
       }
       else if (key.getCode() == KeyCode.ENTER) {
         this.GAME.setCurrentLevel(LevelParser.parseLevel(this.GAME.getSelection()));
+        BackgroundMusicManager.setMusic(Constants.LEVELTRACKS[this.GAME.getCurrentLevel().getLevelNumber() - 1]);
         this.GAME.setState((byte) 5);
+      }
+      else if (key.getCode() == KeyCode.ESCAPE) {
+        this.GAME.setSelection((byte) 1);
+        this.GAME.setState((byte) 2);
       }
       
     }
-    //This is used to check for movement, shooting, and ability usage
+    // Mid game input handler.
     else if (this.GAME.getState() == 5) {
       Vegetable protag = this.GAME.getProtag();
       
-      //If the W button is clicked on the keyboard and the character is not in ability mode, the jump method will be executed 
+      // If the character tries to jump.
       if (key.getCode() == KeyCode.W) {
         boolean physicsOff = false;
         for (BasicAbility ability : protag.getAbilities()) {
@@ -134,23 +148,27 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
         protag.jump();
         protag.jumpReleased = false;
       }
-      //If the D button is clicked on the keyboard, you are moving to the right and set the last direction to be 1 (Right).
+      // Right movement.
       else if (key.getCode() == KeyCode.D) {
         protag.right = true;
         protag.xVel = protag.getSpeed();
         protag.lastDirection = 1;
       }
-      //If the A button is clicked on the keyboard, you are moving to the Left and set the last direction to be 2 (Left).
+      // Left movement.
       else if (key.getCode() == KeyCode.A) {
         protag.left = true;
         protag.xVel = protag.getSpeed();
         protag.lastDirection = 2;
       }
-      //If the M button is pressed, the shootProjectile method will run
+      // Shoot a projectile.
       else if (key.getCode() == KeyCode.M) {
         protag.shootProjectile();
       }
+      else if (key.getCode() == KeyCode.ESCAPE) {
+        this.GAME.getCurrentLevel().end(false);
+      }
       else {
+        // Handle all abilities keys.
         for (int i = 0; i < protag.getAbilities().length; i++) {
           BasicAbility ability = protag.getAbilities()[i];
           if (key.getCode() != ability.getActivator()) {
@@ -171,6 +189,7 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
       }
       try {
         this.GAME.setState((byte) 2);
+        BackgroundMusicManager.setMusic(0);
         if (this.GAME.getLevelsUnlocked() == this.GAME.getCurrentLevel().getLevelNumber()) {
           PrintWriter profileWriter;
           profileWriter = new PrintWriter(new File("").getAbsolutePath() + "/resources/save/profile" + String.valueOf(this.GAME.getCurrentProfile()) + ".veggiedata", "UTF-8");
@@ -198,6 +217,7 @@ public class KeyboardPressedHandler implements EventHandler<KeyEvent> {
       else {
         this.GAME.setCurrentLevel(null);
         this.GAME.setState((byte) 2);
+        BackgroundMusicManager.setMusic(0);
       }
     }
     // Listener for options screen.

@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import types.Coordinates;
 import types.Enemy;
 import types.SolidData;
-
+// Dragonfruit enemy.
 public class Dragonfruit extends Enemy {
   
   private int moveDistance = 400;
@@ -15,17 +15,17 @@ public class Dragonfruit extends Enemy {
   private boolean spiked = false;
   private int spikeTime = 60;
   private int currentSpikeTime = 0;
-  private Image inactiveSprite = new Image("file:resources/character/dragonfruit_inactive.png");
-  private Image activeSprite = new Image("file:resources/character/dragonfruit_active.png");
+  private Image inactiveSprite = new Image("file:resources/character/dragonfruit/dragonfruit_inactive.png");
+  private Image activeSprite = new Image("file:resources/character/dragonfruit/dragonfruit_active.png");
   
   public Dragonfruit(Coordinates coords, boolean right) {
-    super(coords, "file:resources/character/dragonfruit_inactive.png", new SolidData(60, 66, 0, 0), 100);
+    super(coords, "file:resources/character/dragonfruit/dragonfruit_inactive.png", new SolidData(60, 66, 0, 0), 100);
     
     this.init(right);
   }
   
   public Dragonfruit(Coordinates coords, boolean right, int moveDistance) {
-    super(coords, "file:resources/character/dragonfruit_inactive.png", new SolidData(60, 66, 0, 0), 100);
+    super(coords, "file:resources/character/dragonfruit/dragonfruit_inactive.png", new SolidData(60, 66, 0, 0), 100);
     
     this.moveDistance = moveDistance;
     this.init(right);
@@ -42,10 +42,10 @@ public class Dragonfruit extends Enemy {
 
   @Override
   public void enemyMovement() {
-    
+    // If the dragonfruit is in move state, move in the correct direction.
     if (!this.spiked) {
       if (this.right) {
-        
+        // Move and check if direction should now be reversed.
         this.x += 8;
         this.moved += 8;
         if (this.moved >= this.moveDistance) {
@@ -62,6 +62,7 @@ public class Dragonfruit extends Enemy {
         }
         
       }
+      // If the dragonfruit should now be in spiked state, set it.
       if (++this.currentInterval == this.spikeInterval) {
         this.currentInterval = 0;
         this.spiked = true;
@@ -74,7 +75,7 @@ public class Dragonfruit extends Enemy {
       }
       return;
     }
-    
+    // If the dragonfruit should move to movement state, set it.
     if (++this.currentSpikeTime == this.spikeTime) {
       this.currentSpikeTime = 0;
       this.spiked = false;
