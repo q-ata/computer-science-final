@@ -15,10 +15,10 @@ public class Broccoli extends Vegetable {
   public Broccoli() {
     super("file:resources/character/broccoli/broccoli_sprite.png", "file:resources/character/broccoli/broccoli_invincible.png", new SolidData(64, 72, 0, 0),
         new ProjectileData(18, "file:resources/character/broccoli/shuriken_projectile", 30, 30, 750, 60), new BasicAbility[] {new BroccoliAlternateFire(KeyCode.K, 0),
-            new BroccoliBlink(KeyCode.L, 1), new BroccoliUppercut(KeyCode.SLASH, 2)});
+            new BroccoliBlink(KeyCode.L, 1), new BroccoliUppercut(KeyCode.SEMICOLON, 2)});
     this.name = "Bridget Broccoli";
     this.setSpeed(5);
-    this.res = 0;
+    this.res = 1.3;
     this.setNameWidth(248);
     this.setNameHeight(59);
     this.setSelectSprite(new Image("file:resources/character/broccoli/broccoli_select.png"));

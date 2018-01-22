@@ -8,26 +8,36 @@ import main.SoundManager;
 import main.Sounds;
 
 public abstract class Vegetable extends Character {
-  
+  // Character resistance.
   public double res = 1;
+  // Current times jumped.
   public byte jumps = 0;
   public boolean jumpReleased = true;
+  // Last direction moved.
   public byte lastDirection = 1;
+  // Velocity.
   public int xVel;
   public int yVel = 0;
+  // Directions being moved in.
   public boolean right = false;
   public boolean left = false;
   public boolean up = false;
+  // Current character health.
   public int hp = 100;
+  // Current character lifesteal.
   public double lifesteal = 0;
+  // Whether of not the character is hurt.
   public boolean hurt = false;
+  // Amount of time the character has been falling for.
   public int fallTime = 0;
   private ProjectileData projData;
   private boolean projCooldown = false;
   private Timer shotController = new Timer();
+  // Whether the character is invincible.
   private boolean invincible = false;
   private Image hurtSprite;
   private Timer invincibilityTimer;
+  // Character abilities.
   private BasicAbility[] abilities;
   private Timer shootTimer;
   private int projCooldownFraction = 10;
@@ -39,7 +49,9 @@ public abstract class Vegetable extends Character {
   private Image spriteLeft;
   private Image hurtLeft;
   private Image icon;
+  // Character stats image.
   private Image stats;
+  // Character profile image.
   private Image profile;
   
   public Vegetable(String spriteLocation, String hurt, SolidData data, ProjectileData projData, BasicAbility[] abilities) {
@@ -68,6 +80,7 @@ public abstract class Vegetable extends Character {
   }
   
   public void jump() {
+    // Jump with height depending on how many times the character has jumped.
     if (!jumpReleased) {
       return;
     }
@@ -92,18 +105,20 @@ public abstract class Vegetable extends Character {
     }
     
     SoundManager.playPlayer(Sounds.SHOOT);
+    // If the shot method is burst, create projectiles on a timer.
     if (this.getProjData().burst) {
       this.shotController = new Timer();
       this.shotController.scheduleAtFixedRate(new ShootProjectile(this, this.getProjData().count, this.shotController), 0, this.getProjData().interval);
     }
     else {
+      // Otherwise, create a single projectile.
       Projectile proj = new Projectile(new Coordinates(this.x, this.y + Math.round((this.h / 2) - (this.getProjData().h / 2))), this.lastDirection, this.getProjData());
       Main.getGame().getCurrentLevel().getProjectiles().add(proj);
       Main.getGame().getCurrentLevel().getMapItems().add(proj);
     }
     this.setProjCooldown(true);
     this.setProjCooldownFraction(0);
-    
+    // Reset projectile cooldown.
     Timer resetter = new Timer();
     resetter.schedule(new ResetProjectileCooldown(this), this.getProjData().cd);
     Timer updateFraction = new Timer();

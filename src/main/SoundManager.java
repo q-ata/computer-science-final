@@ -10,7 +10,8 @@ public class SoundManager {
   
   private static final String[] audioPaths = {"resources/audio/effect/shooting.mp3", "resources/audio/effect/jump.mp3", "resources/audio/effect/cabbage_dash.mp3", "resources/audio/effect/carrot_machine_gun.mp3",
       "resources/audio/effect/ability_cooldown.mp3", "resources/audio/effect/carrot_life_leech.mp3", "resources/audio/effect/broccoli_blink_1.mp3", "resources/audio/effect/broccoli_blink_2.mp3",
-      "resources/audio/effect/broccoli_blink_3.mp3", "resources/audio/effect/broccoli_blink_4.mp3", "resources/audio/effect/broccoli_blink_5.mp3", "resources/audio/effect/broccoli_uppercut.mp3"};
+      "resources/audio/effect/broccoli_blink_3.mp3", "resources/audio/effect/broccoli_blink_4.mp3", "resources/audio/effect/broccoli_blink_5.mp3", "resources/audio/effect/broccoli_uppercut.mp3",
+      "resources/audio/effect/push_forward.mp3", "resources/audio/effect/death_comes.mp3", "resources/audio/effect/pineapple_ring.mp3", "resources/audio/effect/coconut.mp3"};
   private static MediaPlayer[] audioPlayers;
   
   

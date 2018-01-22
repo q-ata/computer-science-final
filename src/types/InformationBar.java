@@ -3,28 +3,28 @@ package types;
 import javafx.scene.image.Image;
 
 public class InformationBar {
-  
-  private static final Image background = new Image("file:resources/infobar_background.png");
-  private static final Image healthbar = new Image("file:resources/healthbar_full.png");
-  private static final Image infoBg = new Image("file:resources/autism.png");
-  private static final Image ammoBar = new Image("file:resources/ammo_cooldown.png");
+  // Images to be shown for the information bar at the bottom.
+  private static final Image BACKGROUND = new Image("file:resources/infobar_background.png");
+  private static final Image HEALTHBAR = new Image("file:resources/healthbar_full.png");
+  private static final Image INFOBG = new Image("file:resources/autism.png");
+  private static final Image AMMOBAR = new Image("file:resources/ammo_cooldown.png");
   private static Image profile;
   private static Image charStats;
 
   public static Image getHealthbar() {
-    return healthbar;
+    return HEALTHBAR;
   }
 
   public static Image getInfobg() {
-    return infoBg;
+    return INFOBG;
   }
 
   public static Image getAmmobar() {
-    return ammoBar;
+    return AMMOBAR;
   }
 
   public static Image getBackground() {
-    return background;
+    return BACKGROUND;
   }
 
   public static Image getProfile() {

@@ -31,7 +31,7 @@ public class Constants {
     map.put(KeyCode.K, "K");
     map.put(KeyCode.L, "L");
     map.put(KeyCode.J, "J");
-    map.put(KeyCode.SLASH, "/");
+    map.put(KeyCode.SEMICOLON, ";");
     Constants.keyCodeMap = map;
     
   }

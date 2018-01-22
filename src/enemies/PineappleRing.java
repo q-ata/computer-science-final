@@ -1,20 +1,16 @@
 package enemies;
 
-import javafx.scene.image.Image;
 import main.Constants;
 import main.Main;
 import types.Coordinates;
 import types.Enemy;
 import types.SolidData;
 import types.Vegetable;
-// Lemon enemy.
-public class Lemon extends Enemy {
-
-  private final Image RIGHTSPRITE = new Image("file:resources/character/lemon/lemon_sprite.png");
-  private final Image LEFTSPRITE = new Image("file:resources/character/lemon/lemon_sprite_left.png");
+// PineappleRing enemy.
+public class PineappleRing extends Enemy {
   
-  public Lemon(Coordinates coords) {
-    super(coords, "file:resources/character/lemon/lemon_sprite.png", new SolidData(57, 55, 0, 0), 100);
+  public PineappleRing(Coordinates coords) {
+    super(coords, "file:resources/character/pineapple/pineapple_ring.png", new SolidData(57, 55, 0, 0), 100);
     this.endurance = 0.9;
     this.setDmg(30);
   }
@@ -28,11 +24,9 @@ public class Lemon extends Enemy {
     // Move towards the character.
     if (X > 0) {
       this.x += 2;
-      this.sprite = this.RIGHTSPRITE;
     }
     else {
       this.x -= 2;
-      this.sprite = this.LEFTSPRITE;
     }
     if (Y > 0) {
       this.y += 2;

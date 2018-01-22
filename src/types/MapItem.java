@@ -15,6 +15,7 @@ public abstract class MapItem {
     
     this.x = coords.x;
     this.y = coords.y;
+    // Visible X, where the item appears on screen.
     this.vx = this.x;
     this.vy = this.y;
     this.sprite = new Image(spriteLocation);

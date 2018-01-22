@@ -102,7 +102,6 @@ public class Game extends Application {
       this.setIntroPlayer(videoPlayer);
       // Settings for the MediaPlayer.
       videoPlayer.setAutoPlay(true);
-      videoPlayer.setVolume(0.5);
       videoPlayer.setOnEndOfMedia(() -> {
         videoPlayer.dispose();
         this.setState((byte) 1);
@@ -110,7 +109,7 @@ public class Game extends Application {
       MediaView viewer = new MediaView(videoPlayer);
       viewer.setPreserveRatio(false);
       viewer.setSmooth(true);
-      viewer.setFitHeight(600);
+      viewer.setFitHeight(680);
       viewer.setFitWidth(1000);
       // Add the video to the scene.
       ((Group) scene.getRoot()).getChildren().add(viewer);
@@ -143,8 +142,8 @@ public class Game extends Application {
       gc.setFill(Color.BLACK);
       
       // Default information bar data to Cabbage.
-      InformationBar.setProfile(new Image("file:resources/character/cabbage_profile.png"));
-      InformationBar.setCharStats(new Image("file:resources/character/cabbage_stats.png"));
+      InformationBar.setProfile(new Image("file:resources/character/cabbage/cabbage_profile.png"));
+      InformationBar.setCharStats(new Image("file:resources/character/cabbage/cabbage_stats.png"));
       
       Timer fpsResetter = new Timer();
       fpsResetter.scheduleAtFixedRate(new FpsResetter(), 1000, 1000);

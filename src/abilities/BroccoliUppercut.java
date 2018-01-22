@@ -50,6 +50,9 @@ public class BroccoliUppercut extends BasicAbility {
     for (Enemy enemy : toDelete) {
       Main.getGame().getCurrentLevel().getEnemies().remove(enemy);
     }
+    if (Main.getGame().getCurrentLevel().getBoss() != null && Constants.SOLIDCOLLISION(this.getUser(), Main.getGame().getCurrentLevel().getBoss())) {
+      Main.getGame().getCurrentLevel().getBoss().setHealth(Main.getGame().getCurrentLevel().getBoss().getHealth() - 50);
+    }
     
   }
 

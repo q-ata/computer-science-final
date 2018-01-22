@@ -117,6 +117,11 @@ public class Render {
       }
     }
     
+    if (Render.GAME.getCurrentLevel().getBoss() != null) {
+      Render.GAME.setFont(50);
+      Render.gc.fillText("Perry Pineapple: " + String.valueOf(Render.GAME.getCurrentLevel().getBoss().getHealth()), 20, 50);
+    }
+    
     // Renders a black bar to be used to display information.
     Render.gc.fillRect(0, 600, 1000, 80);
     

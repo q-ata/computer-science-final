@@ -50,6 +50,7 @@ public class LevelParser {
         String[] data = levelLines.get(i).split("\\|");
         int type = Integer.parseInt(data[0]);
         Coordinates coords = new Coordinates(Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+        // Create a new map item depending on ID.
         if (type == 1) {
           mapItems.add(new Brick(coords));
         }
@@ -115,6 +116,14 @@ public class LevelParser {
           Lemon lemon = new Lemon(coords);
           mapItems.add(lemon);
           level.getEnemies().add(lemon);
+        }
+        else if (type == 11) {
+          Pineapple pineapple = new Pineapple(coords);
+          PineappleBehaviour behaviour = new PineappleBehaviour();
+          behaviour.setBoss(pineapple);
+          pineapple.setBehaviour(behaviour);
+          mapItems.add(pineapple);
+          level.setBoss(pineapple);
         }
         else if (type == 1337) {
           Finish finish = new Finish(coords);

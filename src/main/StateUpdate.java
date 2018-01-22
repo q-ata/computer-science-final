@@ -3,6 +3,7 @@ package main;
 import java.util.ArrayList;
 
 import types.BasicAbility;
+import types.Boss;
 import types.Enemy;
 import types.MapItem;
 import types.Projectile;
@@ -210,6 +211,42 @@ public class StateUpdate {
           ability.setCurStacks(ability.getCurStacks() + 1);
         }
       }
+    }
+    
+    if (StateUpdate.GAME.getCurrentLevel().getBoss() != null) {
+      
+      final Boss BOSS = StateUpdate.GAME.getCurrentLevel().getBoss();
+      if (BOSS.getHealth() * 3 < BOSS.getMaxHealth()) {
+        BOSS.getBehaviour().rage();
+      }
+      else {
+        BOSS.getBehaviour().normal();
+      }
+      ArrayList<Projectile> hitProj = new ArrayList<Projectile>();
+      for (Projectile proj : StateUpdate.GAME.getCurrentLevel().getProjectiles()) {
+        if (Constants.SOLIDCOLLISION(BOSS, proj)) {
+          BOSS.setHealth((int) (BOSS.getHealth() - proj.dmg));
+          hitProj.add(proj);
+        }
+      }
+      for (Projectile proj : hitProj) {
+        StateUpdate.GAME.getCurrentLevel().getProjectiles().remove(proj);
+        StateUpdate.GAME.getCurrentLevel().getMapItems().remove(proj);
+      }
+      if (Constants.SOLIDCOLLISION(BOSS, protag) && !protag.isInvincible()) {
+        protag.hp -= BOSS.getDmg() * protag.res;
+        if (Constants.TAKECHARDAMAGE(protag, 1500)) {
+          StateUpdate.GAME.getCurrentLevel().end(false);
+          return;
+        }
+      }
+      if (BOSS.getHealth() < 0) {
+        int timeBonus = StateUpdate.GAME.getCurrentLevel().getTimeBonus() - StateUpdate.GAME.getCurrentLevel().time;
+        StateUpdate.GAME.getCurrentLevel().score += timeBonus < 0 ? 0 : timeBonus;
+        StateUpdate.GAME.getCurrentLevel().score += protag.hp;
+        StateUpdate.GAME.getCurrentLevel().end(true);
+      }
+          
     }
     
     // Check if the level has been completed.
