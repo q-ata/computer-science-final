@@ -5,9 +5,9 @@ import java.io.File;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
-
+// Sound effect manager.
 public class SoundManager {
-  
+  // All sound effect paths.
   private static final String[] audioPaths = {"resources/audio/effect/shooting.mp3", "resources/audio/effect/jump.mp3", "resources/audio/effect/cabbage_dash.mp3", "resources/audio/effect/carrot_machine_gun.mp3",
       "resources/audio/effect/ability_cooldown.mp3", "resources/audio/effect/carrot_life_leech.mp3", "resources/audio/effect/broccoli_blink_1.mp3", "resources/audio/effect/broccoli_blink_2.mp3",
       "resources/audio/effect/broccoli_blink_3.mp3", "resources/audio/effect/broccoli_blink_4.mp3", "resources/audio/effect/broccoli_blink_5.mp3", "resources/audio/effect/broccoli_uppercut.mp3",
@@ -16,7 +16,7 @@ public class SoundManager {
   
   
   public SoundManager() {
-    
+    // Creates a new MediaPlayer for each sound effect.
     SoundManager.audioPlayers = new MediaPlayer[SoundManager.audioPaths.length];
     for (int i = 0; i < SoundManager.audioPlayers.length; i++) {
       File src = new File(SoundManager.audioPaths[i]);
@@ -27,12 +27,13 @@ public class SoundManager {
   }
   
   private static void play(int i, double v) {
-    
+    // If already playing, override.
     if (SoundManager.audioPlayers[i].getStatus().equals(Status.PLAYING)) {
       File src = new File(SoundManager.audioPaths[i]);
       String path = src.toURI().toString();
       SoundManager.audioPlayers[i] = new MediaPlayer(new Media(path));
     }
+    // Play the MediaPlayer.
     SoundManager.audioPlayers[i].setVolume(v);
     SoundManager.audioPlayers[i].play();
     SoundManager.audioPlayers[i].setOnEndOfMedia(() -> {

@@ -36,7 +36,7 @@ public class PineappleBehaviour extends BossBehaviour {
         this.arcUp = false;
       }
     }
-    // If acring downwars.
+    // If arcing downwards.
     else {
       this.getBoss().x += this.arcRight ? 1 : -1;
       this.getBoss().y += this.arcSpeed;
@@ -53,9 +53,9 @@ public class PineappleBehaviour extends BossBehaviour {
       this.teleTime = 0;
       // Teleport to a random location relative to the character.
       int x = (int) Math.floor(Math.random() * 500);
-      x += Math.random() < 0.5 ? Main.getGame().getProtag().x : -Main.getGame().getProtag().x;
+      x += Math.random() < 0.5 ? Main.getGame().getProtag().x + Main.getGame().getProtag().w + 50 : -Main.getGame().getProtag().x - 50;
       int y = (int) Math.floor(Math.random() * 300);
-      y += Math.random() < 0.5 ? Main.getGame().getProtag().y : -Main.getGame().getProtag().y;
+      y += Math.random() < 0.5 ? Main.getGame().getProtag().y + Main.getGame().getProtag().h + 30 : -Main.getGame().getProtag().y - 30;
       this.getBoss().x = x;
       this.getBoss().y = y;
       // How many times to teleport.

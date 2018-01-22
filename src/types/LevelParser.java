@@ -136,12 +136,13 @@ public class LevelParser {
           Main.getGame().visibleX = coords.x - 500 + (Main.getGame().getProtag().w / 2);
           Main.getGame().visibleY = coords.y - 300 + (Main.getGame().getProtag().h / 2);
         }
+        // Add to blocks array if the item is a block.
         if (IntStream.of(Constants.BLOCKS).anyMatch((x) -> x == type)) {
           level.getBlocks().add((Block) mapItems.get(i));
         }
         
       }
-      
+      // Assign each map item a unique ID.
       for (int i = 0; i < mapItems.size(); i++) {
         mapItems.get(i).id = i;
       }

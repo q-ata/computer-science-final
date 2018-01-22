@@ -1,7 +1,7 @@
 package types;
 
 import javafx.scene.image.Image;
-
+// Any item on the map.
 public abstract class MapItem {
   
   public int x;

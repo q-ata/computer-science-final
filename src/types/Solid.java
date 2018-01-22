@@ -9,6 +9,7 @@ public abstract class Solid extends MapItem {
 
   public Solid(Coordinates coords, String spriteLocation, SolidData data) {
     super(coords, spriteLocation);
+    // Width and height, offset options specified but the program does not make use of it so far.
     this.w = data.w;
     this.h = data.h;
     this.offx = data.offx;
