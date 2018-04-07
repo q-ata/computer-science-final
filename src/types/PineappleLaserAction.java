@@ -8,9 +8,10 @@ public class PineappleLaserAction extends BossAction {
   
   private boolean spawned = false;
   private PineappleLaser laser;
+  private int pause = 0;
 
   public PineappleLaserAction() {
-    super(90, Sounds.PINEAPPLELASER);
+    super(102, Sounds.PINEAPPLELASER);
   }
 
   @Override
@@ -24,20 +25,23 @@ public class PineappleLaserAction extends BossAction {
       Main.getGame().getCurrentLevel().getEnemies().add(this.laser);
       Main.getGame().getCurrentLevel().getMapItems().add(this.laser);
       this.spawned = true;
+      return;
     }
-    else {
-      // Keep moving upwards after.
-      BOSS.y -= 8;
+    if (++this.pause < 7) {
+      return;
     }
+    // Keep moving upwards after.
+    BOSS.y -= 8;
     
   }
-
+ 
   @Override
   public void end() {
     // Delete the laser.
     Main.getGame().getCurrentLevel().getEnemies().remove(this.laser);
     Main.getGame().getCurrentLevel().getMapItems().remove(this.laser);
     this.spawned = false;
+    this.pause = 0;
     
   }
 

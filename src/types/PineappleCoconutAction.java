@@ -1,19 +1,23 @@
 package types;
-
+ 
 import enemies.Coconut;
 import main.Main;
 import main.Sounds;
-
+ 
 public class PineappleCoconutAction extends BossAction {
   
   private int tick = 0;
-
+  private int pause = 0;
+ 
   public PineappleCoconutAction() {
-    super(300, Sounds.PINEAPPLECOCONUT);
+    super(305, Sounds.PINEAPPLECOCONUT);
   }
-
+ 
   @Override
   public void act() {
+    if (++this.pause < 5) {
+      return;
+    }
     // Generate a coconut enemy every 50 ticks.
     if (this.tick++ % 50 == 0) {
       Coconut coconut = new Coconut(new Coordinates(Main.getGame().getProtag().x + (Main.getGame().getProtag().lastDirection == 1 ? 40 : -40), Main.getGame().getProtag().y - 300));
@@ -22,12 +26,12 @@ public class PineappleCoconutAction extends BossAction {
     }
     
   }
-
+ 
   @Override
   public void end() {
-    
-    return;
+  
+    this.pause = 0;
     
   }
-
+ 
 }

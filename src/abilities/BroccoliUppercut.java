@@ -16,7 +16,8 @@ public class BroccoliUppercut extends BasicAbility {
   private final Image SPRITE = new Image("file:resources/character/broccoli/broccoli_katana.png");
   private final Image PLACEHOLDER = new Image("file:resources/character/broccoli/broccoli_sprite.png");
   private ArrayList<Enemy> damaged = new ArrayList<Enemy>();
-
+  private boolean hitBoss = false; 
+  
   public BroccoliUppercut(KeyCode activator, int index) {
     super(false, 55, 480, "file:resources/icons/broccoli_uppercut.png", activator, index);
   }
@@ -50,8 +51,9 @@ public class BroccoliUppercut extends BasicAbility {
     for (Enemy enemy : toDelete) {
       Main.getGame().getCurrentLevel().getEnemies().remove(enemy);
     }
-    if (Main.getGame().getCurrentLevel().getBoss() != null && Constants.SOLIDCOLLISION(this.getUser(), Main.getGame().getCurrentLevel().getBoss())) {
+    if (Main.getGame().getCurrentLevel().getBoss() != null && Constants.SOLIDCOLLISION(this.getUser(), Main.getGame().getCurrentLevel().getBoss()) && !this.hitBoss) { 
       Main.getGame().getCurrentLevel().getBoss().setHealth(Main.getGame().getCurrentLevel().getBoss().getHealth() - 50);
+      this.hitBoss = true;
     }
     
   }
@@ -63,6 +65,7 @@ public class BroccoliUppercut extends BasicAbility {
     this.getUser().setInvincible(false);
     this.getUser().w = 64;
     this.getUser().vx += 28;
+    this.hitBoss = false; 
     
   }
 

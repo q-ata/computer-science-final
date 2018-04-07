@@ -240,7 +240,7 @@ public class StateUpdate {
           return;
         }
       }
-      if (BOSS.getHealth() < 0) {
+      if (BOSS.getHealth() <= 0) {
         int timeBonus = StateUpdate.GAME.getCurrentLevel().getTimeBonus() - StateUpdate.GAME.getCurrentLevel().time;
         StateUpdate.GAME.getCurrentLevel().score += timeBonus < 0 ? 0 : timeBonus;
         StateUpdate.GAME.getCurrentLevel().score += protag.hp;

@@ -4,14 +4,15 @@ import main.Main;
 import main.Sounds;
 
 public class PineappleRocketAction extends BossAction {
-  
-  public PineappleRocketAction() {
-    super(300, Sounds.PINEAPPLEROCKET);
-  }
 
   private boolean rocketing = false;
   private boolean dir;
-
+  private int rocketTimeout = 0;
+  
+  public PineappleRocketAction() {
+    super(315, Sounds.PINEAPPLEROCKET);
+  }
+  
   @Override
   public void act() {
     // If rocketing, ignore and keep rocketing.
@@ -45,6 +46,10 @@ public class PineappleRocketAction extends BossAction {
   
   private void rocket(boolean dir) {
     
+    if (++this.rocketTimeout < 15) {
+      return;
+    }
+    
     Boss BOSS = Main.getGame().getCurrentLevel().getBoss();
     // Rocket towards the player if it is in place.
     if (dir) {
@@ -53,7 +58,7 @@ public class PineappleRocketAction extends BossAction {
     else {
       BOSS.x -= 19;
     }
-    if (BOSS.x > 1000 || BOSS.x < -280) {
+    if (BOSS.x > Main.getGame().getProtag().x + Main.getGame().getProtag().w + 450 || BOSS.x + BOSS.w < Main.getGame().getProtag().x - 450) {
       this.rocketing = false;
     }
     
@@ -65,6 +70,7 @@ public class PineappleRocketAction extends BossAction {
     Main.getGame().getCurrentLevel().getBoss().sprite = Main.getGame().getCurrentLevel().getBoss().getSprites()[0];
     Main.getGame().getCurrentLevel().getBoss().w = 110;
     Main.getGame().getCurrentLevel().getBoss().h = 280;
+    this.rocketTimeout = 0;
   }
 
 }

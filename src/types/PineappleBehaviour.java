@@ -14,10 +14,11 @@ public class PineappleBehaviour extends BossBehaviour {
   private int stateTime;
   private boolean arcRight;
   private boolean arcUp = true;
-  private int teleTime = 0;
-  private int teleCount = 0;
   private int arcSpeed = 11;
   private int arcThreshold;
+  private Coordinates[] spiral;
+  private int curSpiral = 0;
+  private int spiralConstant;
   
   private void stay() {
     // Option to stay still.
@@ -47,23 +48,33 @@ public class PineappleBehaviour extends BossBehaviour {
     }
   }
   
-  private void teleport() {
-    // If it is time to teleport.
-    if (++teleTime == 50) {
-      this.teleTime = 0;
-      // Teleport to a random location relative to the character.
-      int x = (int) Math.floor(Math.random() * 500);
-      x += Math.random() < 0.5 ? Main.getGame().getProtag().x + Main.getGame().getProtag().w + 50 : -Main.getGame().getProtag().x - 50;
-      int y = (int) Math.floor(Math.random() * 300);
-      y += Math.random() < 0.5 ? Main.getGame().getProtag().y + Main.getGame().getProtag().h + 30 : -Main.getGame().getProtag().y - 30;
-      this.getBoss().x = x;
-      this.getBoss().y = y;
-      // How many times to teleport.
-      if (++this.teleCount == 5) {
-        this.teleCount = 0;
-        this.state = 0;
-      }
+  private Coordinates[] generateSpiral() {
+    
+    this.spiralConstant = (int) Math.floor(Math.random() * 125) + 25;
+    Coordinates[] coords = new Coordinates[270];
+    for (int counter = 0; counter < 270; counter++) {
+      double angle = 0.1 * counter;
+      int x = (int) (this.getBoss().x + ((this.spiralConstant + (10 * angle)) * Math.cos(angle)));
+      int y = (int) (this.getBoss().y + ((this.spiralConstant + (10 * angle)) * Math.sin(angle)));
+      coords[counter] = new Coordinates(x, y);
     }
+    return coords;
+    
+  }
+  
+  private void spiral() {
+    
+    if (this.spiral == null) {
+      this.spiral = this.generateSpiral();
+    }
+    this.getBoss().x = this.spiral[this.curSpiral].x;
+    this.getBoss().y = this.spiral[this.curSpiral++].y;
+    if (this.curSpiral == 269) {
+      this.curSpiral = 0;
+      this.spiral = null;
+      this.state = 0;
+    }
+    
   }
   
   private void regularAction() {
@@ -96,7 +107,7 @@ public class PineappleBehaviour extends BossBehaviour {
       this.moveArc();
       break;
     case 3:
-      this.teleport();
+      this.spiral();
       break;
     }
   }
@@ -109,7 +120,7 @@ public class PineappleBehaviour extends BossBehaviour {
       return;
     }
     // If time to act, do so.
-    if (++this.doActionTime == this.doActionInterval) {
+    if (++this.doActionTime >= this.doActionInterval) { 
       this.getBoss().setActing(true);
       this.getBoss().setCurAction((int) Math.floor(Math.random() * this.getBoss().getActions().length));
       this.maxActLength = this.getBoss().getActions()[this.getBoss().getCurAction()].length;
@@ -124,7 +135,7 @@ public class PineappleBehaviour extends BossBehaviour {
   @Override
   public void ability() {
     // Stop acting an ability if time is up.
-    if (++this.actLength == this.maxActLength) {
+    if (++this.actLength >= this.maxActLength) {
       this.getBoss().setActing(false);
       this.actLength = 0;
       this.doActionTime = 0;
